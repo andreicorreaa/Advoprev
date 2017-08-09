@@ -1,0 +1,42 @@
+#conteudo{
+	width: 100%;
+	height: 100%;
+	background-color: #F5F5DC;
+}
+
+#selecionar{
+    width: 95%;
+    height:50px;
+    
+    margin-left: 35px;
+    font-family: 'Open Sans', Tahoma, Arial, sans-serif;
+    float:left;
+    vertical-align: center;
+    text-align: center;
+}
+
+#selecionar button{
+    border: solid 2px #2196F3; /* Remove borders */
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    font-family: 'Open Sans';
+    background-color: #2196F3;
+}
+
+/* ------------ div container1 -------------*/
+#container1{
+    margin-top: 20px;
+    width: 95%;
+    height:750px;
+    
+    margin-left: 35px;
+    font-family: 'Open Sans', Tahoma, Arial, sans-serif;
+    float:left;
+    
+}
+
+#conteudo h1{
+	font-family: 'Open Sans', Tahoma, Arial, sans-serif;
+	margin-left: 35px;
+}
