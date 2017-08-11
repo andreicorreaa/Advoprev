@@ -4,7 +4,14 @@
 
     $acao = $_REQUEST["action"];
 
-    if($acao == "cad"){
+    if($acao == "cadIndice"){
+        $param = array("indices_id" => null, 
+                       "indices_desc"=>$_POST['desc'],
+                       "indices_del"=>"N");
+        $a = Servico::cadastroIndice($param); // chama a funcao para verificação na classe servico
+        return cadastroView::respostaCadastro($a);
+
+    }else if($acao == "cad"){
         $grupo = "2"; //usuario gerente
         $loginParam = array("usuarios_id"=> null,
         					"usuarios_nome"=>$_POST['nome'],

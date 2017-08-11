@@ -4,7 +4,7 @@
 
     $acao = $_REQUEST["action"];
 
-    if($acao == "pesNome"){
+    if($acao == "pesNome"){ ////////////////////////////////////PESQUISAS PESSOAS
     	$param = "%".$_POST['nome']."%";
         $a = Servico::consultaNome($param);
         return consultarView::respostaConsulta($a);
@@ -16,7 +16,7 @@
         $param = "%".$_POST['rg']."%";
         $a = Servico::consultaRG($param);
         return consultarView::respostaConsulta($a);
-    }else if($acao == "alterar"){
+    }else if($acao == "alterar"){ //////////////////////////// ALTERAÇÃO DE CADASTROS PESSOAS
         $loginParam = array("pessoas_id"=>(int)$_POST['id'],
                             "usuarios_id"=>null,
                             "pessoas_cpf"=>(string)$_POST['cpf'],
@@ -35,5 +35,13 @@
         $param = $_POST['id'];
         $a = Servico::excluiPessoa($param);
         return consultarView::respostaAlteracao($a);
+    }else if($acao == "pesIndice"){ ///////////////////////////////////// PESQUISA INDICES
+        $param = "%".$_POST['desc']."%";
+        $a = Servico::consultaIndice($param);
+        return consultarView::respostaIndice($a);
+    }else if($acao == "checkIndice"){
+        $param = "%".$_POST['desc']."%";
+        $a = Servico::consultaIndice($param);
+        return consultarView::respostaIndiceBusca($a);
     }
 ?>
