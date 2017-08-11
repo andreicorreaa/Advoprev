@@ -3,6 +3,8 @@
     require "entidades.php"; // incluindo entidades
     
     class Servico{
+        //OBJETOS
+
         static function objUsuarios($usr){ // objeto Usuarios
             $usuario = new Usuarios(); //instanciando
             $usuario->setUsuarios_id($usr["usuarios_id"]);
@@ -41,6 +43,27 @@
             return $indice;
         }
 
+        //FUNÇÕES LOGIN ------------------------------------------------------------------------------
+
+        static function login($loginParam){ // funcao utilizada para fazer login no sistema
+            try{
+                $sql = "SELECT * FROM usuarios WHERE usuarios_nome = ? AND usuarios_senha = ?"; //string SELECT
+                $param = array($loginParam[0],md5($loginParam[1])); // cria os parametros (?, ?) enviados pelo array
+                $query = Database::selecionarParam($sql,$param); // executa a query
+                if($query){ // se encontrou
+                    session_start(); //inicia a sessao do login
+                    $_SESSION['login'] = serialize(Servico::objUsuarios($query[0])); // seta na SESSION['login'] o objeto Usuarios
+                    return true; //retorna verdadeiro para conferencia
+                }
+                else{
+                    return false;
+                }
+            }
+            catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
         static function logout(){ // funcao de logout
             try{
                 session_start();
@@ -56,7 +79,7 @@
             }
         }
 
-        //funcao de cadastro
+        //FUNÇÕES DE CADASTRO USUARIO/PESSOA--------------------------------------------------------------
         static function cadastro($arrayUser){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
             $newUser = Servico::objUsuarios($arrayUser); //instancia um novo objeto do tipo Usuarios
@@ -107,19 +130,6 @@
             }
         }
 
-        static function cadastroIndice($indice){
-            $newIndice = Servico::objIndices($indice);
-            $param = array($newIndice->getIndices_desc(),
-                           $newIndice->getIndices_del());
-            $sql = "INSERT INTO indices (indices_desc, indices_del) VALUES (?,?)";
-            try{
-                return Database::executarParam($sql, $param);
-            }catch(Exception $e){
-                die("Erro: ". $e->getMessage);
-            }
-        }
-
-
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
             $sql = "UPDATE pessoas SET pessoas_cpf = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
@@ -153,21 +163,48 @@
             }
         }
 
-        static function login($loginParam){ // funcao utilizada para fazer login no sistema
+        // ------------------- INDICE ------------------------//
+        static function cadastroIndice($indice){
+            $newIndice = Servico::objIndices($indice);
+            $param = array($newIndice->getIndices_desc(),
+                           $newIndice->getIndices_del());
+            $sql = "INSERT INTO indices (indices_desc, indices_del) VALUES (?,?)";
             try{
-                $sql = "SELECT * FROM usuarios WHERE usuarios_nome = ? AND usuarios_senha = ?"; //string SELECT
-                $param = array($loginParam[0],md5($loginParam[1])); // cria os parametros (?, ?) enviados pelo array
-                $query = Database::selecionarParam($sql,$param); // executa a query
-                if($query){ // se encontrou
-                    session_start(); //inicia a sessao do login
-                    $_SESSION['login'] = serialize(Servico::objUsuarios($query[0])); // seta na SESSION['login'] o objeto Usuarios
-                    return true; //retorna verdadeiro para conferencia
-                }
-                else{
-                    return false;
-                }
+                return Database::executarParam($sql, $param);
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function alterarIndice($indice){
+            $newPessoa = Servico::objIndices($indice);
+            $sql = "UPDATE indices SET indices_desc = ? WHERE indices_id = ?";
+            $param = array($newPessoa->getIndices_desc(),
+                           $newPessoa->getIndices_id());
+            try{
+                return Database::executarParam($sql, $param);
             }
             catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaIndice($param){
+            $sql = "SELECT * FROM indices WHERE indices_desc LIKE ? AND indices_del = ?";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                return $query = Database::SelecionarParam($sql,$parame); //retorna 
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function excluiIndice($indices){
+            try{
+                $sql = "UPDATE indices SET indices_del = 'S' WHERE indices_id = ?";
+                return $query = Database::validarParam($sql, $indices);
+            }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
         }
@@ -256,17 +293,5 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-        ///////////////////// ASSUNTOS
-        static function consultaIndice($param){
-            $sql = "SELECT * FROM indices WHERE indices_desc LIKE ? AND indices_del = ?";
-            $delete = "N";
-            $parame = array($param,$delete);
-            try{
-                return $query = Database::SelecionarParam($sql,$parame); //retorna 
-            }catch(Exception $e){
-                return die("Erro: ". $e->getMessage);
-            }
-        }
-
     }
 

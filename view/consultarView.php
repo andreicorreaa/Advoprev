@@ -1,6 +1,6 @@
 <?php
 	class consultarView{ //classe View da pagina login
-		static function respostaConsulta($resposta){
+		static function respostaConsultaPessoa($resposta){
 			/*Se a variável $resposta estiver neste momento como TRUE, então os dados estão corretos e podemos 
 			exibir uma mensagem de sucesso. Caso contrário, irá cair no else, que irá alertar que os dados são inválidos.*/
 			if($resposta){
@@ -72,25 +72,15 @@
 				//retorna para o arquivo login.js
 			}
 		}
-
-		static function respostaAlteracao($resposta){
-			/*Se a variável $resposta estiver neste momento como TRUE, então os dados estão corretos e podemos 
-			exibir uma mensagem de sucesso. Caso contrário, irá cair no else, que irá alertar que os dados são inválidos.*/
-			if($resposta > 0){
-				echo true;
-			}
-			else{
-				echo false;
-			}
-		}
-
+		
 		static function respostaIndiceBusca($resposta){
-			if($resposta > 0){
+			if($resposta){
 				echo true;
 			}else{
 				echo false;
 			}
 		}
+
 
 		static function respostaIndice($resposta){
 			if($resposta){
@@ -108,8 +98,10 @@
 		                                <caption>Alteração</caption>
 		                                <tr align="left">
 		                                    <td width="15%"><label>Descrição:</label></td>
-		                                    <td width="40%"><input type="text" value="<?php echo $val['indices_nome'];?>" id="n<?php echo $val['indices_id'];?>" size="50"/></td>
-		                                    <td colspan="4" align="center">
+		                                    <td width="40%"><input type="text" value="<?php echo $val['indices_desc'];?>" id="n<?php echo $val['indices_id'];?>" size="50"/></td>
+		                                </tr>
+		                                <tr>
+		                                    <td colspan="2" align="center">
 		                                        <button type="button" onclick="alteraIndice(<?php echo $val['indices_id'];?>)">Alterar Dados</button>
 		                                        <button type="reset" class="gravar">Limpar</button>
 		                                        <button type="button" onclick="excluiIndice(<?php echo $val['indices_id'];?>)" style="background-color: red; border-color: red">Excluir</button>

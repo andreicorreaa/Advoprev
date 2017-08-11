@@ -11,6 +11,11 @@ $(document).ready(function(){
         }
     });
 
+    $("#btn_limpar").click(function(){
+    	//$("#soflow").option["0"]; //option[value="Janeiro"]').prop('selected', true);
+    	$("#campo").val("");
+    });
+
 });
 
 

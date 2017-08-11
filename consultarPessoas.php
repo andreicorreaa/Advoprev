@@ -20,7 +20,7 @@
 					</select></td>
 				<td><input type="text" name="campo" id="campo" placeholder="Pesquisar" size="60" required/></td>
 				<td><button type="button" name="btn_pesquisa" id="btn_pesquisa">Pesquisar</button></td>
-	            <td><button type="reset">Limpar</button></td>
+	            <td><button type="reset" id="btn_limpar">Limpar</button></td>
             </tr>
         </table>
 	</div>

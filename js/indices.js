@@ -12,6 +12,9 @@ $(document).ready(function(){
     });
 
     $("#btn_cadIndice").click(function(){
+		var check = document.getElementById('desc').value;
+		var teste = buscarIndice(check);
+
 		cadIndice($("#desc"));
 	})
 
@@ -24,15 +27,9 @@ $(document).ready(function(){
 });
 
 function cadIndice(campo){
-	var checkindice = buscarIndice(campo.val());
-	console.log(checkindice);
 	if(campo.val() == ""){
 		alert("Digite no campo pesquisar");
 		campo.focus();
-		return;
-	}else if(checkindice == false){
-		alert("Indice já cadastrado");
-		campo.val("");
 		return;
 	}else{
 		$.post("control/cadastroControl.php?action=cadIndice", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
@@ -40,9 +37,9 @@ function cadIndice(campo){
 				console.log(retorno2);
 				if(retorno2){
 					campo.val("");
-					//alert("Cadastro Efetuado Com Sucesso!");
+					alert("Cadastro Efetuado Com Sucesso!");
 				}else{
-					alert(retorno2);
+					alert("Erro :(");
 				}
 			} //function(retorno)
 		); //$.post()
@@ -70,16 +67,19 @@ function pesquisaIndice(campo){
 }
 
 function buscarIndice(valor){
-	
-	$.post("control/consultarControl.php?action=checkIndice", {desc: valor}, // envia variaveis por POST para a control cadastroControl
-		function(retorno){ //retorno é o resultado que a control retorna
-			//console.log(retorno);
-			if(retorno == true){
-				return false;
-			}else{
-				return true;
+	if(valor == ""){
+		alert("digite algo!");
+		return;
+	}else{
+		$.post("control/consultarControl.php?action=checkIndice", {desc: valor}, // envia variaveis por POST para a control cadastroControl
+			function(retorno){ //retorno é o resultado que a control retorna
+				if(retorno){ // se retornar 1, neste caso o login ja existe no banco
+					//mostra na div alert
+					alert("Indice já cadastrado");
+					$("#desc").val("");
+				}
 			}
-
-		}
-	);
+		);
+	}
+	return;
 }

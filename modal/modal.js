@@ -30,7 +30,7 @@ $(document).ready(function(){
         $(".window").hide();
     });
 });
-
+ /////////////// FUNÇÕES DE ALTERAÇÃO //////////////////////
 function alteraPessoa(value){
     var str = value;
     var nome = $("#n"+str).val();
@@ -70,27 +70,59 @@ function alteraPessoa(value){
         $("#endereco"+str).focus();
         return;
     }else{
-        $.post("control/consultarControl.php?action=alterar", {id: str, cpf: cpf, rg: rg,
+        $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf: cpf, rg: rg,
         nome: nome, data: data, email: emails, telefone: tel, 
         sexo: sexo, oab: oab, endereco: endereco}, // envia variaveis por POST para a control cadastroControl
-            function(retorno2){ //resultado da control  
-                if(retorno2 == 1){
-                    alert("Cadastro efetuado com sucesso");
+            function(retorno){ //resultado da control  
+                if(retorno == 1){
+                    alert("Alteracao efetuada com sucesso");
                     $("#mascara").hide();
                     $(".window").hide();
+                    $("#container1").load('consultarPessoas.php');
                 }else{
-                    alert(retorno2);
+                    console.log(retorno);
+                    alert("Erro ao efetuar a alteção");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPessoas.php');
                 }
             } //function(retorno)
         ); //$.post()
     }
 }
 
+function alteraIndice(value){
+    var str = value;
+    var nome = $("#n"+str).val();
+    if(nome == ""){
+        $("#n"+str).focus();
+        return;
+    }else{
+        $.post("control/alterarControl.php?action=alteraIndice", {id: str, desc: nome}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //resultado da control  
+                if(retorno == 1){
+                    alert("Alterado com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarIndices.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a alteração");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarIndices.php');
+                }
+            } //function(retorno)
+        ); //$.post()
+    }
+}
+///////////////////////// FUNÇÕES DE EXCLUSÃO
+
 function excluiPessoa(value){
     var str = value;
     decisao = confirm("Confirmar exclusão?!");
     if(decisao){
-        $.post("control/consultarControl.php?action=exc", {id: str},
+        $.post("control/exclusaoControl.php?action=excluiPessoa", {id: str},
             function(retorno){
                 debugger
                 if(retorno == 1){
@@ -99,7 +131,37 @@ function excluiPessoa(value){
                     $(".window").hide();
                     $("#container1").load('consultarPessoas.php');
                 }else{
-                    alert(retorno);
+                    console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPessoas.php');
+                }
+            }
+        );
+    }else{
+        return;
+    }
+}
+
+function excluiIndice(value){
+    var str = value;
+    decisao = confirm("Confirmar exclusão?!");
+    if(decisao){
+        $.post("control/exclusaoControl.php?action=excluiIndice", {id: str},
+            function(retorno){
+                debugger
+                if(retorno == 1){
+                    alert("Indice excluído com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarIndices.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarIndices.php');
                 }
             }
         );
