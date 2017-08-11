@@ -38,6 +38,32 @@
         }      
     }
 
+    class Indices{ //ENCAPSULAMENTO INDICES
+        private $indices_id;
+        private $indices_desc;
+        private $indices_del = "N";
+
+        public function setIndices_id($value){
+            $this->indices_id = $value;
+        }
+        public function getIndices_id(){
+            return $this->indices_id;
+        }
+        public function getIndices_desc(){
+            return $this->indices_desc;
+        }
+        public function setIndices_desc($value){
+           $this->indices_desc = $value;
+        }
+        public function getIndices_del(){
+            return $this->indices_del;
+        }
+        public function setIndices_del($value){
+            $this->indices_del = $value;
+        }      
+    }
+
+
     class Pessoas{ // ENCAPSULAMENTO PESSOAS
         private $pessoas_id;
         private $usuarios_id;

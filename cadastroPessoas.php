@@ -25,7 +25,7 @@
                     <tr align="left">
                         <td width="15%"><label>Data de Nascimento*:</label></td>
                         <td><input type="date" name="data" id="data" required/></td>
-                        <td><label>Tel.:</label></td>    
+                        <td><label>Tel.*:</label></td>    
                         <td><input type="text" maxlength="11" size="11" onkeypress='return somenteNum(event)' onkeyup="buscarTel(this.value)" maxlength="11" id="telefone" placeholder="ex: 14996721234" name="telefone"/> </td>
                     </tr>
                     <tr align="left">

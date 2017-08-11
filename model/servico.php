@@ -32,6 +32,15 @@
             return $pessoa;
         }
 
+        static function objIndices($pa){
+            $indice = new Indices();
+            $indice->setIndices_id($pa["indices_id"]);
+            $indice->setIndices_desc($pa["indices_desc"]);
+            $indice->setIndices_del($pa["indices_del"]);
+
+            return $indice;
+        }
+
         static function logout(){ // funcao de logout
             try{
                 session_start();
@@ -54,7 +63,7 @@
             $senhaMD5 = md5($newUser->getUsuarios_senha()); // transforma a senha para md5
             $newUser->setUsuarios_senha($senhaMD5); // seta a nova senha
                     
-            $sql = "INSERT INTO `juridico`.`Usuarios` (`usuarios_nome`, 
+            $sql = "INSERT INTO `juridico`.`usuarios` (`usuarios_nome`, 
                                                         `usuarios_senha`, 
                                                         `usuarios_grupo`, 
                                                         `usuarios_del`) 
@@ -76,7 +85,7 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`Pessoas` (`usuarios_id`, `pessoas_cpf`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
                            $newPessoa->getPessoas_cpf(),
                            $newPessoa->getPessoas_rg(),
@@ -97,6 +106,19 @@
                 die("Erro: ". $e->getMessage);
             }
         }
+
+        static function cadastroIndice($indice){
+            $newIndice = Servico::objIndices($indice);
+            $param = array($newIndice->getIndices_desc(),
+                           $newIndice->getIndices_del());
+            $sql = "INSERT INTO indices (indices_desc, indices_del) VALUES (?,?)";
+            try{
+                return Database::executarParam($sql, $param);
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+        }
+
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
@@ -133,7 +155,7 @@
 
         static function login($loginParam){ // funcao utilizada para fazer login no sistema
             try{
-                $sql = "SELECT * FROM Usuarios WHERE usuarios_nome = ? AND usuarios_senha = ?"; //string SELECT
+                $sql = "SELECT * FROM usuarios WHERE usuarios_nome = ? AND usuarios_senha = ?"; //string SELECT
                 $param = array($loginParam[0],md5($loginParam[1])); // cria os parametros (?, ?) enviados pelo array
                 $query = Database::selecionarParam($sql,$param); // executa a query
                 if($query){ // se encontrou
@@ -154,7 +176,7 @@
 
 
         static function verificaLogin($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Usuarios WHERE usuarios_nome = ?";
+            $sql = "SELECT * FROM usuarios WHERE usuarios_nome = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -164,7 +186,7 @@
         }
 
         static function verificaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_cpf = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -174,7 +196,7 @@
         }
 
         static function verificaEmail($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_email = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_email = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -184,7 +206,7 @@
         }
 
         static function verificaRG($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_rg = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_rg = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -194,7 +216,7 @@
         }
 
         static function verificaTel($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_tel = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_tel = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -204,7 +226,7 @@
         }
 // ------------------- CONSULTAS -------------------------------
         static function consultaNome($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_nome LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_nome LIKE ? AND pessoas_del = ?";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -215,7 +237,7 @@
         }
 
         static function consultaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ?";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -225,7 +247,18 @@
             }
         }
         static function consultaRG($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM Pessoas WHERE pessoas_rg LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_rg LIKE ? AND pessoas_del = ?";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                return $query = Database::SelecionarParam($sql,$parame); //retorna 
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+        ///////////////////// ASSUNTOS
+        static function consultaIndice($param){
+            $sql = "SELECT * FROM indices WHERE indices_desc LIKE ? AND indices_del = ?";
             $delete = "N";
             $parame = array($param,$delete);
             try{

@@ -249,6 +249,9 @@ function buscarEmail(valor){
 			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
 				//mostra na div alert
 				alert("Email já cadastrado");
+				return false;
+			}else{
+				return true;
 			}
 
 		}

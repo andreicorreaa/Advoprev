@@ -25,4 +25,14 @@ $(document).ready(function(){
 		$("#container1").html('');
 		$("#container1").load('consultarProcessos.php');
 	});
+
+	$("#btn_assuntos1").click(function(){
+		$("#container1").html('');
+		$("#container1").load('consultarIndices.php');
+	});
+
+	$("#btn_assuntos2").click(function(){
+		$("#container1").html('');
+		$("#container1").load('cadastroIndices.php');
+	});
 });

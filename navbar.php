@@ -33,6 +33,7 @@
                 <ul class="trap">
                     <li onclick="carregar('inicio.php','Início - AdvoPREV - FUNPREV BAURU')" class="active"><a href='inicio.php'><span>Página Inicial</span></a></li>
                     <li onclick="carregar('selecionar.php', 'Pessoas - AdvoPREV - FUNPREV BAURU')"><a href='cadastroPessoas.php'><span>Cadastro de Pessoas</span></a></li>
+                    <li onclick="carregar('indices.php', 'Assuntos - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Índices</span></a></li>
                     <li onclick="carregar('processos.php', 'Processos - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Processos</span></a>
                   </li>
                 </ul>

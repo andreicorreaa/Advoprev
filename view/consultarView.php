@@ -84,6 +84,51 @@
 			}
 		}
 
+		static function respostaIndiceBusca($resposta){
+			if($resposta > 0){
+				echo true;
+			}else{
+				echo false;
+			}
+		}
+
+		static function respostaIndice($resposta){
+			if($resposta){
+				foreach($resposta as $val){
+        		?>	
+		            <tr>
+		                <script type="text/javascript" src="modal/modal.js"></script>
+		        		<td width="40%"><?php echo $val['indices_desc'];?></td>
+		        		<td width="40%"><a href="#janela<?php echo $val['indices_id'];?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
+		                <td>
+		                    <div class="window" id="janela<?php echo $val['indices_id'];?>">
+		                        <a href="#" class="fechar">X Fechar</a>
+		                        <form>
+		                            <table>
+		                                <caption>Alteração</caption>
+		                                <tr align="left">
+		                                    <td width="15%"><label>Descrição:</label></td>
+		                                    <td width="40%"><input type="text" value="<?php echo $val['indices_nome'];?>" id="n<?php echo $val['indices_id'];?>" size="50"/></td>
+		                                    <td colspan="4" align="center">
+		                                        <button type="button" onclick="alteraIndice(<?php echo $val['indices_id'];?>)">Alterar Dados</button>
+		                                        <button type="reset" class="gravar">Limpar</button>
+		                                        <button type="button" onclick="excluiIndice(<?php echo $val['indices_id'];?>)" style="background-color: red; border-color: red">Excluir</button>
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </form>
+		                    </div>
+		                    <div id="mascara"></div>
+		                </td>    	
+		        	</tr>
+        	<?php }
+			}
+			else{
+				echo false;
+				//retorna para o arquivo login.js
+			}
+		}
+
 	}
 
 ?>
