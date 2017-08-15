@@ -27,6 +27,7 @@ function pesquisaPessoa(tipo, campo){
 	}else if(tipo.val() == "pesNome"){
 		$.post("control/consultarControl.php?action=pesNome", {nome: campo.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
+				console.log(retorno2);
 				if(retorno2){
 					$("#tb1 tbody").html(retorno2);
 				}else{

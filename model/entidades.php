@@ -38,6 +38,31 @@
         }      
     }
 
+    class Varas{ //ENCAPSULAMENTO INDICES
+        private $varas_id;
+        private $varas_nome;
+        private $varas_del = "N";
+
+        public function setVaras_id($value){
+            $this->varas_id = $value;
+        }
+        public function getVaras_id(){
+            return $this->varas_id;
+        }
+        public function getVaras_nome(){
+            return $this->varas_nome;
+        }
+        public function setVaras_nome($value){
+           $this->varas_nome = $value;
+        }
+        public function getVaras_del(){
+            return $this->varas_del;
+        }
+        public function setVaras_del($value){
+            $this->varas_del = $value;
+        }      
+    }
+
     class Indices{ //ENCAPSULAMENTO INDICES
         private $indices_id;
         private $indices_desc;

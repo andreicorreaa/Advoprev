@@ -10,7 +10,12 @@
                        "indices_del"=>"N");
         $a = Servico::cadastroIndice($param); // chama a funcao para verificação na classe servico
         return cadastroView::respostaCadastro($a);
-
+    }else if($acao == "cadVara"){
+        $param = array("varas_id" => null, 
+                       "varas_nome"=>$_POST['desc'],
+                       "varas_del"=>"N");
+        $a = Servico::cadastroVara($param); // chama a funcao para verificação na classe servico
+        return cadastroView::respostaCadastro($a);
     }else if($acao == "cad"){
         $grupo = "2"; //usuario gerente
         $loginParam = array("usuarios_id"=> null,

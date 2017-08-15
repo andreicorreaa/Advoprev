@@ -30,9 +30,21 @@
             break;
 
         case 'checkIndice':
-            $param = "%".$_POST['desc']."%"; //VERIFICAÇÃO PARA CADASTRO DE INDICE
-            $a = Servico::consultaIndice($param);
-            return consultarView::respostaIndiceBusca($a);
+            $param = $_POST['desc']; //VERIFICAÇÃO PARA CADASTRO DE INDICE
+            $a = Servico::checkIndice($param);
+            return consultarView::respostaBusca($a);
+            break;
+
+        case 'pesVara':
+            $param = "%".$_POST['desc']."%"; //INDICE
+            $a = Servico::consultaVaras($param);
+            return consultarView::respostaVaras($a);
+            break;
+
+        case 'checkVara':
+            $param = $_POST['desc']; //VERIFICAÇÃO PARA CADASTRO DE varas
+            $a = Servico::checkVaras($param);
+            return consultarView::respostaBusca($a);
             break;
 
         default:

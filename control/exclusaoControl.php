@@ -16,6 +16,12 @@
         	return exclusaoView::respostaExclusao($a);
     		break;
     	
+        case 'excluiVara':
+            $param = $_POST['id'];
+            $a = Servico::excluiVara($param);
+            return exclusaoView::respostaExclusao($a);
+            break;
+
     	default:
     		# code...
     		break;

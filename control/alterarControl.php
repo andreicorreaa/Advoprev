@@ -29,6 +29,14 @@
         	return alteraView::respostaAlteracao($a);
     		break;
     	
+        case 'alteraVara':
+            $param = array("varas_id"=>(int)$_POST['id'],
+                        "varas_nome"=>(String)$_POST['desc'],
+                        "varas_del"=>"N");
+            $a = Servico::alterarVara($param);
+            return alteraView::respostaAlteracao($a);
+            break;
+
     	default:
     		# code...
     		break;

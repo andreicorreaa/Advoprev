@@ -1,13 +1,14 @@
 <?php
 	class consultarView{ //classe View da pagina login
 		static function respostaConsultaPessoa($resposta){
+			
 			/*Se a variável $resposta estiver neste momento como TRUE, então os dados estão corretos e podemos 
 			exibir uma mensagem de sucesso. Caso contrário, irá cair no else, que irá alertar que os dados são inválidos.*/
 			if($resposta){
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
 				foreach($resposta as $val){
         		?>	
 		            <tr>
-		                <script type="text/javascript" src="modal/modal.js"></script>
 		        		<td width="40%"><?php echo $val['pessoas_nome'];?></td>
 		        		<td width="40%"><?php echo $val['pessoas_cpf'];?></td>
 		        		<td width="40%"><?php echo $val['pessoas_rg'];?></td>
@@ -73,7 +74,7 @@
 			}
 		}
 		
-		static function respostaIndiceBusca($resposta){
+		static function respostaBusca($resposta){
 			if($resposta){
 				echo true;
 			}else{
@@ -83,11 +84,12 @@
 
 
 		static function respostaIndice($resposta){
+			
 			if($resposta){
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
 				foreach($resposta as $val){
         		?>	
 		            <tr>
-		                <script type="text/javascript" src="modal/modal.js"></script>
 		        		<td width="40%"><?php echo $val['indices_desc'];?></td>
 		        		<td width="40%"><a href="#janela<?php echo $val['indices_id'];?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
 		                <td>
@@ -121,6 +123,46 @@
 			}
 		}
 
+
+		static function respostaVaras($resposta){
+			
+			if($resposta){
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
+				foreach($resposta as $val){
+        		?>
+		            <tr>
+		        		<td width="40%"><?php echo $val['varas_nome'];?></td>
+		        		<td width="40%"><a href="#janela<?php echo $val['varas_id'];?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
+		                <td>
+		                    <div class="window" id="janela<?php echo $val['varas_id'];?>">
+		                        <a href="#" class="fechar">X Fechar</a>
+		                        <form>
+		                            <table>
+		                                <caption>Alteração</caption>
+		                                <tr align="left">
+		                                    <td width="15%"><label>Descrição:</label></td>
+		                                    <td width="40%"><input type="text" value="<?php echo $val['varas_nome'];?>" id="n<?php echo $val['varas_id'];?>" size="50"/></td>
+		                                </tr>
+		                                <tr>
+		                                    <td colspan="2" align="center">
+		                                        <button type="button" onclick="alteraVara(<?php echo $val['varas_id'];?>)">Alterar Dados</button>
+		                                        <button type="reset" class="gravar">Limpar</button>
+		                                        <button type="button" onclick="excluiVara(<?php echo $val['varas_id'];?>)" style="background-color: red; border-color: red">Excluir</button>
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </form>
+		                    </div>
+		                    <div id="mascara"></div>
+		                </td>    	
+		        	</tr>
+        	<?php }
+			}
+			else{
+				echo false;
+				//retorna para o arquivo login.js
+			}
+		}
 	}
 
 ?>

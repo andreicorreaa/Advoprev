@@ -3,7 +3,7 @@
     require "entidades.php"; // incluindo entidades
     
     class Servico{
-        //OBJETOS
+//------------------------- OBJETOS -----------------------------------------------------------
 
         static function objUsuarios($usr){ // objeto Usuarios
             $usuario = new Usuarios(); //instanciando
@@ -43,7 +43,16 @@
             return $indice;
         }
 
-        //FUNÇÕES LOGIN ------------------------------------------------------------------------------
+        static function objVaras($pa){
+            $vara = new Varas();
+            $vara->setVaras_id($pa["varas_id"]);
+            $vara->setVaras_nome($pa["varas_nome"]);
+            $vara->setVaras_del($pa["varas_del"]);
+
+            return $vara;
+        }
+
+//------------------------- FUNÇÕES LOGIN -----------------------------------------------------
 
         static function login($loginParam){ // funcao utilizada para fazer login no sistema
             try{
@@ -79,7 +88,7 @@
             }
         }
 
-        //FUNÇÕES DE CADASTRO USUARIO/PESSOA--------------------------------------------------------------
+//------------------------- FUNÇÕES DE CADASTRO USUARIO/PESSOA --------------------------------
         static function cadastro($arrayUser){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
             $newUser = Servico::objUsuarios($arrayUser); //instancia um novo objeto do tipo Usuarios
@@ -163,7 +172,7 @@
             }
         }
 
-        // ------------------- INDICE ------------------------//
+// ------------------------ INDICE ------------------------------------------------------------
         static function cadastroIndice($indice){
             $newIndice = Servico::objIndices($indice);
             $param = array($newIndice->getIndices_desc(),
@@ -190,11 +199,20 @@
         }
 
         static function consultaIndice($param){
-            $sql = "SELECT * FROM indices WHERE indices_desc LIKE ? AND indices_del = ?";
+            $sql = "SELECT * FROM indices WHERE indices_desc LIKE ? AND indices_del = ? ORDER BY indices_desc";
             $delete = "N";
             $parame = array($param,$delete);
             try{
                 return $query = Database::SelecionarParam($sql,$parame); //retorna 
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function checkIndice($param){
+            $sql = "SELECT * FROM indices WHERE indices_desc = ?";
+            try{
+                return $query = Database::validarParam($sql,$param); //retorna 
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -208,7 +226,78 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-// ------------- verificação para cadastro de Usuarios e Pessoas ------------------ 
+
+// ------------------------ VARAS -------------------------------------------------------------
+        static function cadastroVara($vara){
+            $newIndice = Servico::objVaras($vara);
+            $param = array($newIndice->getVaras_nome(),
+                           $newIndice->getVaras_del());
+            $sql = "INSERT INTO varas (varas_nome, varas_del) VALUES (?,?)";
+            try{
+                return Database::executarParam($sql, $param);
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function alterarVara($varas){
+            $newPessoa = Servico::objVaras($varas);
+            $sql = "UPDATE varas SET varas_nome = ? WHERE varas_id = ?";
+            $param = array($newPessoa->getVaras_nome(),
+                           $newPessoa->getVaras_id());
+            try{
+                return Database::executarParam($sql, $param);
+            }
+            catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function checkVaras($param){
+            $sql = "SELECT * FROM varas WHERE varas_nome = ?";
+            try{
+                return $query = Database::validarParam($sql,$param); //retorna 
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function SelecionarVaras(){
+            $sql = "SELECT * FROM varas WHERE varas_del = 'N' ORDER BY varas_nome";
+            try{
+                $line = Database::selecionar($sql);
+                if($line){
+                    for($i = 0; $i<count($line);$i++){
+                        $varas[$i] = Servico::objVaras($line[$i]);
+                    }
+                    return $varas;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaVaras($param){
+            $sql = "SELECT * FROM varas WHERE varas_nome LIKE ? AND varas_del = ? ORDER BY varas_nome";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                return $query = Database::SelecionarParam($sql,$parame); //retorna 
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function excluiVara($vara){
+            try{
+                $sql = "UPDATE varas SET varas_del = 'S' WHERE varas_id = ?";
+                return $query = Database::validarParam($sql, $vara);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+// ------------------------ VERIFICAÇÃO PARA CADASTRO DE USUARIOS E PESSOAS -------------------
         
 
 
@@ -261,9 +350,10 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-// ------------------- CONSULTAS -------------------------------
+
+// ------------------------ CONSULTAS PESSOAS -------------------------------------------------
         static function consultaNome($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_nome LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_nome LIKE ? AND pessoas_del = ? ORDER BY pessoas_nome";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -274,7 +364,7 @@
         }
 
         static function consultaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -284,7 +374,7 @@
             }
         }
         static function consultaRG($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_rg LIKE ? AND pessoas_del = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_rg LIKE ? AND pessoas_del = ? ORDER BY pessoas_rg";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -293,5 +383,19 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-    }
 
+        static function SelecionarPessoas(){
+            $sql = "SELECT * FROM pessoas WHERE pessoas_del = 'N' ORDER BY pessoas_nome";
+            try{
+                $line = Database::selecionar($sql);
+                if($line){
+                    for($i = 0; $i<count($line);$i++){
+                        $pessoas[$i] = Servico::objPessoas($line[$i]);
+                    }
+                    return $pessoas;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+    }

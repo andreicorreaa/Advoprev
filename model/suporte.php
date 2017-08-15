@@ -7,11 +7,25 @@
             //O CONTEUDO DESSA FUNÃ‡ÃƒO FICAVA FORA DA CLASSE, 
             //E AQUI HAVIA UM CONSTRUTOR PARA RECEBER A CONEXÃƒO
             
-            //----------------- DEFININDO DADOS DA CONEXÃƒO 
+            //----------------- DEFININDO DADOS DA CONEXÃƒO
+            if(!defined("MYSQL_HOST")){
+              define('MYSQL_HOST','localhost');
+            }
+            if(!defined("MYSQL_DB_NAME")){
+              define('MYSQL_DB_NAME','juridico');
+            }
+            if(!defined("MYSQL_USER")){
+              define('MYSQL_USER','juridico');
+            }
+            if(!defined("MYSQL_PASSWORD")){
+              define('MYSQL_PASSWORD','2a53pq22');
+            }
+            /* ATUALIZADO DEVIDO A ERRO DE MULTIPLAS CONEXÕES
             define( 'MYSQL_HOST', 'localhost' );
             define( 'MYSQL_USER', 'juridico' );
             define( 'MYSQL_PASSWORD', '2a53pq22' );
             define( 'MYSQL_DB_NAME', 'juridico' );
+            */
             //--------------------------------------------
 
             
