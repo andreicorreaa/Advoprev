@@ -10,6 +10,77 @@
                        "indices_del"=>"N");
         $a = Servico::cadastroIndice($param); // chama a funcao para verificação na classe servico
         return cadastroView::respostaCadastro($a);
+
+
+    }else if($acao == "cadastroProcesso"){
+        $aux1 = false; //variavel para checar se existe partes
+        $aux2 = false; //variavel para checar se existe indices
+        $money = str_replace(".", "", $_POST['valor']);
+        $money1 = str_replace(",", ".", $money);
+
+        $param = array("processos_id" => null,
+                        "processos_num" => $_POST['numero'],
+                        "processos_acao" => $_POST['acao'],
+                        "processos_ordem" => $_POST['ordem'],
+                        "varas_id" => $_POST['vara'],
+                        "processos_oficial" => $_POST['oficial'],
+                        "processos_juiz" => $_POST['juiz'],
+                        "processos_apencos" => null,
+                        "processos_valor" => $money1,
+                        "processos_senha" => $_POST['senha'],
+                        "processos_data" => $_POST['data'],
+                        "processos_del" => "N");
+        
+        for($i = 0; $i < count($_POST['nome']); $i++){ //pegando partes selecionados na view
+            if($_POST['nome'][$i] != "null" && $_POST['desc'][$i] != "null"){
+                $tipo[$i] = $_POST['desc'][$i];
+                $parte[$i] = $_POST['nome'][$i];
+                $aux1 = true;
+            }
+        }
+        for($i = 0; $i < count($_POST['indices']); $i++){ // pegando indices selecionados na view
+            if($_POST['indices'][$i] != "null"){
+                $indice[$i] = $_POST['indices'][$i];
+                $aux2 = true;
+            }
+        }
+        $retorno = 0; //variavel para resposta da view
+        $retorno1 = 0; // ||
+        try{
+            $a = Servico::cadastroProcesso($param); //cadastra o processo
+            if($a){ //verifica se o processo foi inserido com sucesso, se sim, continua para inserção de indices e partes
+                if($aux1 == true){ //se existe partes
+                    for($i = 0; $i < count($tipo); $i++){
+                        $param1 = array("partes_id"=> null,
+                                        "pessoas_id" => $parte[$i],
+                                        "processos_id" => null,
+                                        "partes_tipo" => $tipo[$i],
+                                        "partes_del" => "N");
+                        try{
+                            $retorno = Servico::cadastroPartes($param1);
+                        }catch(Exception $e){
+                            return $e;
+                        }
+                    }
+                }
+                if($aux2 == true){ //se existe indices
+                    for($i = 0; $i < count($indice); $i++){
+                        $param2 = array("indicesprocesso_id"=>null,
+                                        "indices_id" => $indice[$i],
+                                        "processos_id"=> null,
+                                        "indice_del"=>"N");
+                        try{
+                            $retorno1 = Servico::cadastroIndicesProcesso($param2);
+                        }catch(Exception $e){
+                            return $e;
+                        }
+                    }
+                }
+            }
+            return cadastroView::respostaCadastroProcesso($a, $retorno, $retorno1);
+        }catch(Exception $e){
+            return $e;
+        }
     }else if($acao == "cadVara"){
         $param = array("varas_id" => null, 
                        "varas_nome"=>$_POST['desc'],
@@ -63,5 +134,13 @@
                             "pessoas_del"=> "N");
         $a = Servico::cadastroPessoa($loginParam);
         return cadastroView::respostaCadastro($a);
+    }else if($acao == "verNProcesso"){
+        $param = $_POST['aux'];
+        $a = Servico::verificaProcesso($param);
+        return cadastroView::respostaVerificacao($a);
+    }else if($acao == "verNOrdem"){
+        $param = $_POST['aux'];
+        $a = Servico::verificaOrdem($param);
+        return cadastroView::respostaVerificacao($a);
     }
 ?>

@@ -21,7 +21,7 @@
 	<div id="mostra">
 		<div style="overflow-x:auto;">
 			<table id="tb1">
-				<caption>Pessoas</caption>
+				<caption>Indices</caption>
 					<thead>
 						<th width="80%">Descrição</th>
 						<th width="3%">	</th>

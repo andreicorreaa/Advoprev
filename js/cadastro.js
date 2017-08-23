@@ -259,6 +259,7 @@ function buscarEmail(valor){
 }
 //validar RG
 function buscarRG(valor){
+	debugger
 	$.post("control/cadastroControl.php?action=verRG", {aux: valor}, // envia variaveis por POST para a control cadastroControl
 		function(retorno){ //retorno é o resultado que a control retorna
 			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco

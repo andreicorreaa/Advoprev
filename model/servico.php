@@ -52,6 +52,46 @@
             return $vara;
         }
 
+        static function objProcessos($pa){
+            $processos = new Processos();
+
+            $processos->setProcessos_id($pa["processos_id"]);
+            $processos->setProcessos_num($pa["processos_num"]);
+            $processos->setProcessos_acao($pa["processos_acao"]);
+            $processos->setProcessos_ordem($pa["processos_ordem"]);
+            $processos->setVaras_id($pa["varas_id"]);
+            $processos->setProcessos_oficial($pa["processos_oficial"]);
+            $processos->setProcessos_juiz($pa["processos_juiz"]);
+            $processos->setProcessos_apencos($pa["processos_apencos"]);
+            $processos->setProcessos_valor($pa["processos_valor"]);
+            $processos->setProcessos_senha($pa["processos_senha"]);
+            $processos->setProcessos_data($pa["processos_data"]);
+            $processos->setProcessos_del($pa["processos_del"]);
+
+            return $processos;
+        }
+
+        static function objPartes($partes){
+            $parte = new Partes();
+            $parte->setPartes_id($partes["partes_id"]);
+            $parte->setPessoas_id($partes["pessoas_id"]);
+            $parte->setProcessos_id($partes["processos_id"]);
+            $parte->setPartes_tipo($partes["partes_tipo"]);
+            $parte->setPartes_del($partes["partes_del"]);
+
+            return $parte;
+        }
+
+        static function objIndicesProcesso($ind){
+            $indicesprocesso = new IndicesProcesso();
+            $indicesprocesso->setIndicesProcesso_id($ind["indicesprocesso_id"]);
+            $indicesprocesso->setIndices_id($ind["indices_id"]);
+            $indicesprocesso->setProcessos_id($ind["processos_id"]);
+            $indicesprocesso->setIndice_del($ind["indice_del"]);
+
+            return $indicesprocesso;
+        
+        }
 //------------------------- FUNÇÕES LOGIN -----------------------------------------------------
 
         static function login($loginParam){ // funcao utilizada para fazer login no sistema
@@ -87,7 +127,6 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-
 //------------------------- FUNÇÕES DE CADASTRO USUARIO/PESSOA --------------------------------
         static function cadastro($arrayUser){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
@@ -171,7 +210,6 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-
 // ------------------------ INDICE ------------------------------------------------------------
         static function cadastroIndice($indice){
             $newIndice = Servico::objIndices($indice);
@@ -226,7 +264,6 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-
 // ------------------------ VARAS -------------------------------------------------------------
         static function cadastroVara($vara){
             $newIndice = Servico::objVaras($vara);
@@ -296,7 +333,74 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+//------------------------- FUNÇÕES PROCESSO --------------------------------------------------
+        static function cadastroProcesso($arrayP){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
+            
+            $newProcesso = Servico::objProcessos($arrayP); //instancia um novo objeto do tipo Usuarios
+            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apencos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $param = array($newProcesso->getProcessos_num(),
+                           $newProcesso->getProcessos_acao(),
+                           $newProcesso->getProcessos_ordem(),
+                           $newProcesso->getVaras_id(),
+                           $newProcesso->getProcessos_oficial(),
+                           $newProcesso->getProcessos_juiz(),
+                           $newProcesso->getProcessos_apencos(),
+                           $newProcesso->getProcessos_valor(),
+                           $newProcesso->getProcessos_senha(),
+                           $newProcesso->getProcessos_data(),
+                           $newProcesso->getProcessos_del(),
+                     );
+            try{
+                return Database::executarParam($sql, $param);
+            }
 
+            catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function SelecionarIndices(){
+            $sql = "SELECT * FROM indices WHERE indices_del = 'N' ORDER BY indices_desc";
+            try{
+                $line = Database::selecionar($sql);
+                if($line){
+                    for($i = 0; $i<count($line);$i++){
+                        $indices[$i] = Servico::objIndices($line[$i]);
+                    }
+                    return $indices;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+//------------------------- FUNÇÕES DE CADASTRO PARTES PROCESSO -------------------------------
+        static function cadastroPartes($partes){
+            $newPartes = Servico::objPartes($partes);
+            $param = array($newPartes->getPessoas_id(),
+                           $newPartes->getPartes_tipo());
+            $sql = "INSERT INTO partes (pessoas_id, processos_id, partes_tipo, partes_del) VALUES (?,(SELECT processos_id FROM processos ORDER BY processos_id DESC LIMIT 1),?,\"N\")";
+            
+            try{
+                return Database::executarParam($sql, $param);
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+
+        }
+//------------------------- FUNÇÕES DE CADASTRO INDICES PROCESSO ------------------------------
+        static function cadastroIndicesProcesso($indicesProcesso){
+            $newIndicesProcesso = Servico::objIndicesProcesso($indicesProcesso);
+            $param = array($newIndicesProcesso->getIndices_id(),
+                            $newIndicesProcesso->getIndice_del());
+            $sql = "INSERT INTO indicesprocesso (indices_id, processos_id, indice_del) VALUES (?,(SELECT processos_id FROM processos ORDER BY processos_id DESC LIMIT 1),?)";
+            
+            try{
+                return Database::executarParam($sql, $param);
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+
+        }
 // ------------------------ VERIFICAÇÃO PARA CADASTRO DE USUARIOS E PESSOAS -------------------
         
 
@@ -350,7 +454,6 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-
 // ------------------------ CONSULTAS PESSOAS -------------------------------------------------
         static function consultaNome($param){ //utilizada para validacao de campos
             $sql = "SELECT * FROM pessoas WHERE pessoas_nome LIKE ? AND pessoas_del = ? ORDER BY pessoas_nome";
@@ -398,4 +501,22 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+// ------------------------ CONSULTAS PROCESSOS -----------------------------------------------
+        static function verificaProcesso($param){ //utilizada para validacao de campos
+            $sql = "SELECT * FROM processos WHERE processos_num = ?";
+            try{
+                return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+        static function verificaOrdem($param){ //utilizada para validacao de campos
+            $sql = "SELECT * FROM processos WHERE processos_ordem = ?";
+            try{
+                return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
     }
+?>

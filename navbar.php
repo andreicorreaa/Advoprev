@@ -6,6 +6,7 @@
     <head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
         <link href="css/navbar.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
     </head>
     <body>
         <div id="topo">
@@ -41,7 +42,6 @@
             </div>
 
         </div>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <!-- para colocar a classe active nas li da lista -->
         <script>
             $('ul.trap > li').click(function (e) {

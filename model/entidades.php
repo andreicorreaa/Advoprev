@@ -176,4 +176,163 @@
             return $this->pessoas_del;
         }
     }
+
+    class Processos{
+        private $processos_id;
+        private $processos_num;
+        private $processos_acao;
+        private $processos_ordem;
+        private $varas_id;
+        private $processos_oficial;
+        private $processos_juiz;
+        private $processos_apencos = null;
+        private $processos_valor;
+        private $processos_senha;
+        private $processos_data;
+        private $processos_del = "N";
+
+        public function setProcessos_id($value){
+            $this->processos_id = $value;
+        }
+        public function getProcessos_id(){
+            return $this->processos_id;
+        }
+        public function setProcessos_num($value){
+            $this->processos_num = $value;
+        }
+        public function getProcessos_num(){
+            return $this->processos_num;
+        }
+        public function setProcessos_acao($value){
+            $this->processos_acao = $value;
+        }
+        public function getProcessos_acao(){
+            return $this->processos_acao;
+        }
+        public function setProcessos_ordem($value){
+            $this->processos_ordem = $value;
+        }
+        public function getProcessos_ordem(){
+            return $this->processos_ordem;
+        }
+        public function setVaras_id($value){
+            $this->varas_id = $value;
+        }
+        public function getVaras_id(){
+            return $this->varas_id;
+        }
+        public function setProcessos_oficial($value){
+            $this->processos_oficial = $value;
+        }
+        public function getProcessos_oficial(){
+            return $this->processos_oficial;
+        }
+        public function setProcessos_juiz($value){
+            $this->processos_juiz = $value;
+        }
+        public function getProcessos_juiz(){
+            return $this->processos_juiz;
+        }
+        public function setProcessos_apencos($value){
+            $this->processos_apencos = $value;
+        }
+        public function getProcessos_apencos(){
+            return $this->processos_apencos;
+        }
+        public function setProcessos_valor($value){
+            $this->processos_valor = $value;
+        }
+        public function getProcessos_valor(){
+            return $this->processos_valor;
+        }
+        public function setProcessos_senha($value){
+            $this->processos_senha = $value;
+        }
+        public function getProcessos_senha(){
+            return $this->processos_senha;
+        }
+        public function setProcessos_data($value){
+            $this->processos_data = $value;
+        }
+        public function getProcessos_data(){
+            return $this->processos_data;
+        }        
+        public function setProcessos_del($value){
+            $this->processos_del = $value;
+        }
+        public function getProcessos_del(){
+            return $this->processos_del;
+        }
+    }
+
+    class Partes{
+        private $partes_id;
+        private $pessoas_id;
+        private $processos_id;
+        private $partes_tipo;
+        private $partes_del = "N";
+
+        public function setPartes_id($value){
+            $this->partes_id = $value;
+        }
+        public function getPartes_id(){
+            return $this->partes_id;
+        }
+        public function setPessoas_id($value){
+            $this->pessoas_id = $value;
+        }
+        public function getPessoas_id(){
+            return $this->pessoas_id;
+        }
+        public function setProcessos_id($value){
+            $this->processos_id = $value;
+        }
+        public function getProcessos_id(){
+            return $this->processos_id;
+        }
+        public function setPartes_tipo($value){
+            $this->partes_tipo = $value;
+        }
+        public function getPartes_tipo(){
+            return $this->partes_tipo;
+        }
+        public function setPartes_del($value){
+            $this->partes_del = $value;
+        }
+        public function getPartes_del(){
+            return $this->partes_del;
+        }
+    }
+
+    class IndicesProcesso{
+        private $indicesProcesso_id;
+        private $indices_id;
+        private $processos_id;
+        private $indice_del;
+
+        public function setIndicesProcesso_id($value){
+            $this->indicesProcesso_id = $value;
+        }
+        public function getIndicesProcesso_id(){
+            return $this->indicesProcesso_id;
+        }
+        public function setIndices_id($value){
+            $this->indices_id = $value;
+        }
+        public function getIndices_id(){
+            return $this->indices_id;
+        }
+        public function setProcessos_id($value){
+            $this->Processos_id = $value;
+        }
+        public function getProcessos_id(){
+            return $this->Processos_id;
+        }
+        public function setIndice_del($value){
+            $this->indice_del = $value;
+        }
+        public function getIndice_del(){
+            return $this->indice_del;
+        }
+    }
 ?>
