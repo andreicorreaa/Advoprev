@@ -8,14 +8,15 @@
 <head>
 	<link href="css/cons.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/consultarProcessos.js"></script>
-	<link href="modal/modal.css" rel="stylesheet" type="text/css" />
+	<link href="modal/modalP.css" rel="stylesheet" type="text/css" />
+	<link href="css/consultarProcessos.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<h1>Consultar Processos</h1>
 	<div id="pesquisa">
 		<table align="center" id="tb2">
 			<tr>
-				<td><select id="soflow" name="tipo" onchange="javascript: mudaCampo(this.value)">
+				<td><select id="soflow" name="tipo" class="comb" onchange="javascript: mudaCampo(this.value)">
 					  <!-- This method is nice because it doesn't require extra div tags, but it also doesn't retain the style across all browsers. -->
 					  <option value="pesNProcesso" selected>Nº do processo</option>
 					  <option value="pesOrdemProcesso">Ordem</option>
@@ -25,13 +26,13 @@
 					</select>
 				</td>
 				<td id="Numero">
-					<input type="text" name="proc_numero" id="proc_numero" placeholder="Digite o número do processo" size="60" required/>
+					<input type="text" name="proc_numero" class="text" id="proc_numero" placeholder="Digite o número do processo" size="60" required/>
 				</td>
 				<td style="display: none;" id="Ordem">
-					<input type="text" name="proc_ordem" id="proc_ordem" placeholder="Digite o número do processo" size="60" required/>
+					<input type="text" name="proc_ordem" id="proc_ordem" class="text" placeholder="Digite o número do processo" size="60" required/>
 				</td>
 				<td style="display: none;" id="Vara">
-                    <select id="soflow" name="proc_vara">
+                    <select id="soflow" class="comb" name="proc_vara">
                         <option selected="true"></option>
                         <?php if(count($varas) > 0){
                                 foreach($varas as $vara){ ?>
@@ -43,7 +44,7 @@
                     </select>
                 </td>
                 <td style="display: none;" id="Indice">
-                    <select id="soflow" name="proc_indice">
+                    <select id="soflow" class="comb" name="proc_indice">
                         <option></option>
                 <?php   if(count($indices) > 0){
                             foreach($indices as $indice){ ?>
@@ -55,7 +56,7 @@
                     </select>
                 </td>
                 <td style="display: none;" id="Parte">
-                    <select id="soflow" name="proc_parte">
+                    <select id="soflow" class="comb" name="proc_parte">
                         <option></option>
                 <?php   if(count($pessoas) > 0){
                             foreach($pessoas as $pessoa){ ?>
@@ -73,7 +74,7 @@
 	</div>
 	<div id="mostra">
 		<div style="overflow-x:auto;">
-			<table id="tb1">
+			<table id="tb1" class="fixo">
 				<caption>Pessoas</caption>
 					<thead>
 						<th width="9%">Nº Processo</th>

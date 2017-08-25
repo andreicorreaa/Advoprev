@@ -127,6 +127,33 @@
             }
 		}
 
+        static function retornaParam($sql, $param){      //SELECIONAR REGISTROS, RETORNA ARRAY
+            Database::conecta();        //FAZ A CONEXÃƒO
+            try{
+                //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
+                //EVITANDO SQL INJECTION
+                $stmt = Database::$pdo->prepare($sql);
+                
+                //PERCORRE O ARRAY COM OS PARÃ‚METROS. CADA "?" NA SQL CORRESPONDE A UM DELES
+                //O bindValue() FIXA O PARÃ‚METRO. QUANDO SE USA "?" NA QUERY Ã‰ 
+                //PRECISO USAR UM NÃšMERO INTEIRO PARA REPRESENTAR CADA PARÃ‚METRO NO bindValue()
+                //POR ISSO O CONTADOR  $i++
+                
+                $stmt->bindValue(1, $param);
+                //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
+                $query = $stmt->Execute();
+            }
+            catch(PDOException $e){
+                die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
+            }
+            //SE A QUERY FOI EXECUTADA COM SUCESSO, MONTA UM ARRAY COM OS RESULTADOS
+            //E O RETORNA
+            if($query){
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+        }
+
         static function validarParam($sql, $param){        //EXECUTA QUERYs COM PARÃ‚METROS, para validacao de campos
             Database::conecta();        //FAZ A CONEXÃƒO
             

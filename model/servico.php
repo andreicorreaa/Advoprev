@@ -314,6 +314,15 @@
             }
         }
 
+        static function selecionaVara($vara){
+            $sql = "SELECT * FROM varas WHERE varas_id = ?";
+            try{
+                return $query = Database::retornaParam($sql, $vara);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
         static function consultaVaras($param){
             $sql = "SELECT * FROM varas WHERE varas_nome LIKE ? AND varas_del = ? ORDER BY varas_nome";
             $delete = "N";
@@ -387,6 +396,22 @@
             }
 
         }
+// ------------------------ CONSULTAS PROCESSOS -----------------------------------------------
+        static function consultaPartesProcesso($idProc){
+            $sql = "SELECT * FROM partes WHERE processos_id = ? AND partes_del = 'N'";
+            try{
+                $query = Database::retornaParam($sql, $idProc);
+                if($query){
+                    for($i=0;$i<count($query);$i++){
+                        $retorno[$i] = Servico::objPartes($query[$i]);
+                    }
+                    return $retorno;
+                }
+            }catch(Exception $e){
+                return die("Erro: ".$e);
+            }
+        }
+
 //------------------------- FUNÇÕES DE CADASTRO INDICES PROCESSO ------------------------------
         static function cadastroIndicesProcesso($indicesProcesso){
             $newIndicesProcesso = Servico::objIndicesProcesso($indicesProcesso);
@@ -510,10 +535,119 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+
         static function verificaOrdem($param){ //utilizada para validacao de campos
             $sql = "SELECT * FROM processos WHERE processos_ordem = ?";
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoNumero($param){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT * FROM processos WHERE processos_num LIKE ? AND processos_del = ? ORDER BY processos_num";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna
+                if($query > 0){
+                    for($i=0 ; $i < count($query) ; $i++){
+                        $obj[$i] = Servico::objProcessos($query[$i]);
+                    }
+                    return $obj;
+                }else{
+                    return $query;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoOrdem($param){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT * FROM processos WHERE processos_ordem LIKE ? AND processos_del = ? ORDER BY processos_num";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna
+                if($query > 0){
+                    for($i=0 ; $i < count($query) ; $i++){
+                        $obj[$i] = Servico::objProcessos($query[$i]);
+                    }
+                    return $obj;
+                }else{
+                    return $query;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoVara($param){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT * FROM processos WHERE varas_id LIKE ? AND processos_del = ? ORDER BY processos_num";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna 
+                if($query > 0){
+                    for($i=0 ; $i < count($query) ; $i++){
+                        $obj[$i] = Servico::objProcessos($query[$i]);
+                    }
+                    return $obj;
+                }else{
+                    return $query;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoParte($param){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT processos_id FROM partes WHERE pessoas_id = ? AND partes_del = ?";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna 
+                if($query > 0){
+                    for($i = 0; $i < count($query) ; $i++){
+                        $sql1 = "SELECT * FROM processos WHERE processos_id = ? AND processos_del = ?";
+                        $delete1 = "N";
+                        $parame1 = array($query[$i]['processos_id'],$delete1);
+                        $result = Database::SelecionarParam($sql1, $parame1);
+                        $obj[$i] = Servico::objProcessos($result[0]);
+                    }
+                    return $obj;
+                }else{
+                    return $query;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoIndice($param){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT processos_id FROM indicesprocesso WHERE processos_id = ? AND indice_del = ?";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna 
+                if($query > 0){
+                    for($i = 0; $i < count($query) ; $i++){
+                        $sql1 = "SELECT * FROM processos WHERE processos_id = ? AND processos_del = ?";
+                        $delete1 = "N";
+                        $parame1 = array($query[$i]['processos_id'],$delete1);
+                        $result = Database::SelecionarParam($sql1, $parame1);
+                        $obj[$i] = Servico::objProcessos($result[0]);
+                    }
+                    return $obj;
+                }else{
+                    return $query;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
