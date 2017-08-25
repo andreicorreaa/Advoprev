@@ -16,16 +16,6 @@ $(document).ready(function(){
 		$("#container1").load('cadastroPessoas.php');
 	});
 
-	$("#btn_processo1").click(function(){
-		$("#container1").html('');
-		$("#container1").load('cadastroProcesso.php');
-	});
-
-	$("#btn_processo2").click(function(){
-		$("#container1").html('');
-		$("#container1").load('consultarProcessos.php');
-	});
-
 	$("#btn_assuntos1").click(function(){
 		$("#container1").html('');
 		$("#container1").load('consultarIndices.php');
@@ -34,5 +24,25 @@ $(document).ready(function(){
 	$("#btn_assuntos2").click(function(){
 		$("#container1").html('');
 		$("#container1").load('cadastroIndices.php');
+	});
+
+	$("#btn_vara1").click(function(){
+		$("#container1").html('');
+		$("#container1").load('consultarVaras.php');
+	});
+
+	$("#btn_vara2").click(function(){
+		$("#container1").html('');
+		$("#container1").load('cadastroVaras.php');
+	});
+
+	$("#btn_processo1").click(function(){
+		$("#container1").html('');
+		$("#container1").load('consultarProcessos.php');
+	});
+
+	$("#btn_processo2").click(function(){
+		$("#container1").html('');
+		$("#container1").load('cadastroProcessos.php');
 	});
 });

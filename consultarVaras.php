@@ -4,11 +4,12 @@
 <!DOCTYPE html>
 <head>
 	<link href="css/cons.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="js/indices.js"></script>
+	<script type="text/javascript" src="js/varas.js"></script>
 	<link href="modal/modal.css" rel="stylesheet" type="text/css" />
+	
 </head>
 <body>
-	<h1>Consultar Índices</h1>
+	<h1>Consultar Varas</h1>
 	<div id="pesquisa">
 		<table align="center" id="tb2">
 			<tr>
@@ -21,7 +22,7 @@
 	<div id="mostra">
 		<div style="overflow-x:auto;">
 			<table id="tb1">
-				<caption>Indices</caption>
+				<caption>Varas</caption>
 					<thead>
 						<th width="80%">Descrição</th>
 						<th width="3%">	</th>

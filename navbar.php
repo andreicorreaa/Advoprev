@@ -6,6 +6,7 @@
     <head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
         <link href="css/navbar.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
     </head>
     <body>
         <div id="topo">
@@ -33,14 +34,14 @@
                 <ul class="trap">
                     <li onclick="carregar('inicio.php','Início - AdvoPREV - FUNPREV BAURU')" class="active"><a href='inicio.php'><span>Página Inicial</span></a></li>
                     <li onclick="carregar('selecionar.php', 'Pessoas - AdvoPREV - FUNPREV BAURU')"><a href='cadastroPessoas.php'><span>Cadastro de Pessoas</span></a></li>
-                    <li onclick="carregar('indices.php', 'Assuntos - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Índices</span></a></li>
+                    <li onclick="carregar('indices.php', 'Indices - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Índices</span></a></li>
+                    <li onclick="carregar('varas.php', 'Varas - AdvoPREV - FUNPREV BAURU')"><a href='varas.php'><span>Varas</span></a></li>
                     <li onclick="carregar('processos.php', 'Processos - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Processos</span></a>
                   </li>
                 </ul>
             </div>
 
         </div>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <!-- para colocar a classe active nas li da lista -->
         <script>
             $('ul.trap > li').click(function (e) {

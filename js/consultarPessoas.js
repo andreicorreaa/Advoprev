@@ -3,12 +3,17 @@ $(document).ready(function(){
 
 	$("#btn_pesquisa").click(function(){
 		pesquisaPessoa($("#soflow"), $("#campo"));
-	})
+	});
 
 	$("#campo").keypress(function handleEnter(e, func) {
         if (e.keyCode == 13 || e.which == 13) {
             pesquisaPessoa($("#soflow"), $("#campo"));
         }
+    });
+
+    $("#btn_limpar").click(function(){
+    	//$("#soflow").option["0"]; //option[value="Janeiro"]').prop('selected', true);
+    	$("#campo").val("");
     });
 
 });
@@ -22,8 +27,10 @@ function pesquisaPessoa(tipo, campo){
 	}else if(tipo.val() == "pesNome"){
 		$.post("control/consultarControl.php?action=pesNome", {nome: campo.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
+				
 				if(retorno2){
 					$("#tb1 tbody").html(retorno2);
+
 				}else{
 					$("#tb1 tbody").html("<td align=\"center\" colspan=\"4\">Usuário não encontrado</td>");
 				}

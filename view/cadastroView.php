@@ -23,6 +23,14 @@
 			}
 		}
 
+		static function respostaCadastroProcesso($processo, $partes, $indices){
+			if($processo){
+				echo true;
+			}else{
+				echo false;
+			}
+		}
+
 	}
 
 ?>

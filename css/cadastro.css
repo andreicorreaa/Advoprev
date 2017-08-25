@@ -142,3 +142,7 @@ input[type=date], select {
     height: 20px;
     background-color: transparent;
 }
+
+#partes{
+    display: none;
+}
