@@ -5,23 +5,31 @@
     $acao = $_REQUEST["action"];
 
     switch ($acao) {
-    	case 'excluiPessoa':
+    	case 'excluiPessoa'    :
 			$param = $_POST['id'];
         	$a = Servico::excluiPessoa($param);
         	return exclusaoView::respostaExclusao($a);   	
     		break;
-    	case 'excluiIndice':
+    	case 'excluiIndice'    :
     		$param = $_POST['id'];
         	$a = Servico::excluiIndice($param);
         	return exclusaoView::respostaExclusao($a);
-    		break;
-    	
-        case 'excluiVara':
+    		break;  	
+        case 'excluiVara'      :
             $param = $_POST['id'];
             $a = Servico::excluiVara($param);
             return exclusaoView::respostaExclusao($a);
             break;
-
+        case 'excluiProcesso'  :
+            $param = $_POST['id'];
+            $a = Servico::excluiProcesso($param);
+            return exclusaoView::respostaExclusao($a);
+            break;
+        case 'excluiParte'     :
+            $param = $_POST['id'];
+            $a = Servico::excluiParte($param);
+            return exclusaoView::respostaExclusao($a);
+            break;
     	default:
     		# code...
     		break;

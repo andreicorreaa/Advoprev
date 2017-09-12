@@ -15,6 +15,8 @@
             <div id="selecionar">
                 <button type="button" name="btn_processo1" id="btn_processo1">Consultar</button>
                 <button type="button" name="btn_processo2" id="btn_processo2">Cadastrar</button>
+                <button type="button" name="btn_processo3" id="btn_processo3">Partes</button>
+                <button type="button" name="btn_processo4" id="btn_processo4">Andamentos</button>
             </div>
             <div id="container1">
 

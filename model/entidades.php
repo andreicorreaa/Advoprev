@@ -88,7 +88,6 @@
         }      
     }
 
-
     class Pessoas{ // ENCAPSULAMENTO PESSOAS
         private $pessoas_id;
         private $usuarios_id;
@@ -334,5 +333,112 @@
         public function getIndice_del(){
             return $this->indice_del;
         }
+    }
+
+    class Andamentos{
+        private $andamentos_id;
+        private $processos_id;
+        private $andamentos_tipo;
+        private $andamentos_com;
+        private $andamentos_data;
+        private $andamentos_del;
+        private $arquivos = null;
+
+        public function setAndamentos_id($value){
+            $this->andamentos_id = $value;
+        }
+        public function getAndamentos_id(){
+            return $this->andamentos_id;
+        }
+        public function setProcessos_id($value){
+            $this->processos_id = $value;
+        }
+        public function getProcessos_id(){
+            return $this->processos_id;
+        }
+        public function setAndamentos_tipo($value){
+            $this->andamentos_tipo = $value;
+        }
+        public function getAndamentos_tipo(){
+            return $this->andamentos_tipo;
+        }
+        public function setAndamentos_com($value){
+            $this->andamentos_com = $value;
+        }
+        public function getAndamentos_com(){
+            return $this->andamentos_com;
+        }
+        public function setAndamentos_data($value){
+            $this->andamentos_data = $value;
+        }
+        public function getAndamentos_data(){
+            return $this->andamentos_data;
+        }
+        public function setAndamentos_del($value){
+            $this->andamentos_del = $value;
+        }
+        public function getAndamentos_del(){
+            return $this->andamentos_del;
+        }
+        public function setArquivos($value){
+            $this->arquivos = $value;
+        }
+        public function getArquivos(){
+            return $this->arquivos;
+        }
+    }
+
+    class Arquivos{
+        private $arquivos_id;
+        private $andamentos_id;
+        private $arquivos_nome;
+        private $arquivos_tipo;
+        private $arquivos_tamanho;
+        private $arquivos_arq;
+        private $arquivos_del;
+
+        public function setArquivos_id($value){
+            $this->arquivos_id = $value;
+        }
+        public function getArquivos_id(){
+            return $this->arquivos_id;
+        }
+        public function setAndamentos_id($value){
+            $this->andamentos_id = $value;
+        }
+        public function getAndamentos_id(){
+            return $this->andamentos_id;
+        }
+        public function setArquivos_nome($value){
+            $this->arquivos_nome = $value;
+        }
+        public function getArquivos_nome(){
+            return $this->arquivos_nome;
+        }
+        public function setArquivos_tipo($value){
+            $this->arquivos_tipo = $value;
+        }
+        public function getArquivos_tipo(){
+            return $this->arquivos_tipo;
+        }
+        public function setArquivos_tamanho($value){
+            $this->arquivos_tamanho = $value;
+        }
+        public function getArquivos_tamanho(){
+            return $this->arquivos_tamanho;
+        }
+        public function setArquivos_arq($value){
+            $this->arquivos_arq = $value;
+        }
+        public function getArquivos_arq(){
+            return $this->arquivos_arq;
+        }
+        public function setArquivos_del($value){
+            $this->arquivos_del = $value;
+        }
+        public function getArquivos_del(){
+            return $this->arquivos_del;
+        }
+
     }
 ?>

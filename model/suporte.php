@@ -39,10 +39,9 @@
             catch(PDOExeption $e){
                 echo "NÃ£o foi possivel conectar a base de dados. Erro: <br>".$e->getMessage();        
             }
-            
         }
 		
-		static function executar($sql){		//QUERY SEM RETORNO
+		static function executar($sql){		                  //QUERY SEM RETORNO
             Database::conecta();        //FAZ A CONEXÃƒO
 			try{
                 //CHAMA O OBJETO $pdo, QUE EXECUTA O sql PASSADO POR PARÃ‚METRO DENTRO DA FUNÃ‡ÃƒO
@@ -55,7 +54,7 @@
 			}
 		}
 		
-		static function executarParam($sql, $param){		//EXECUTA QUERYs COM PARÃ‚METROS, SEM RETORNO
+		static function executarParam($sql, $param){		  //EXECUTA QUERYs COM PARÃ‚METROS, SEM RETORNO
             Database::conecta();        //FAZ A CONEXÃƒO
             $i = 1;         //INDÃCE PARA INDICAR OS PARÃ‚METROS
             try{
@@ -80,7 +79,7 @@
             }
 		}
 		
-		static function selecionarParam($sql, $param){		//SELECIONAR REGISTROS, RETORNA ARRAY
+		static function selecionarParam($sql, $param){		  //SELECIONAR REGISTROS, RETORNA ARRAY
             Database::conecta();        //FAZ A CONEXÃƒO
 			$i = 1;         //INDÃCE PARA INDICAR OS PARÃ‚METROS
             try{
@@ -107,10 +106,9 @@
             if($query){
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
-            
 		}
 		
-		static function selecionar($sql){		//SELECIONAR REGISTROS, RETORNA ARRAY
+		static function selecionar($sql){		              //SELECIONAR REGISTROS, RETORNA ARRAY
             Database::conecta();        //FAZ A CONEXÃƒO
             try{
                 //EXECUTA A QUERY DIRETAMENTE
@@ -127,7 +125,7 @@
             }
 		}
 
-        static function retornaParam($sql, $param){      //SELECIONAR REGISTROS, RETORNA ARRAY
+        static function retornaParam($sql, $param){           //SELECIONAR REGISTROS, RETORNA ARRAY
             Database::conecta();        //FAZ A CONEXÃƒO
             try{
                 //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
@@ -151,10 +149,9 @@
             if($query){
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
-            
         }
 
-        static function validarParam($sql, $param){        //EXECUTA QUERYs COM PARÃ‚METROS, para validacao de campos
+        static function validarParam($sql, $param){           //EXECUTA QUERYs COM PARÃ‚METROS, para validacao de campos
             Database::conecta();        //FAZ A CONEXÃƒO
             
             try{
@@ -172,6 +169,30 @@
 
                 //retornando numero de linhas
                 return $count = $stmt->rowCount();
+            }
+            //TRATAMENTO DE ERROS
+            catch(PDOException $e){
+                die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
+            }
+        }
+
+        static function cadastraArquivo($sql, $param){
+            Database::conecta();        //FAZ A CONEXÃƒO
+            try{
+                //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
+                //EVITANDO SQL INJECTION
+                $stmt = Database::$pdo->prepare($sql);
+                
+                //PERCORRE O ARRAY COM OS PARÃ‚METROS. CADA "?" NA SQL CORRESPONDE A UM DELES
+                //O bindValue() FIXA O PARÃ‚METRO. QUANDO SE USA "?" NA QUERY Ã‰ 
+                //PRECISO USAR UM NÃšMERO INTEIRO PARA REPRESENTAR CADA PARÃ‚METRO NO bindValue()
+                //POR ISSO O CONTADOR  $i++
+                $stmt->bindValue(1, $param[0], PDO::PARAM_STR);
+                $stmt->bindValue(2, $param[1], PDO::PARAM_STR);
+                $stmt->bindValue(3, $param[2], PDO::PARAM_STR);
+                $stmt->bindValue(4, $param[3], PDO::PARAM_LOB);
+                //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
+                return $stmt->Execute();
             }
             //TRATAMENTO DE ERROS
             catch(PDOException $e){

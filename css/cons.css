@@ -94,3 +94,6 @@ table#tb1{
   margin-left: 10%;
   height: inherit;
 }
+
+table.fixo { table-layout:fixed; }
+table.fixo td { overflow: hidden; }

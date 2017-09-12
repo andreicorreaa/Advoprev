@@ -9,7 +9,6 @@
 	<link href="css/cons.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/consultarProcessos.js"></script>
 	<link href="modal/modalP.css" rel="stylesheet" type="text/css" />
-	<link href="css/consultarProcessos.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<h1>Consultar Processos</h1>
@@ -26,13 +25,13 @@
 					</select>
 				</td>
 				<td id="Numero">
-					<input type="text" name="proc_numero" class="text" id="proc_numero" placeholder="Digite o número do processo" size="60" required/>
+					<input type="text" name="proc_numero" onclick="javascript: atualizar();" class="text" id="proc_numero" placeholder="Digite o número do processo" size="60" required/>
 				</td>
 				<td style="display: none;" id="Ordem">
-					<input type="text" name="proc_ordem" id="proc_ordem" class="text" placeholder="Digite o número do processo" size="60" required/>
+					<input type="text" name="proc_ordem" id="proc_ordem" onclick="javascript: atualizar();" class="text" placeholder="Digite o número do processo" size="60" required/>
 				</td>
 				<td style="display: none;" id="Vara">
-                    <select id="soflow" class="comb" name="proc_vara">
+                    <select id="soflow" class="comb" name="proc_vara" onclick="javascript: atualizar();">
                         <option selected="true"></option>
                         <?php if(count($varas) > 0){
                                 foreach($varas as $vara){ ?>
@@ -44,7 +43,7 @@
                     </select>
                 </td>
                 <td style="display: none;" id="Indice">
-                    <select id="soflow" class="comb" name="proc_indice">
+                    <select id="soflow" class="comb" name="proc_indice" onclick="javascript: atualizar();">
                         <option></option>
                 <?php   if(count($indices) > 0){
                             foreach($indices as $indice){ ?>
@@ -56,7 +55,7 @@
                     </select>
                 </td>
                 <td style="display: none;" id="Parte">
-                    <select id="soflow" class="comb" name="proc_parte">
+                    <select id="soflow" class="comb" name="proc_parte" onclick="javascript: atualizar();">
                         <option></option>
                 <?php   if(count($pessoas) > 0){
                             foreach($pessoas as $pessoa){ ?>
@@ -75,7 +74,7 @@
 	<div id="mostra">
 		<div style="overflow-x:auto;">
 			<table id="tb1" class="fixo">
-				<caption>Pessoas</caption>
+				<caption>Processos</caption>
 					<thead>
 						<th width="9%">Nº Processo</th>
 						<th width="9%">Nº Ordem</th>

@@ -1,4 +1,4 @@
-<!-- ----------------------------------- DESENVOLVIDO POR EMERSON ANDREI  23232----------------------------------- -->
+<!-- ----------------------------------- DESENVOLVIDO POR EMERSON ANDREI ----------------------------------- -->
 <?php
     session_start();
         if(isset($_SESSION['login'])){ //checa se existe uma session iniciada
