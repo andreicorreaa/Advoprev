@@ -200,5 +200,30 @@
             }
         }
 
+        static function alterarArquivo($sql, $param){
+            Database::conecta();        //FAZ A CONEXÃƒO
+            try{
+                //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
+                //EVITANDO SQL INJECTION
+                $stmt = Database::$pdo->prepare($sql);
+                
+                //PERCORRE O ARRAY COM OS PARÃ‚METROS. CADA "?" NA SQL CORRESPONDE A UM DELES
+                //O bindValue() FIXA O PARÃ‚METRO. QUANDO SE USA "?" NA QUERY Ã‰ 
+                //PRECISO USAR UM NÃšMERO INTEIRO PARA REPRESENTAR CADA PARÃ‚METRO NO bindValue()
+                //POR ISSO O CONTADOR  $i++
+                $stmt->bindValue(1, $param[0], PDO::PARAM_STR);
+                $stmt->bindValue(2, $param[1], PDO::PARAM_STR);
+                $stmt->bindValue(3, $param[2], PDO::PARAM_STR);
+                $stmt->bindValue(4, $param[3], PDO::PARAM_STR);
+                $stmt->bindValue(5, $param[4], PDO::PARAM_LOB);
+                //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
+                return $stmt->Execute();
+            }
+            //TRATAMENTO DE ERROS
+            catch(PDOException $e){
+                die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
+            }
+        }
+
 	}
 ?>

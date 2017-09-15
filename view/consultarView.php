@@ -14,7 +14,9 @@
 						</div>
 
 						<div class="mostraAndamento" id="mostraAndamento<?php echo $andamentos[$i]->getAndamentos_id(); ?>" style="display: none;">
-							<form id="alteraAndamento">
+							<form id="alterarAndamento" method="post" enctype="multipart/form-data">
+								<input type="hidden" id="andamentos_id" name="andamentos_id" value="<?php echo $andamentos[$i]->getAndamentos_id(); ?>">
+								<input type="hidden" id="processos_id" name="processos_id" value="<?php echo $andamentos[$i]->getProcessos_id(); ?>">
 								<table width="100%">
 									<tr>
 										<td width="60%"><p style="color: black;font-size: 16px;margim:0px;">Situação/Tipo do andamento*:</p></td>
@@ -22,40 +24,68 @@
 											<p style="color: black;font-size: 16px;margim:0px;">
 												Data*: 
 												<span style="float: right;">
-													<a href="#" onclick="javascript: alteraAndamento(<?php echo $andamentos[$i]->getAndamentos_id(); ?>);"><img src="assets/change.png" width="20px" height="20px"></a>
+													<a href="#" id="a-alterar" onclick="javascript: alteraAndamento(<?php echo $andamentos[$i]->getAndamentos_id(); ?>);"><img src="assets/change.png" width="20px" height="20px"></a>
 												</span>
 											</p>
 										</td>
 									</tr>
 									<tr>
-										<td width="40%"><input type="text" id="tipo_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" class="text" value="<?php echo $andamentos[$i]->getAndamentos_tipo(); ?>" disabled require/></td>
-										<td><input type="date" id="data_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" value="<?php echo $andamentos[$i]->getAndamentos_data();?>" min="1900-01-01" max="2050-02-18" disabled required/></td>
+										<td width="40%"><input type="text" id="tipo_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_tipo" class="text" value="<?php echo $andamentos[$i]->getAndamentos_tipo(); ?>" disabled require/></td>
+										
+
+										<td><input type="date" id="data_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_data" value="<?php echo $andamentos[$i]->getAndamentos_data();?>" min="1900-01-01" max="2050-02-18" disabled required/></td>
 									</tr>
 									<tr>
 										<td width="70%"><p style="color: black;font-size: 16px;margim:0px;">Comentários*:</p></td>
 										<td width="30%"><p style="color: black;font-size: 16px;margim:0px;">Arquivos*:</p></td>
 									</tr>
 									<tr>
-										<td><textarea id="com_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" style="width: 98%;" rows="16" disabled required><?php echo $andamentos[$i]->getAndamentos_com(); ?></textarea></td>
+										<td><textarea id="com_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" style="width: 98%;" name="and_com" rows="16" disabled required><?php echo $andamentos[$i]->getAndamentos_com(); ?></textarea></td>
 										<td id="arquivos_alt">
+											<table border="0px" width="100%">
 											<?php 
 													$arquivos = $andamentos[$i]->getArquivos();
 													if($arquivos){
 														foreach($arquivos as $arquivo){ ?>
-															<div id="btnLisAnd">
-																<a class="btnLisAnd" style="text-decoration:none;" target="_blank" href="control/lerArquivos.php?id=<?php echo $arquivo->getArquivos_id(); ?>"><?php echo $arquivo->getArquivos_nome(); ?></a>
-															</div>
-											<?php		} 
-													}else{ ?>
-														<p>Não existem arquivos a serem exibidos</p>
+															<tr>
+																<td>
+																<div id="btnLisAnd">
+																	<input type="hidden" class="arquivos_id" name="arquivos_id[]" value="<?php echo $arquivo->getArquivos_id(); ?>">
+																	<a class="btnLisAnd" style="text-decoration:none;" target="_blank" href="control/lerArquivos.php?id=<?php echo $arquivo->getArquivos_id(); ?>"><?php echo $arquivo->getArquivos_nome(); ?></a>
+																	<a onclick="deleteRow1(this)" style="display: none;" class="removeline" href="#a"><img src="assets/remove.png" width="10px" height="10px"></a>
+																</div>
+																</td>
+															</tr>
+											<?php		} ?>
+														<tr id="linha-file" style="display: none">
+														</tr>
+														<tr>
+															<td style="width: 100%;">
+																<button type="button" style="float: center;width: 100%;display: none;" name="btn_adicionarArquivo" id="btn_adicionarArquivo" onclick="javascript: adicionaArquivo(<?php echo $andamentos[$i]->getAndamentos_id();?>);">Adicionar</button>
+															</td>
+														</tr>
+											<?php	}else{ ?>
+														<tr>
+															<td><p>Não existem arquivos a serem exibidos</p></td>
+														</tr>
+														<tr id="linha-file" style="display: none">
+														</tr>
+														<tr>
+															<td style="width: 100%;">
+																<button type="button" style="float: center;width: 100%;display: none;" name="btn_adicionarArquivo" id="btn_adicionarArquivo" onclick="javascript: adicionaArquivo(<?php echo $andamentos[$i]->getAndamentos_id();?>);">Adicionar</button>
+															</td>
+														</tr>
 											<?php	}	?>
+											</table>
 										</td>
 									</tr>
 								</table>
+							
+								<center>
+									<button type="button" style="margin-top: 5px" name="btn_abrirAndamento" id="btn_abrirAndamento" onclick="javascript: abrirCadastro();">Cadastrar Andamento</button>
+									<button type="button" onclick="javascript: alterarAnd(<?php echo $andamentos[$i]->getAndamentos_id();?>)" style="margin-top: 5px;display: none;" name="btn_alterarAndamento" id="btn_alterarAndamento">Salvar Andamento</button>
+								</center>
 							</form>
-							<center>
-								<button type="button" style="margin-top: 5px" name="btn_abrirAndamento" id="btn_abrirAndamento" onclick="javascript: abrirCadastro();">Cadastrar Andamento</button>
-							</center>
 						</div>
 
 					<?php } ?>

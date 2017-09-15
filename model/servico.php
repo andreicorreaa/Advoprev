@@ -926,5 +926,56 @@
                 echo $e;
             }
         }
+
+        static function alterarAndamentos($param){
+            $sql = "UPDATE andamentos SET andamentos_tipo = ?, andamentos_com = ?, andamentos_data = ? WHERE andamentos_id = ?;";
+            try{
+                $andamento = Servico::objAndamentos($param);
+                $and_param = array($andamento->getAndamentos_tipo(),
+                                    $andamento->getAndamentos_com(),
+                                    $andamento->getAndamentos_data(),
+                                    $andamento->getAndamentos_id());
+                return $query = Database::executarParam($sql, $and_param);
+            }catch(Exception $e){
+                echo $e;
+            }
+        }
+
+        static function alterarArquivos($param, $ids){
+            $sql = "INSERT INTO `arquivos` (andamentos_id, `arquivos_nome`, `arquivos_tipo`, `arquivos_tamanho`, `arquivos_arq`, `arquivos_del`) VALUES (?, ?, ?, ?, ?, 'N')";
+            $arquivos = Servico::objArquivos($param);
+            $arquivo = array($arquivos->getAndamentos_id(),
+                             $arquivos->getArquivos_nome(),
+                             $arquivos->getArquivos_tipo(),
+                             $arquivos->getArquivos_tamanho(),
+                             $arquivos->getArquivos_arq());
+            try{
+                $query = Database::alterarArquivo($sql, $arquivo);
+                if($query){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                echo $e;
+            }
+        }
+
+        static function excluirArquivos($andamentos_id, $ids){
+            try{
+                $sqlDelete = "DELETE FROM arquivos WHERE andamentos_id = ? ";
+                if(isset($ids)){
+                    foreach($ids as $id){
+                        $sqlDelete .= " AND arquivos_id != ? ";
+                    }
+                    array_unshift($ids, $andamentos_id);
+                    return $query = Database::executarParam($sqlDelete, $ids);
+                }else{
+                    return $query = Database::validarParam($sqlDelete, $andamentos_id);
+                }
+            }catch(Exception $e){
+                echo $e;
+            }
+        }
     }
 ?>
