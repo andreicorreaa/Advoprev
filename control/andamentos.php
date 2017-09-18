@@ -51,12 +51,12 @@
 		switch ($acao) {
 			case 'alterar':
 				$param = array(
-					"andamentos_id" 	=> $andamentos_id,
-					"processos_id"  	=> $processos_id,
-					"andamentos_tipo"	=> $and_tipo,
-					"andamentos_com"	=> $and_com,
-					"andamentos_data"	=> $and_data,
-					"andamentos_del" 	=> 'N'
+					"andamentos_id" 		=> $andamentos_id,
+					"processos_id"  		=> $processos_id,
+					"tipos_andamento_id"	=> $and_tipo,
+					"andamentos_com"		=> $and_com,
+					"andamentos_data"		=> $and_data,
+					"andamentos_del" 		=> 'N'
 				);
 
 				$a = Servico::alterarAndamentos($param);
@@ -105,12 +105,12 @@
 			
 			case 'cadastrar':
 				$param = array(
-					"andamentos_id" 	=> null,
-					"processos_id"  	=> $processos_id,
-					"andamentos_tipo"	=> $and_tipo,
-					"andamentos_com"	=> $and_com,
-					"andamentos_data"	=> $and_data,
-					"andamentos_del" 	=> 'N'
+					"andamentos_id" 		=> null,
+					"processos_id"  		=> $processos_id,
+					"tipos_andamento_id"	=> $and_tipo,
+					"andamentos_com"		=> $and_com,
+					"andamentos_data"		=> $and_data,
+					"andamentos_del" 		=> 'N'
 				);
 				$a = Servico::cadastrarAndamentos($param);
 				if($a){

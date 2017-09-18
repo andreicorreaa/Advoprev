@@ -1,6 +1,7 @@
 <?php
     require_once("model/servico.php");
     $Processos = Servico::SelecionarProcessos();
+    $tipos_andamento = Servico::SelecionarTipos_andamento();
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,15 @@
                         <tr>
                             <td width="15%"><span>Situação/Tipo do andamento*:</span></td>
                             <td>
-                                <input type="text" maxlength="45" class="text" id="and_tipo" name="and_tipo" placeholder="Digite a situação ou o tipo do andamento" size="45" required="true">
+                                <select id="and_tipo" name="and_tipo">
+                                    <option value="" selected="true"> </option>
+<?php                                   foreach ($tipos_andamento as $tipo_andamento){
+?>                                          <option value="<?php echo $tipo_andamento->getTipos_andamento_id(); ?>">
+                                                <?php echo $tipo_andamento->getTipos_andamento_desc(); ?>
+                                            </option>
+<?php                                   }
+?>
+                                </select>
                             </td>
                         </tr>
                             <td><span>Comentários*:</span></td>

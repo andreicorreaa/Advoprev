@@ -79,7 +79,6 @@ function procuraProcesso(value){
 function alterarAnd(value){
 	var formElement = document.querySelector("#alterarAndamentoClone");
 	var formData = new FormData(formElement);
-	console.log(formData);
 
 	$.ajax({
         url: "control/andamentos.php?action=alterar",

@@ -20,8 +20,6 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 	var juiz = juiz.val();
 	var valor = valor.val();
 	var senha = senha.val();
-
-	console.log(valor);
 	
 	//DADOS DE INDICES
 	var indices = document.getElementsByName('proc_indices');
@@ -90,7 +88,6 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 		$("#proc_senha").focus();
 		return;
 	}else{
-		console.log(valor);
 		$.post("control/cadastroControl.php?action=cadastroProcesso", {numero: numero, acao: acao, ordem: ordem,
 		vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha, nome: e, desc: p, indices: indi},
 			function(retorno){ //resultado da control	
@@ -103,7 +100,6 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 					$("#container1").html('');
 					$("#container1").load('cadastroProcessos.php');
 				}
-				console.log(retorno);
 			} //function(retorno);
 		); //$.post()
 		return;		

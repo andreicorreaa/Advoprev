@@ -338,7 +338,7 @@
     class Andamentos{
         private $andamentos_id;
         private $processos_id;
-        private $andamentos_tipo;
+        private $tipos_andamento_id;
         private $andamentos_com;
         private $andamentos_data;
         private $andamentos_del;
@@ -356,11 +356,11 @@
         public function getProcessos_id(){
             return $this->processos_id;
         }
-        public function setAndamentos_tipo($value){
-            $this->andamentos_tipo = $value;
+        public function setTipos_andamento_id($value){
+            $this->tipos_andamento_id = $value;
         }
-        public function getAndamentos_tipo(){
-            return $this->andamentos_tipo;
+        public function getTipos_andamento_id(){
+            return $this->tipos_andamento_id;
         }
         public function setAndamentos_com($value){
             $this->andamentos_com = $value;
@@ -440,5 +440,30 @@
             return $this->arquivos_del;
         }
 
+    }
+    
+    class Tipos_andamento{
+        private $tipos_andamento_id;
+        private $tipos_andamento_desc;
+        private $tipos_andamento_del;
+
+        public function setTipos_andamento_id($value){
+            $this->tipos_andamento_id = $value;
+        }
+        public function getTipos_andamento_id(){
+            return $this->tipos_andamento_id;
+        }
+        public function setTipos_andamento_desc($value){
+            $this->tipos_andamento_desc = $value;
+        }
+        public function getTipos_andamento_desc(){
+            return $this->tipos_andamento_desc;
+        }
+        public function setTipos_andamento_del($value){
+            $this->tipos_andamento_del = $value;
+        }
+        public function getTipos_andamento_del(){
+            return $this->tipos_andamento_del;
+        }
     }
 ?>

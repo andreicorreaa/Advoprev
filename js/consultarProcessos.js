@@ -101,7 +101,6 @@ function pesquisaProcesso(value, opcao){
 		status = true;
 		$.post("control/consultarControl.php?action=pesProcesso", {campo: value, tipo: opcao},
 			function(retorno){ //resultado da control
-				console.log(retorno);
 				if(retorno){
 					$("#tb1 tbody").html(retorno);
 

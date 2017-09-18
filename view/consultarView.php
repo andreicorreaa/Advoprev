@@ -4,12 +4,21 @@
 	class consultarView{ //classe View da pagina login
 		static function respostaAndamento($andamentos, $id){
 			if($andamentos != null){
+				$tipos_andamento = Servico::SelecionarTipos_andamento();
 ?>
 				<div id="consultaAndamento">
 					<div id="andLateral">
 					<?php for($i=0;$i<count($andamentos);$i++){ //barra lateral?>
 						<div id="btnLisAnd">
-							<a class="btnLisAnd" style="text-decoration:none;" href="#" onclick="javascript: mostraAndamento(<?php echo $andamentos[$i]->getAndamentos_id(); ?>);"><?php echo $andamentos[$i]->getAndamentos_tipo(); ?></a>
+							<a class="btnLisAnd" style="text-decoration:none;" href="#" onclick="javascript: mostraAndamento(<?php echo $andamentos[$i]->getAndamentos_id(); ?>);">
+								<?php 
+									foreach ($tipos_andamento as $t_a) {
+										if($t_a->getTipos_andamento_id() == $andamentos[$i]->getTipos_andamento_id()){
+											echo $t_a->getTipos_andamento_desc();
+										}
+									}
+								 ?>
+							</a>
 							<p style="font-size: 12px;margin-top: 4px;color:black"><i>Data: <?php echo date('d/m/Y',strtotime($andamentos[$i]->getAndamentos_data())); ?></i></p>
 						</div>
 
@@ -30,9 +39,24 @@
 										</td>
 									</tr>
 									<tr>
-										<td width="40%"><input type="text" id="tipo_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_tipo" class="text" value="<?php echo $andamentos[$i]->getAndamentos_tipo(); ?>" disabled require/></td>
-										
-
+										<td>
+                                			<select id="tipo_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_tipo" disabled>
+                                    			<option value="" selected="true"> </option>
+<?php                                   			foreach ($tipos_andamento as $tipo_andamento){
+														if($tipo_andamento->getTipos_andamento_id() == $andamentos[$i]->getTipos_andamento_id()){
+?>															<option value="<?php echo $tipo_andamento->getTipos_andamento_id() ?>" selected="true">
+																<?php echo $tipo_andamento->getTipos_andamento_desc() ?>
+															</option>
+<?php													}else{
+?>                                          	
+															<option value="<?php echo $tipo_andamento->getTipos_andamento_id(); ?>">
+			                                                	<?php echo $tipo_andamento->getTipos_andamento_desc(); ?>
+			                                            	</option>
+<?php                                   				}
+													}
+?>
+                                			</select>
+                            			</td>
 										<td><input type="date" id="data_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_data" value="<?php echo $andamentos[$i]->getAndamentos_data();?>" min="1900-01-01" max="2050-02-18" disabled required/></td>
 									</tr>
 									<tr>

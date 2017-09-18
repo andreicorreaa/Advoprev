@@ -97,7 +97,7 @@
             $andamento = new Andamentos();
             $andamento->setAndamentos_id($and["andamentos_id"]);
             $andamento->setProcessos_id($and["processos_id"]);
-            $andamento->setAndamentos_tipo($and["andamentos_tipo"]);
+            $andamento->setTipos_andamento_id($and["tipos_andamento_id"]);
             $andamento->setAndamentos_com($and["andamentos_com"]);
             $andamento->setAndamentos_data($and["andamentos_data"]);
             $andamento->setAndamentos_del($and["andamentos_del"]);
@@ -126,6 +126,15 @@
             $arquivo->setArquivos_del($arq["arquivos_del"]);
             
             return $arquivo;
+        }
+
+        static function objTipos_andamentos($tipo){
+            $tipos_andamento = new Tipos_andamento();
+            $tipos_andamento->setTipos_andamento_id($tipo["tipos_andamento_id"]);
+            $tipos_andamento->setTipos_andamento_desc($tipo["tipos_andamento_desc"]);
+            $tipos_andamento->setTipos_andamento_del($tipo["tipos_andamento_del"]);
+
+            return $tipos_andamento;
         }
 //------------------------- FUNÇÕES LOGIN -----------------------------------------------------
 
@@ -871,13 +880,13 @@
             }
 
         }
-// ------------------------ FUNÇÕES ANDAMENTOS -----------------------------------------------
+// ------------------------ FUNÇÕES ANDAMENTOS ------------------------------------------------
         static function cadastrarAndamentos($param){
-            $sql = "INSERT INTO `andamentos` (`processos_id`, `andamentos_tipo`, `andamentos_com`, `andamentos_data`, `andamentos_del`) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `andamentos` (`processos_id`, `tipos_andamento_id`, `andamentos_com`, `andamentos_data`, `andamentos_del`) VALUES (?, ?, ?, ?, ?)";
             $andamentos = Servico::objAndamentos($param);
             $andamento = array(
                 $andamentos->getProcessos_id(),
-                $andamentos->getAndamentos_tipo(),
+                $andamentos->getTipos_andamento_id(),
                 $andamentos->getAndamentos_com(),
                 $andamentos->getAndamentos_data(),
                 $andamentos->getAndamentos_del()
@@ -928,10 +937,10 @@
         }
 
         static function alterarAndamentos($param){
-            $sql = "UPDATE andamentos SET andamentos_tipo = ?, andamentos_com = ?, andamentos_data = ? WHERE andamentos_id = ?;";
+            $sql = "UPDATE andamentos SET tipos_andamento_id = ?, andamentos_com = ?, andamentos_data = ? WHERE andamentos_id = ?;";
             try{
                 $andamento = Servico::objAndamentos($param);
-                $and_param = array($andamento->getAndamentos_tipo(),
+                $and_param = array($andamento->getTipos_andamento_id(),
                                     $andamento->getAndamentos_com(),
                                     $andamento->getAndamentos_data(),
                                     $andamento->getAndamentos_id());
@@ -975,6 +984,21 @@
                 }
             }catch(Exception $e){
                 echo $e;
+            }
+        }
+// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------------
+        static function SelecionarTipos_andamento(){
+            $sql = "SELECT * FROM tipos_andamento";
+            try{
+                $query = Database::selecionar($sql);
+                if($query){
+                    for($i=0;$i<count($query);$i++){
+                        $tipos_andamento[$i] =  Servico::objTipos_andamentos($query[$i]);
+                    }
+                    return $tipos_andamento;
+                }
+            }catch(Exception $e){
+                die($e);
             }
         }
     }
