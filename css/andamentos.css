@@ -1,0 +1,92 @@
+#buscarP{
+	width: 90%;
+	height: 20%;
+	margin: 5%;
+}
+
+#andamento{
+	width: 90%;
+	height: 110%;
+	margin: 5%;
+}
+
+#textarea{
+	width: 99%;	
+}
+
+#cadAndamento{
+	width: 90%;
+	height: 40%;
+	margin: 5%;
+}
+
+#containerAndamento{
+	width: 100%;
+	height: 115%;
+
+	border:1px solid black;
+}
+
+#consultaAndamento{
+	width:  100%;
+	height: 115%;
+	/*border:1px solid black;*/
+}
+
+#andLateral{
+	width: 20%;
+	height: 100%;
+	/*border:1px solid black;*/
+	overflow: auto;
+	background-color: #333;
+	float: left;
+}
+
+#btnLisAnd{
+	width: 100%;
+	height: 10%;
+	border-bottom: 1px solid white;
+	background-color: #2196F3;
+	font-family: arial;
+	font-size: 14px;
+	text-align: left;
+	padding-top: 2px;
+	color: white;
+	float: left;
+}
+
+a.btnLisAnd:link{
+	color:white;
+}
+a.btnLisAnd:visited{
+	color:white;
+}
+a.btnLisAnd:hover{
+	color:black;
+}
+
+a.btnLisAnd:active{
+	color:none;
+}
+
+#andLista{
+	background-color: #E0FFFF;
+	width: 80%;
+	height: 100%;
+	float: left;
+}
+
+.mostraAndamento{
+	width: 100%;
+	height: 111%;
+	overflow: auto;
+}
+
+#arquivos_alt{
+	border: 1px solid black;
+	background-color: #333;
+	text-align: left; 
+	color: white;
+	padding: 0px;
+	vertical-align: top;
+}

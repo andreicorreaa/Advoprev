@@ -1,4 +1,5 @@
 var comb;
+var status = false;
 $(document).ready(function(){
 	$("#btn_pesquisa").click(function(){
 		if(comb == "pesNProcesso"){
@@ -90,7 +91,6 @@ $(document).ready(function(){
     	indice[0].options['0'].selected = true;
 
     });
-
 	comb = document.getElementById("soflow").value;
 });
 
@@ -98,9 +98,9 @@ function pesquisaProcesso(value, opcao){
 	if(value == ""){
 		alert("Selecione ou escreva algum argumento para a pesquisa!");
 	}else{
+		status = true;
 		$.post("control/consultarControl.php?action=pesProcesso", {campo: value, tipo: opcao},
 			function(retorno){ //resultado da control
-				//console.log(retorno);
 				if(retorno){
 					$("#tb1 tbody").html(retorno);
 
@@ -113,8 +113,11 @@ function pesquisaProcesso(value, opcao){
 	}
 }
 
-
-
+function atualizar(){
+	if(status == "true"){
+		$("#container1").load('consultarProcessos.php');
+	}
+}
 
 function mudaCampo(novo){
 	

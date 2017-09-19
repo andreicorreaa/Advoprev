@@ -70,6 +70,31 @@
                 $a = Servico::consultaProcessoIndice($param);
                 return consultarView::respostaProcesso($a);
             }
+            break;
+
+        case 'pesParte':
+            $opcao = $_POST['tipo'];
+            if($opcao == 1){
+                $param = "%".$_POST['campo']."%"; //PESQUISA POR NUMERO
+                $a = Servico::consultaParteNumero($param);
+                //return($a);
+                return consultarView::respostaParte($a);
+            }else if($opcao == 2){
+                $param = "%".$_POST['campo']."%"; //PESQUISA POR PARTE
+                $a = Servico::consultaParte($param);
+                return consultarView::respostaParte($a);
+            }else if($opcao == 3){
+                $param = $_POST['campo']; //PESQUISA POR USUARIO
+                $a = Servico::consultaPartePessoa($param);
+                return consultarView::respostaParte($a);
+            }            
+            break;
+
+        case 'pesProcessoA':
+            $param = $_POST['aux'];
+            $a = Servico::selecionaProcessoAndamento($param);
+            return consultarView::respostaAndamento($a, $param);
+            break;
 
         default:
             # code...

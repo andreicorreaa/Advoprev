@@ -32,57 +32,35 @@ $(document).ready(function(){
     });
 });
 
-function procurarNProcesso(value){
+function procurarNProcesso(value, id){
     $.post("control/cadastroControl.php?action=verNProcesso", {aux: value}, // envia variaveis por POST para a control cadastroControl
         function(retorno){ //retorno é o resultado que a control retorna
             if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
                 alert("Número de processo já cadastrado");
-                $("#proc_numero").val("");
-                $("#proc_numero").focus();
+                $("#proc_numero"+id).val("");
+                $("#proc_numero"+id).focus();
             }
             else{
                 return false;
             }
         }
     );
-}
-function procurarNOrdem(value){
+};
+
+function procurarNOrdem(value, id){
     $.post("control/cadastroControl.php?action=verNOrdem", {aux: value}, // envia variaveis por POST para a control cadastroControl
         function(retorno){ //retorno é o resultado que a control retorna
             if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
                 alert("Número de ordem já cadastrado");
-                $("#proc_ordem").val("");
-                $("#proc_ordem").focus();
+                $("#proc_ordem"+id).val("");
+                $("#proc_ordem"+id).focus();
             }
             else{
                 return false;
             }
         }
     );
-}
-
-function insereParte(){
-    var row = document.getElementById("linhas");
-    var table = document.getElementById("tb-proc");
-    var clone = row.cloneNode(true);
-    clone.id = "linhaClone";
-    clone.style.display = "table-row";
-    table.appendChild(clone);
-}
-
-function insereIndice(){
-    var row = document.getElementById("linhas1");
-    //var table = document.getElementById("tb-proc");
-    var clone = row.cloneNode(true);
-    clone.id = "linhaClone2";
-    clone.style.display = "table-row";
-    var row1 = document.getElementById("linhas-indice");
-    row1.parentNode.insertBefore(clone, row1);
-}
-
-function deleteRow(i){
-    document.getElementById('tb-proc').deleteRow(i)
-}
+};
 
 function somenteNum(e) {
     var tecla=(window.event)?event.keyCode:e.which;   
@@ -91,8 +69,7 @@ function somenteNum(e) {
         if (tecla==8 || tecla==0 || tecla==46) return true;
     else  return false;
     }
-}
-
+};
 //MASCARA DE VALOR
 function maskIt(w,e,m,r,a){
     // Cancela se o evento for Backspace
@@ -121,9 +98,145 @@ function maskIt(w,e,m,r,a){
 };
 
 function number_format( number, decimals, dec_point, thousands_sep ) {
-var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
-var d = dec_point == undefined ? "," : dec_point;
-var t = thousands_sep == undefined ? "." : thousands_sep, s = n < 0 ? "-" : "";
-var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-}
+    var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
+    var d = dec_point == undefined ? "," : dec_point;
+    var t = thousands_sep == undefined ? "." : thousands_sep, s = n < 0 ? "-" : "";
+    var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
+
+function alteraProcesso(value){
+    var str = value;
+    var numero = $("#proc_numero"+str).val();
+    var acao = $("#proc_acao"+str).val();
+    var ordem = $("#proc_ordem"+str).val();
+    var vara = $("#proc_vara"+str).val();
+    var data = $("#proc_data"+str).val();
+    var oficial = $("#proc_oficial"+str).val();
+    var juiz = $("#proc_juiz"+str).val();
+    var valor = $("#proc_valor"+str).val();
+    var senha = $("#proc_senha"+str).val();
+    console.log(numero, acao, ordem, vara, data, oficial, juiz, valor, senha);
+    if(numero == ""){
+        $("#proc_numero"+str).focus();
+        return;
+    }
+    else if(acao == ""){
+        $("#proc_acao"+str).focus();
+        return;
+    }else if(ordem == "") {
+        $("#proc_ordem"+str).focus();
+        return;
+    }else if(vara == ""){
+        $("#proc_vara"+str).focus();
+        return;
+    }else if(data == ""){
+        $("#proc_data"+str).focus();
+        return;
+    }else if(oficial == ""){
+        $("#proc_oficial"+str).focus();
+        return;
+    }else if(juiz == ""){
+        $("#proc_juiz"+str).focus();
+        return;
+    }else{
+        $.post("control/alterarControl.php?action=alteraProcesso", {id: str, numero: numero, acao: acao,
+        ordem: ordem, vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //resultado da control 
+                if(retorno == 1){
+                    alert("Alteracao efetuada com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarProcessos.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a alteção");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarProcessos.php');
+                }
+            } //function(retorno)
+        ); //$.post()
+    }
+};
+
+function excluiProcesso(value){
+    var str = value;
+    decisao = confirm("Confirmar exclusão?!");
+    if(decisao){
+        $.post("control/exclusaoControl.php?action=excluiProcesso", {id: str},
+            function(retorno){
+                //debugger
+                if(retorno == 1){
+                    alert("Processo excluído com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarProcessos.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarProcessos.php');
+                    
+                }
+            }
+        );
+    }else{
+        return;
+    }
+};
+
+function alteraParte(value){
+    var str = value;
+    var pessoa = $("#soflow"+str).val();
+    var parte = $("#parte_p"+str).val();
+
+    if(pessoa == "" || parte == ""){
+        alert("Digite corretamente os campos!");
+        return;
+    }else{
+        $.post("control/alterarControl.php?action=alteraParte", {pessoa: pessoa, parte: parte, id_proc: str}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //resultado da control 
+                if(retorno == 1){
+                    alert("Alteracao efetuada com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPartes.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a alteção");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPartes.php');
+                }
+            } //function(retorno)
+        ); //$.post()
+    }
+};
+
+function excluiParte(value){
+    var str = value;
+    decisao = confirm("Confirmar exclusão?!");
+    if(decisao){
+        $.post("control/exclusaoControl.php?action=excluiParte", {id: str},
+            function(retorno){
+                //debugger
+                if(retorno == 1){
+                    alert("Parte excluído com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPartes.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarPartes.php');
+                }
+            }
+        );
+    }else{
+        return;
+    }
+};

@@ -37,6 +37,36 @@
             return alteraView::respostaAlteracao($a);
             break;
 
+        case 'alteraProcesso':
+            $money = str_replace(".", "", $_POST['valor']);
+            $money1 = str_replace(",", ".", $money);
+            $param = array("processos_id"=>(int)$_POST['id'],
+                        "processos_num"=>(String)$_POST['numero'],
+                        "processos_acao"=>$_POST['acao'],
+                        "processos_ordem"=>$_POST['ordem'],
+                        "varas_id"=>$_POST['vara'],
+                        "processos_data"=>$_POST['data'],
+                        "processos_apencos"=>null,
+                        "processos_oficial"=>$_POST['oficial'],
+                        "processos_juiz"=>$_POST['juiz'],
+                        "processos_valor"=>$money1,
+                        "processos_senha"=>$_POST['senha'],
+                        "processos_del"=>null,
+                        );
+            $a = Servico::alterarProcesso($param);
+            return alteraView::respostaAlteracao($a);
+            break;
+
+        case 'alteraParte':
+            $param = array("partes_id"=>(int)$_POST['id_proc'],
+                        "processos_id"=>null,
+                        "pessoas_id"=>(int)$_POST['pessoa'],
+                        "partes_tipo"=>(String)$_POST['parte'],
+                        "partes_del"=>"N");
+            $a = Servico::alterarParte($param);
+            return alteraView::respostaAlteracao($a);
+            break;
+
     	default:
     		# code...
     		break;

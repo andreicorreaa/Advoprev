@@ -45,4 +45,14 @@ $(document).ready(function(){
 		$("#container1").html('');
 		$("#container1").load('cadastroProcessos.php');
 	});
+
+	$("#btn_processo3").click(function(){
+		$("#container1").html('');
+		$("#container1").load('consultarPartes.php');
+	});
+
+	$("#btn_processo4").click(function(){
+		$("#container1").html('');
+		$("#container1").load('andamentos.php');
+	});
 });
