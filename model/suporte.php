@@ -224,6 +224,5 @@
                 die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
             }
         }
-
 	}
 ?>

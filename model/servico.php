@@ -20,7 +20,7 @@
             $pessoa = new Pessoas(); //instanciando
             $pessoa->setPessoas_id($pa["pessoas_id"]);
             $pessoa->setUsuarios_id($pa["usuarios_id"]);
-            $pessoa->setPessoas_cpf($pa["pessoas_cpf"]);
+            $pessoa->setPessoas_cpf_cnpj($pa["pessoas_cpf_cnpj"]);
             $pessoa->setPessoas_rg($pa["pessoas_rg"]);
             $pessoa->setPessoas_nome($pa["pessoas_nome"]);
             $pessoa->setPessoas_datanasc($pa["pessoas_datanasc"]);
@@ -62,10 +62,12 @@
             $processos->setVaras_id($pa["varas_id"]);
             $processos->setProcessos_oficial($pa["processos_oficial"]);
             $processos->setProcessos_juiz($pa["processos_juiz"]);
-            $processos->setProcessos_apencos($pa["processos_apencos"]);
+            $processos->setProcessos_apensos($pa["processos_apensos"]);
             $processos->setProcessos_valor($pa["processos_valor"]);
             $processos->setProcessos_senha($pa["processos_senha"]);
             $processos->setProcessos_data($pa["processos_data"]);
+            $processos->setProcessos_procurador($pa["processos_procurador"]);
+            $processos->setProcessos_desembargador($pa["processos_procurador"]);
             $processos->setProcessos_del($pa["processos_del"]);
 
             return $processos;
@@ -200,9 +202,9 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
-                           $newPessoa->getPessoas_cpf(),
+                           $newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -224,8 +226,8 @@
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "UPDATE pessoas SET pessoas_cpf = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
-            $param = array($newPessoa->getPessoas_cpf(),
+            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
+            $param = array($newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -405,17 +407,19 @@
         static function cadastroProcesso($arrayP){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
             $newProcesso = Servico::objProcessos($arrayP); //instancia um novo objeto do tipo Usuarios
-            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apencos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apensos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_desembargador`, `processos_procurador`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             $param = array($newProcesso->getProcessos_num(),
                            $newProcesso->getProcessos_acao(),
                            $newProcesso->getProcessos_ordem(),
                            $newProcesso->getVaras_id(),
                            $newProcesso->getProcessos_oficial(),
                            $newProcesso->getProcessos_juiz(),
-                           $newProcesso->getProcessos_apencos(),
+                           $newProcesso->getProcessos_apensos(),
                            $newProcesso->getProcessos_valor(),
                            $newProcesso->getProcessos_senha(),
                            $newProcesso->getProcessos_data(),
+                           $newProcesso->getProcessos_desembargador(),
+                           $newProcesso->getProcessos_procurador(),
                            $newProcesso->getProcessos_del(),
                      );
             try{
@@ -429,7 +433,13 @@
 
         static function alterarProcesso($processo){
             $newProc = Servico::objProcessos($processo);
-            $sql = "UPDATE processos SET processos_num = ?, processos_acao = ?, processos_ordem = ?, varas_id = ?, processos_oficial = ?, processos_juiz = ?, processos_valor = ?, processos_senha = ?, processos_data = ? WHERE processos_id = ?";
+            $sql = "UPDATE processos 
+                    SET processos_num = ?, processos_acao = ?, processos_ordem = ?, 
+                        varas_id = ?, processos_oficial = ?, processos_juiz = ?, 
+                        processos_valor = ?, processos_senha = ?, processos_data = ?, 
+                        processos_desembargador = ?, processos_procurador = ?, processos_apensos = ? 
+                        WHERE processos_id = ?";
+            
             $param = array($newProc->getProcessos_num(),
                            $newProc->getProcessos_acao(),
                            $newProc->getProcessos_ordem(),
@@ -439,6 +449,9 @@
                            $newProc->getProcessos_valor(),
                            $newProc->getProcessos_senha(),
                            $newProc->getProcessos_data(),
+                           $newProc->getProcessos_desembargador(),
+                           $newProc->getProcessos_procurador(),
+                           $newProc->getProcessos_apensos(),
                            $newProc->getProcessos_id());            
             try{
                 return Database::executarParam($sql, $param);
@@ -468,6 +481,15 @@
                     }
                     return $processos;
                 }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaProcessoID($id){
+            $sql = "SELECT * FROM processos WHERE processos_id = ? AND processos_del = 'N'";
+            try{
+                return $line = Database::retornaParam($sql, $id);
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -568,6 +590,15 @@
             }
         }
 
+        static function consultaParteID($id){
+            $sql = "SELECT * FROM partes WHERE processos_id = ? AND partes_del = 'N'";
+            try{
+                return $line = Database::retornaParam($sql, $id);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
         static function excluiParte($parte){
             try{
                 $sql = "UPDATE partes SET partes_del = 'S' WHERE partes_id = ?";
@@ -594,7 +625,7 @@
                 return die("Erro: ".$e);
             }
         }     
-//------------------------- FUNÇÕES DE CADASTRO INDICES PROCESSO ------------------------------
+//------------------------- FUNÇÕES INDICES PROCESSO ------------------------------------------
         static function cadastroIndicesProcesso($indicesProcesso){
             $newIndicesProcesso = Servico::objIndicesProcesso($indicesProcesso);
             $param = array($newIndicesProcesso->getIndices_id(),
@@ -607,6 +638,20 @@
                 die("Erro: ". $e->getMessage);
             }
 
+        }
+
+        static function consultaIndiceID($id){
+            $sql = "SELECT indices_desc 
+                    FROM indices AS ind 
+                    INNER JOIN indicesprocesso AS i 
+                    ON i.processos_id = ? 
+                    AND i.indices_id = ind.indices_id
+                    WHERE ind.indices_del = 'N'";
+            try{
+                return $line = Database::retornaParam($sql, $id);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
         }
 // ------------------------ VERIFICAÇÃO PARA CADASTRO DE USUARIOS E PESSOAS -------------------
         
@@ -623,7 +668,7 @@
         }
 
         static function verificaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf_cnpj = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -674,7 +719,7 @@
         }
 
         static function consultaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf_cnpj LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf_cnpj";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -986,7 +1031,7 @@
                 echo $e;
             }
         }
-// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------------
+// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------
         static function SelecionarTipos_andamento(){
             $sql = "SELECT * FROM tipos_andamento";
             try{

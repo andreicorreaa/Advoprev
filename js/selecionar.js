@@ -55,4 +55,19 @@ $(document).ready(function(){
 		$("#container1").html('');
 		$("#container1").load('andamentos.php');
 	});
+
+	$("#btn_relatorio1").click(function(){
+		$("#container1").html('');
+		$("#container1").load('relatorioProcessos.php');
+	});
+
+	$("#btn_relatorio2").click(function(){
+		$("#container1").html('');
+		$("#container1").load('relatorioAndamentos.php');
+	});
+
+	$("#btn_relatorio3").click(function(){
+		$("#container1").html('');
+		$("#container1").load('relatorioIndices.php');
+	});
 });

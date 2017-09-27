@@ -95,5 +95,8 @@ table#tb1{
   height: inherit;
 }
 
-table.fixo { table-layout:fixed; }
-table.fixo td { overflow: hidden; }
+table.fixo { 
+  display: block;
+  width: 100%; 
+}
+table.fixo td { overflow: hidden; text-align: center; font-size: 14px }

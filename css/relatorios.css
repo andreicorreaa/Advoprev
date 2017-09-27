@@ -1,0 +1,49 @@
+#buscarP{
+	border: 1px solid black;
+	width: 102%;
+}
+
+#relatorio{
+	border: 1px solid black;
+	width: 102%;
+	margin-top: 10px;
+	height: 150%;
+	overflow-y: auto;
+}
+
+#relatorioProcesso h1{
+	margin-left: -10px;
+	font-size: 44px;
+	font-family: 'ITC Zapf Chancery';
+}
+
+.subtitulo{
+	font-family: 'arial';
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+table.tab-r{
+	width: 700px;
+	border: 2px solid black;
+	height: 100%;
+	background-color: black;
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+.tab-r td.back-forte{
+	border: 1px solid black;
+	background-color: grey !important;
+	margin: 0px;
+	padding: 2px;
+	-webkit-print-color-adjust: exact; 
+}
+
+.tab-r td.back-fraco{
+	padding: 2px;
+	border: 1px solid black;
+	background-color: white;
+	margin: 0px;
+}

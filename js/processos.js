@@ -2,15 +2,14 @@ $(document).ready(function(){
 	$("#btn_cadprocesso").click(function(){
 		
 		cadastrarProcesso($("#proc_numero"), $("#proc_acao"), $("#proc_ordem"), $("#proc_vara"),
-		$("#proc_data"), $("#proc_oficial"), $("#proc_juiz"),$("#proc_valor"), $("#proc_senha"));
+		$("#proc_data"), $("#proc_oficial"), $("#proc_juiz"),$("#proc_valor"), $("#proc_senha"), $("#proc_desemb"), $("#proc_procurador"));
 		
 		//teste();
 	});
 });
 
-function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor, senha){
-	// DADOS DO FORMULARIO  DO PROCESSO
-	debugger
+function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor, senha, desemb, procurador){
+	var processo_apenso = $("select[name='proc_apenso'] option:selected").val();
 	var numero = numero.val();
 	var acao = acao.val();
 	var ordem = ordem.val();
@@ -20,7 +19,8 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 	var juiz = juiz.val();
 	var valor = valor.val();
 	var senha = senha.val();
-	
+	var desembargador = desemb.val();
+	var procurador = procurador.val();
 	//DADOS DE INDICES
 	var indices = document.getElementsByName('proc_indices');
 	var indi = [null];
@@ -58,16 +58,15 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
         	return;
         }
     }
+    if(processo_apenso == "Sem apensos"){
+		processo_apenso = null;
+	}
     
 	if(numero == ""){
 		$("#proc_numero").focus();
 		return;
 	}else if(acao == ""){
 		$("#proc_acao").focus();
-		return;
-	}
-	else if(ordem == ""){
-		$("#proc_ordem").focus();
 		return;
 	}else if(vara == ""){
 		$("#proc_vara").focus();
@@ -89,8 +88,9 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 		return;
 	}else{
 		$.post("control/cadastroControl.php?action=cadastroProcesso", {numero: numero, acao: acao, ordem: ordem,
-		vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha, nome: e, desc: p, indices: indi},
-			function(retorno){ //resultado da control	
+		vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha, nome: e, desc: p, 
+		indices: indi, desembargador: desembargador, procurador: procurador, apensos: processo_apenso},
+			function(retorno){
 				if(retorno){
 					alert("Processo cadastrado com sucesso!");
 					$("#container1").html('');
