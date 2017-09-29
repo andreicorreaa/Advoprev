@@ -16,6 +16,7 @@
     <body>
     	<center>
        		<h1> Bem Vindo! </h1>
+            <img src="http://www.funprevbauru.sp.gov.br/funprev_v2/image/logo_funprev1.png" />
     	</center>
     </body>
 </html>

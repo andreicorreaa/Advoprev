@@ -17,8 +17,8 @@
                 <li class="navbar">
                     <a class="active navbar" href="index.php">Pagina Inicial</a>
                 </li>
-                <li class="navbar">
-                    <a class="navbar" href="#news">Suporte</a>
+                <li class="navbar" onclick="carregar('suporte.php', 'Suporte - AdvoPREV - FUNPREV BAURU')">
+                    <a class="navbar" href='#'><span>Suporte</span></a>
                 </li>
                 <li class="navbar" style="float: right;">
                     <form action="control/loginControl.php?action=logout" method="post">

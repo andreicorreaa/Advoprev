@@ -106,6 +106,13 @@
             return relatoriosView::Processo($processo, $partes, $indices, $andamentos);
             break;
 
+        case 'pesProcessoP':
+            $param = $_POST['aux'];
+            $a = Servico::consultaProcessoID($param);
+            return consultarView::respostaBusca($a);
+            break;
+
+
         default:
             # code...
             break;

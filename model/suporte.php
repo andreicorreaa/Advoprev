@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('America/Sao_Paulo');
     class Database{
         //AGORA TODAS OS MÃ‰TODOS E VARIÃVEIS SÃƒO ESTÃTICOS, NÃƒO PRECISAM SER INSTANCIADOS.
         //<!-- ----------------------------------- DESENVOLVIDO POR EMERSON ANDREIasd ----------------------------------- -->
@@ -55,7 +56,7 @@
 		}
 		
 		static function executarParam($sql, $param){		  //EXECUTA QUERYs COM PARÃ‚METROS, SEM RETORNO
-            Database::conecta();        //FAZ A CONEXÃƒO
+            $db = Database::conecta();        //FAZ A CONEXÃƒO
             $i = 1;         //INDÃCE PARA INDICAR OS PARÃ‚METROS
             try{
                 //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
@@ -78,6 +79,35 @@
                 die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
             }
 		}
+
+        static function executarParamID($sql, $param){          //EXECUTA QUERYs COM PARÃ‚METROS, SEM RETORNO
+            $db = Database::conecta();        //FAZ A CONEXÃƒO
+            $i = 1;         //INDÃCE PARA INDICAR OS PARÃ‚METROS
+            try{
+                //PREPARA O BANCO COM A QUERY, ASSIM NÃƒO PRECISANDO CONCATENAR A SQL BRUTA,
+                //EVITANDO SQL INJECTION
+                $stmt = Database::$pdo->prepare($sql);
+                
+                //PERCORRE O ARRAY COM OS PARÃ‚METROS. CADA "?" NA SQL CORRESPONDE A UM DELES
+                //O bindValue() FIXA O PARÃ‚METRO. QUANDO SE USA "?" NA QUERY Ã‰ 
+                //PRECISO USAR UM NÃšMERO INTEIRO PARA REPRESENTAR CADA PARÃ‚METRO NO bindValue()
+                //POR ISSO O CONTADOR  $i++
+                
+                foreach($param as $value){
+                    $stmt->bindValue($i++, $value);
+                }
+                //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
+                $stmt->Execute();
+
+                $id = Database::$pdo->lastInsertId();
+
+                return $id;
+            }
+            //TRATAMENTO DE ERROS
+            catch(PDOException $e){
+                die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
+            }
+        }
 		
 		static function selecionarParam($sql, $param){		  //SELECIONAR REGISTROS, RETORNA ARRAY
             Database::conecta();        //FAZ A CONEXÃƒO
@@ -192,7 +222,9 @@
                 $stmt->bindValue(3, $param[2], PDO::PARAM_STR);
                 $stmt->bindValue(4, $param[3], PDO::PARAM_LOB);
                 //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
-                return $stmt->Execute();
+                $stmt->Execute();
+
+                return Database::$pdo->lastInsertId();
             }
             //TRATAMENTO DE ERROS
             catch(PDOException $e){
@@ -217,7 +249,31 @@
                 $stmt->bindValue(4, $param[3], PDO::PARAM_STR);
                 $stmt->bindValue(5, $param[4], PDO::PARAM_LOB);
                 //COM A SQL E OS PARÃ‚METROS PASSADO, A QUERY Ã‰ EXECUTADA.
-                return $stmt->Execute();
+                $stmt->Execute();
+
+                return Database::$pdo->lastInsertId();
+            }
+            //TRATAMENTO DE ERROS
+            catch(PDOException $e){
+                die("Erro ao processar consulta. Erro: <br>".$e->getMessage().".<br>");
+            }
+        }
+
+        static function logs($id, $tipo){
+            Database::conecta();
+            try{
+                $sql = "INSERT INTO `logs` (`logs_data`, `logs_usuario`, `logs_tipo`, `logs_del`) 
+                        VALUES (now(), ?, ?, 'N')";
+
+                $stmt = Database::$pdo->prepare($sql);
+
+                //$stmt->bindValue(1, $date = date("d/m/Y h:i:s"), PDO::PARAM);
+                $stmt->bindValue(1, (int)$id, PDO::PARAM_INT);
+                $stmt->bindValue(2, (String)$tipo, PDO::PARAM_STR);
+
+                $stmt->Execute();
+
+                return $count = $stmt->rowCount();
             }
             //TRATAMENTO DE ERROS
             catch(PDOException $e){

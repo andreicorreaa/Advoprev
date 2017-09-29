@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 	$("#btn_processo2").click(function(){
 		$("#container1").html('');
-		$("#container1").load('cadastroProcessos.php');
+		$("#container1").load('cadastroOpcaoProcesso.php');
 	});
 
 	$("#btn_processo3").click(function(){

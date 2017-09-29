@@ -144,5 +144,16 @@
         $param = $_POST['aux'];
         $a = Servico::verificaOrdem($param);
         return cadastroView::respostaVerificacao($a);
+    }else if($acao == "cadastrarPartes"){
+        $param = array( "processo"  => $_POST['processo'],
+                        "pessoas"    => $_POST['pessoas'],
+                        "partes"     => $_POST['partes']);
+        $a = Servico::cadastraPartes($param);
+        return cadastroView::respostaVerificacao($a);
+    }else if($acao == "cadastrarIndices"){
+        $param = array( "processo"  => $_POST['processo'],
+                        "indices"   => $_POST['indices']);
+        $a = Servico::cadastrarIndices($param);
+        return cadastroView::respostaVerificacao($a);
     }
 ?>

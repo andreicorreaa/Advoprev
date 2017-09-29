@@ -43,7 +43,7 @@ function validaCadastro(nome, senha, confirma_s){
 	}
 	else{ // caso todos os campos foram preenchidos corretamente
 		$.post("control/cadastroControl.php?action=cad", {nome: nome.val(), senha: senha.val()}, // envia variaveis por POST para a control cadastroControl
-			function(retorno1){ //resultado da control	
+			function(retorno1){ //resultado da control
 				if(retorno1 == 1){ // neste caso, se for true, o cadastro foi efetuado
 					nome.val(""); 
 					senha.val("");
@@ -58,7 +58,7 @@ function validaCadastro(nome, senha, confirma_s){
 						$("#alert1").fadeOut('fast');
 					}, 3000);
 				}else{ // caso de algum erro
-					$(retorno1).html("<strong>Erro ao efetuar o cadastro, verifique o login ou a conexão</strong> ");
+					$("#alert1").html("<strong>Erro ao efetuar o cadastro, verifique o login ou a conexão</strong> ");
 					$("#alert1").removeClass().addClass("alert");
 					document.getElementById("alert1").style.display = "block";
 					setTimeout(function(){
