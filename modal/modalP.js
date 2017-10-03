@@ -106,6 +106,7 @@ function number_format( number, decimals, dec_point, thousands_sep ) {
 };
 
 function alteraProcesso(value){
+    debugger
     var str = value;
     var numero = $("#proc_numero"+str).val();
     var acao = $("#proc_acao"+str).val();
@@ -116,7 +117,10 @@ function alteraProcesso(value){
     var juiz = $("#proc_juiz"+str).val();
     var valor = $("#proc_valor"+str).val();
     var senha = $("#proc_senha"+str).val();
-    console.log(numero, acao, ordem, vara, data, oficial, juiz, valor, senha);
+    var desembargador = $("#proc_desemb"+str).val();
+    var procurador = $("#proc_procurador"+str).val();
+    var processo_apenso = $("select[name='proc_apenso"+str+"'] option:selected").val();
+    
     if(numero == ""){
         $("#proc_numero"+str).focus();
         return;
@@ -141,7 +145,8 @@ function alteraProcesso(value){
         return;
     }else{
         $.post("control/alterarControl.php?action=alteraProcesso", {id: str, numero: numero, acao: acao,
-        ordem: ordem, vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha}, // envia variaveis por POST para a control cadastroControl
+        ordem: ordem, vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha,
+        desembargador: desembargador, procurador: procurador, apensos: processo_apenso}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control 
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");

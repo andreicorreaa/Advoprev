@@ -1,6 +1,7 @@
 <?php
     include_once('../model/servico.php');
-    include_once('../view/consultarView.php');    
+    include_once('../view/consultarView.php');
+    include_once('../view/relatoriosView.php');    
 
     $acao = $_REQUEST["action"];
     
@@ -95,6 +96,22 @@
             $a = Servico::selecionaProcessoAndamento($param);
             return consultarView::respostaAndamento($a, $param);
             break;
+
+        case 'pesProcessoR':
+            $param      = $_POST['aux'];
+            $processo   = Servico::consultaProcessoID($param);
+            $partes     = Servico::consultaParteID($param);
+            $indices    = Servico::consultaIndiceID($param);
+            $andamentos = Servico::selecionaProcessoAndamento($param);
+            return relatoriosView::Processo($processo, $partes, $indices, $andamentos);
+            break;
+
+        case 'pesProcessoP':
+            $param = $_POST['aux'];
+            $a = Servico::consultaProcessoID($param);
+            return consultarView::respostaBusca($a);
+            break;
+
 
         default:
             # code...

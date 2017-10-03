@@ -2,7 +2,7 @@ $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
 
 	$("#btn_pesquisa").click(function(){
-		pesquisaVara($("#campo"));
+		pesquisaVara($("#campo").val());
 	});
 
 	$("#campo").keypress(function handleEnter(e, func) {
@@ -38,28 +38,33 @@ $(document).ready(function(){
 });
 
 function cadVara(campo){
-	$.post("control/cadastroControl.php?action=cadVara", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
-		function(retorno2){ //resultado da control	
-			//console.log(retorno2); 
-			if(retorno2 == true){
-				campo.val("");
-				alert("Cadastro Efetuado Com Sucesso!");
-			}else{
-				alert("Erro :(");
-			}
-			
-		} //function(retorno)
-	); //$.post()
+	if(campo.val() == ""){
+		campo.focus();
+		return;
+	}else{
+		$.post("control/cadastroControl.php?action=cadVara", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+			function(retorno2){ //resultado da control	
+				//console.log(retorno2); 
+				if(retorno2 == true){
+					campo.val("");
+					alert("Cadastro Efetuado Com Sucesso!");
+				}else{
+					alert("Erro :(");
+				}
+				
+			} //function(retorno)
+		); //$.post()
+	}
 	return;
 }
 
 function pesquisaVara(campo){
-	if(campo.val() == ""){
+	if(campo == ""){
 		alert("Digite no campo pesquisar");
 		campo.focus();
 		return;
 	}else{
-		$.post("control/consultarControl.php?action=pesVara", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+		$.post("control/consultarControl.php?action=pesVara", {desc: campo}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2){
 					$("#tb1 tbody").html(retorno2);

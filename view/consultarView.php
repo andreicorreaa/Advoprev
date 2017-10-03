@@ -136,7 +136,7 @@
         		?>	
 		            <tr>
 		        		<td width="40%"><?php echo $val['pessoas_nome'];?></td>
-		        		<td width="40%"><?php echo $val['pessoas_cpf'];?></td>
+		        		<td width="40%"><?php echo $val['pessoas_cpf_cnpj'];?></td>
 		        		<td width="40%"><?php echo $val['pessoas_rg'];?></td>
 		        		<td width="40%"><a href="#janela<?php echo $val['pessoas_id'];?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
 		                <td>
@@ -148,9 +148,18 @@
 		                                <tr align="left">
 		                                    <td width="15%"><label>Nome:</label></td>
 		                                    <td width="40%"><input type="text" value="<?php echo $val['pessoas_nome'];?>" id="n<?php echo $val['pessoas_id'];?>" placeholder="Insira o nome completo" size="50"  /></td>
-		                                    <td><label>CPF:</label></td>
-		                                    <td><input type="text" id="cpf<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_cpf'];?>" onkeyup="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" size="16" /></td>
-		                                    <td width="4%"><div id="verifica1"></div></td>
+		                                    <td id="tipoPessoa<?php echo $val['pessoas_id'];?>" colspan="3">
+					                            <input type="radio" name="tipo-pessoa<?php echo $val['pessoas_id'];?>" value="cpf" onclick="javascript: tipoPessoa(this, <?php echo $val['pessoas_id'];?>);">Pessoa física
+					                            <input type="radio" name="tipo-pessoa<?php echo $val['pessoas_id'];?>" value="cnpj" onclick="javascript: tipoPessoa(this, <?php echo $val['pessoas_id'];?>);">Pessoa Jurídica
+					                        </td>
+					                        <td style="display:none;" id="lblcpf<?php echo $val['pessoas_id'];?>"><label>CPF*:</label></td>
+					                        <td style="display:none;" id="inputcpf<?php echo $val['pessoas_id'];?>">
+					                        	<input type="text" name="cpf" id="cpf<?php echo $val['pessoas_id'];?>" onkeyup="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" value="<?php echo $val['pessoas_cpf_cnpj'];?>" size="16" required/>
+					                        </td>
+					                        <td style="display:none;" id="lblcnpj<?php echo $val['pessoas_id'];?>"><label>CNPJ*:</label></td>
+					                        <td style="display:none;" id="inputcnpj<?php echo $val['pessoas_id'];?>">
+					                        	<input type="text" name="cnpj" id="cnpj<?php echo $val['pessoas_id'];?>" onkeyup="buscarCNPJ(this.value)" onkeypress='return somenteNum(event)' maxlength="14" value="<?php echo $val['pessoas_cpf_cnpj'];?>" placeholder="CNPJ válido(somente numeros)" size="16" required/></td>
+					                        <td width="4%"><div id="verifica1"></div></td>
 		                                </tr> 
 		                                <tr align="left">
 		                                    <td width="15%"><label>E-mail:</label></td>
@@ -293,6 +302,7 @@
 			if($obj){
 				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modalP.js"></script></td></tr></div><?php
 				$varas = Servico::SelecionarVaras();
+    			$processos_apenso = Servico::SelecionarProcessos();
 				for($i=0;$i<count($obj);$i++){
 					$vara = Servico::selecionaVara($obj[$i]->getVaras_id()); ?>
 					<tr>
@@ -300,7 +310,20 @@
 						<td><?php echo $obj[$i]->getProcessos_ordem(); ?></td>
 						<td><?php echo $obj[$i]->getProcessos_acao(); ?></td>
 						<td><?php echo $vara[0]['varas_nome']; ?></td>
-						<td><?php echo $obj[$i]->getProcessos_apencos(); ?></td>
+<?php 					if($obj[$i]->getProcessos_apensos() == '0'){ ?>
+							<td>Sem apenso</td>
+<?php 					}else{ ?>
+						<td>
+<?php						foreach($processos_apenso as $proc){
+								$num = $proc->getProcessos_num();
+								if($proc->getProcessos_id() == $obj[$i]->getProcessos_apensos()){?>
+									<b><?php echo $proc->getProcessos_num(); ?></b>
+									<?php 
+								}
+							}
+?>
+						</td>
+<?php 					} ?>
 						<td><a href="#janela<?php echo $obj[$i]->getProcessos_id();?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
 						<td>
 		                    <div class="window" id="janela<?php echo $obj[$i]->getProcessos_id();?>">
@@ -351,7 +374,32 @@
 						                    <tr  style="border-bottom: 1px solid black">
 						                        <td width="15%"><label>Senha :</label></td>
 						                        <td><input type="text" name="proc_senha" id="proc_senha<?php echo $obj[$i]->getProcessos_id();?>" value="<?php echo $obj[$i]->getProcessos_senha(); ?>" placeholder="Senha do processo" size="16" maxlength="10" required/></td>
+						                        <td><label>Desembargador/<br>Ministro: </label></td>
+                        						<td><input type="text" size="255" maxlength="255" id="proc_desemb<?php echo $obj[$i]->getProcessos_id();?>" placeholder="Desembargador/Ministro responsável" value="<?php echo $obj[$i]->getProcessos_desembargador(); ?>" name="proc_desemb"/></td>
 						                    </tr>
+						                    <tr  style="border-bottom: 1px solid black">
+						                        <td width="15%"><label>Procurador:</label></td>
+						                        <td>
+						                            <input type="text" name="proc_procurador" id="proc_procurador<?php echo $obj[$i]->getProcessos_id();?>" placeholder="Procurador do processo" value="<?php echo $obj[$i]->getProcessos_procurador();?>" size="16" maxlength="255"/>
+						                        </td>
+						                        <td><label>Apenso:</label></td>    
+						                        <td>
+						                            <select id="soflow" name="proc_apenso<?php echo $obj[$i]->getProcessos_id();?>">
+						                                <option selected="true">Sem apensos</option>
+<?php 														if(count($processos_apenso) > 0){
+						                                        foreach($processos_apenso as $proc_apenso){ 
+						                                        	if($proc_apenso->getProcessos_id() == $obj[$i]->getProcessos_apensos()){ ?>
+						                                            	<option value="<?php echo $proc_apenso->getProcessos_id();?>" selected="true"><?php echo $proc_apenso->getProcessos_num(); ?></option>
+<?php 																}else{ ?>
+						                                            	<option value="<?php echo $proc_apenso->getProcessos_id();?>"><?php echo $proc_apenso->getProcessos_num(); ?></option>
+<?php 																}
+																}
+						                                    }else{ ?>
+						                                        <option align="center" selected="true">Nenhum processo cadastrado</option>
+						                                    <?php } ?>
+						                            </select>
+						                        </td>
+                    						</tr>
 						                    <tr>
 			                                    <td colspan="4" align="center">
 			                                        <button type="button" onclick="alteraProcesso(<?php echo $obj[$i]->getProcessos_id();?>)">Alterar Dados</button>

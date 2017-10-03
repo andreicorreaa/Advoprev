@@ -8,8 +8,11 @@ $(document).ready(function(){
 
 	$("#btn_cadpessoa").click(function(){
 		//Aqui chamamos a função validaCadPessoa, e passamos a ela o que foi digitado nos campos de cadastro de pessoa
-		validaCadPessoa($("#nome1"), $("#cpf"), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"), $("#oab"), $("#endereco"));
-
+		if(!$("input:radio[name=tipo-pessoa]:checked").val()){
+			alert("Selecione o tipo de pessoa");
+			return;
+		}
+		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#endereco"));
 	});
 });
 /* ---------------------------- CADASTRO DE USUARIOS ------------------------------------ */
@@ -40,7 +43,7 @@ function validaCadastro(nome, senha, confirma_s){
 	}
 	else{ // caso todos os campos foram preenchidos corretamente
 		$.post("control/cadastroControl.php?action=cad", {nome: nome.val(), senha: senha.val()}, // envia variaveis por POST para a control cadastroControl
-			function(retorno1){ //resultado da control	
+			function(retorno1){ //resultado da control
 				if(retorno1 == 1){ // neste caso, se for true, o cadastro foi efetuado
 					nome.val(""); 
 					senha.val("");
@@ -55,7 +58,7 @@ function validaCadastro(nome, senha, confirma_s){
 						$("#alert1").fadeOut('fast');
 					}, 3000);
 				}else{ // caso de algum erro
-					$(retorno1).html("<strong>Erro ao efetuar o cadastro, verifique o login ou a conexão</strong> ");
+					$("#alert1").html("<strong>Erro ao efetuar o cadastro, verifique o login ou a conexão</strong> ");
 					$("#alert1").removeClass().addClass("alert");
 					document.getElementById("alert1").style.display = "block";
 					setTimeout(function(){
@@ -93,51 +96,47 @@ function buscarUser(valor) {
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
 
 
-function validaCadPessoa(nome, cpf, emails, rg, data, tel, sexo, oab, endereco){
+function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, endereco){
+	var cpf_cnpj;
 	var email = IsEmail(emails.val());
-	var rg_check = buscarRG(rg.val());
-	var cpf_check = verificaCPF(cpf.val());
-	tel_check = buscarTel(tel.val());
-	//alert(endereco.val());
+	if(tipoPessoa == "cpf"){
+		cpf_cnpj = $("#cpf").val();
+		var check = verificaCPF(cpf_cnpj);
+	}else{
+		cpf_cnpj = $("#cnpj").val();
+		var check = validarCNPJ(cpf_cnpj);
+	}
+
 	if(nome.val() == ""){
 		nome.focus();
-		return;
-	}
-	else if(cpf.val() == "" || cpf_check == false){
-		cpf.focus();
 		return;
 	}else if(email == false) {
 		alert("email inválido");
 		return;
-	}else if(rg.val() == "" || rg_check == false){
+	}else if(check == false) {
+		alert("CPF/CNPJ inválido");
+		return;
+	}else if(rg.val() == ""){
 		rg.focus();
 		return;
 	}else if(data.val() == ""){
 		data.focus();
 		return;
-	}else if(tel.val() == "" || tel_check == false){
+	}else if(tel.val() == ""){
 		tel.focus();
 		return;
 	}else if(endereco.val() == ""){
 		endereco.focus();
 		return;
 	}else{
-		$.post("control/cadastroControl.php?action=cadastro", {cpf: cpf.val(), rg: rg.val(),
+		$.post("control/cadastroControl.php?action=cadastro", {cpf_cnpj: cpf_cnpj, rg: rg.val(),
 		nome: nome.val(), data: data.val(),	email: emails.val(), telefone: tel.val(), 
 		sexo: sexo.val(), oab: oab.val(), endereco: endereco.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2 == 1){
-					$("#nome1").val("");
-					$("#cpf").val("");
-					$("#email").val(""); 
-					$("#rg").val("");
-					$("#data").val("");
-					$("#telefone").val("");
-					$("#sexo").val("");
-					$("#oab").val("");
-					$("#endereco").val("");
-					$("#verifica1").html("");
 					alert("Cadastro efetuado com sucesso");
+					$("#container1").html('');
+					$("#container1").load('cadastroPessoas.php');
 				}else{
 					alert(retorno2);
 				}
@@ -186,7 +185,40 @@ function buscarCPF(valor){
 			
 		}
 	);
+}
 
+function buscarCNPJ(valor){
+	var cnpj = valor.length;
+	var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+	var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
+	if(cnpj < 14){
+		$("#verifica1").html(a);
+		return; //retorna nulo
+	}else if(!validarCNPJ(valor)){
+		$("#verifica1").html(a);
+		return; //retorna nulo
+	}else{
+		$.post("control/cadastroControl.php?action=verCPF", {aux: valor}, // envia variaveis por POST para a control cadastroControl
+		function(retorno){ //retorno é o resultado que a control retorna
+			var a = unescape("<img alt=\"CNPJ inválido ou já cadastrado\" src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+			var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
+			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
+				$("#verifica1").html(a);  //mostra na div alert
+				//alert("CNPJ já cadastrado");
+				return false;
+			}else{
+				var c = validarCNPJ((valor.replace(/[a-z]/gi,''))); // verifica se o cpf é valido
+				if(c == true){
+					$("#verifica1").html(b);
+					return true;
+				}else{
+					alert("CPF com formato inválido");
+					$("#verifica1").html(a);
+					return false;
+				}
+			}
+		});
+	}
 }
 
 function verificaCPF(strCpf) { // validar CPF
@@ -244,27 +276,28 @@ function IsEmail(email){
 }
 //validar email
 function buscarEmail(valor){
-	$.post("control/cadastroControl.php?action=verEmail", {aux: valor}, // envia variaveis por POST para a control cadastroControl
-		function(retorno){ //retorno é o resultado que a control retorna
-			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
-				//mostra na div alert
-				alert("Email já cadastrado");
-				return false;
-			}else{
-				return true;
+	if(IsEmail(valor)){
+		$.post("control/cadastroControl.php?action=verEmail", {aux: valor}, // envia variaveis por POST para a control cadastroControl
+			function(retorno){ //retorno é o resultado que a control retorna
+				if(retorno == 1){
+					setTimeout(window.alert("Email já cadastrado"), 1000);
+					$("#email").val("");
+					return false;
+				}else{
+					return true;
+				}
 			}
-
-		}
-	);
+		);
+	}
 }
 //validar RG
 function buscarRG(valor){
-	debugger
 	$.post("control/cadastroControl.php?action=verRG", {aux: valor}, // envia variaveis por POST para a control cadastroControl
 		function(retorno){ //retorno é o resultado que a control retorna
 			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
 				//mostra na div alert
 				alert("RG já cadastrado");
+				$("#rg").val("");
 				return false;
 			}else{
 				return true;
@@ -287,4 +320,71 @@ function buscarTel(valor){
 
 		}
 	);
+}
+
+function tipoPessoa(value){
+	if(value.value == "cpf"){
+		document.getElementById("tipoPessoa").style.display = 'none';
+		document.getElementById("lblcpf").style.display = 'table-cell';
+		document.getElementById("inputcpf").style.display = 'table-cell';
+	}else{
+
+		document.getElementById("tipoPessoa").style.display = 'none';
+		document.getElementById("lblcnpj").style.display = 'table-cell';
+		document.getElementById("inputcnpj").style.display = 'table-cell';
+	}
+}
+
+function validarCNPJ(cnpj) {
+ 
+    cnpj = cnpj.replace(/[^\d]+/g,'');
+ 
+    if(cnpj == '') return false;
+     
+    if (cnpj.length != 14)
+        return false;
+ 
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == "00000000000000" || 
+        cnpj == "11111111111111" || 
+        cnpj == "22222222222222" || 
+        cnpj == "33333333333333" || 
+        cnpj == "44444444444444" || 
+        cnpj == "55555555555555" || 
+        cnpj == "66666666666666" || 
+        cnpj == "77777777777777" || 
+        cnpj == "88888888888888" || 
+        cnpj == "99999999999999")
+        return false;
+         
+    // Valida DVs
+    tamanho = cnpj.length - 2
+    numeros = cnpj.substring(0,tamanho);
+    digitos = cnpj.substring(tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0))
+        return false;
+         
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0,tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1))
+          return false;
+           
+    return true;
+    
 }

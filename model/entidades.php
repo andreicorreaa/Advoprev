@@ -184,10 +184,12 @@
         private $varas_id;
         private $processos_oficial;
         private $processos_juiz;
-        private $processos_apencos = null;
+        private $processos_apensos = null;
         private $processos_valor;
         private $processos_senha;
         private $processos_data;
+        private $processos_procurador;
+        private $processos_desembargador;
         private $processos_del = "N";
 
         public function setProcessos_id($value){
@@ -232,11 +234,11 @@
         public function getProcessos_juiz(){
             return $this->processos_juiz;
         }
-        public function setProcessos_apencos($value){
-            $this->processos_apencos = $value;
+        public function setProcessos_apensos($value){
+            $this->processos_apensos = $value;
         }
-        public function getProcessos_apencos(){
-            return $this->processos_apencos;
+        public function getProcessos_apensos(){
+            return $this->processos_apensos;
         }
         public function setProcessos_valor($value){
             $this->processos_valor = $value;
@@ -255,7 +257,19 @@
         }
         public function getProcessos_data(){
             return $this->processos_data;
-        }        
+        }
+        public function setProcessos_procurador($value){
+            $this->processos_procurador = $value;
+        }
+        public function getProcessos_procurador(){
+            return $this->processos_procurador;
+        }
+        public function setProcessos_desembargador($value){
+            $this->processos_desembargador = $value;
+        }
+        public function getProcessos_desembargador(){
+            return $this->processos_desembargador;
+        }
         public function setProcessos_del($value){
             $this->processos_del = $value;
         }
@@ -439,7 +453,6 @@
         public function getArquivos_del(){
             return $this->arquivos_del;
         }
-
     }
     
     class Tipos_andamento{

@@ -17,8 +17,8 @@
                 <li class="navbar">
                     <a class="active navbar" href="index.php">Pagina Inicial</a>
                 </li>
-                <li class="navbar">
-                    <a class="navbar" href="#news">Suporte</a>
+                <li class="navbar" onclick="carregar('suporte.php', 'Suporte - AdvoPREV - FUNPREV BAURU')">
+                    <a class="navbar" href='#'><span>Suporte</span></a>
                 </li>
                 <li class="navbar" style="float: right;">
                     <form action="control/loginControl.php?action=logout" method="post">
@@ -36,8 +36,8 @@
                     <li onclick="carregar('selecionar.php', 'Pessoas - AdvoPREV - FUNPREV BAURU')"><a href='cadastroPessoas.php'><span>Cadastro de Pessoas</span></a></li>
                     <li onclick="carregar('indices.php', 'Indices - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Índices</span></a></li>
                     <li onclick="carregar('varas.php', 'Varas - AdvoPREV - FUNPREV BAURU')"><a href='varas.php'><span>Varas</span></a></li>
-                    <li onclick="carregar('processos.php', 'Processos - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Processos</span></a>
-                  </li>
+                    <li onclick="carregar('processos.php', 'Processos - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Processos</span></a></li>
+                    <li onclick="carregar('relatorios.php', 'Relatórios - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Relatórios</span></a></li>
                 </ul>
             </div>
 

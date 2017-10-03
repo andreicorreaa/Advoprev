@@ -92,8 +92,9 @@ table#tb1 th {
 table#tb1{
   width: 80%;
   margin-left: 10%;
-  height: inherit;
 }
 
-table.fixo { table-layout:fixed; }
-table.fixo td { overflow: hidden; }
+table.fixo {
+  width: 100%; 
+}
+table.fixo td { overflow: hidden; text-align: center; font-size: 14px }
