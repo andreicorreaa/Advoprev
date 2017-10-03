@@ -91,7 +91,7 @@
     class Pessoas{ // ENCAPSULAMENTO PESSOAS
         private $pessoas_id;
         private $usuarios_id;
-        private $pessoas_cpf;
+        private $pessoas_cpf_cnpj;
         private $pessoas_rg;
         private $pessoas_nome;
         private $pessoas_datanasc;
@@ -114,11 +114,11 @@
         public function getUsuarios_id(){
             return $this->usuarios_id;
         }
-        public function setPessoas_cpf($value){
-            $this->pessoas_cpf = $value;
+        public function setPessoas_cpf_cnpj($value){
+            $this->pessoas_cpf_cnpj = $value;
         }
-        public function getPessoas_cpf(){
-            return $this->pessoas_cpf;
+        public function getPessoas_cpf_cnpj(){
+            return $this->pessoas_cpf_cnpj;
         }
         public function setPessoas_rg($value){
             $this->pessoas_rg = $value;

@@ -20,7 +20,7 @@
             $pessoa = new Pessoas(); //instanciando
             $pessoa->setPessoas_id($pa["pessoas_id"]);
             $pessoa->setUsuarios_id($pa["usuarios_id"]);
-            $pessoa->setPessoas_cpf($pa["pessoas_cpf"]);
+            $pessoa->setPessoas_cpf_cnpj($pa["pessoas_cpf_cnpj"]);
             $pessoa->setPessoas_rg($pa["pessoas_rg"]);
             $pessoa->setPessoas_nome($pa["pessoas_nome"]);
             $pessoa->setPessoas_datanasc($pa["pessoas_datanasc"]);
@@ -200,9 +200,9 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `Pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
-                           $newPessoa->getPessoas_cpf(),
+                           $newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -224,8 +224,8 @@
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "UPDATE pessoas SET pessoas_cpf = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
-            $param = array($newPessoa->getPessoas_cpf(),
+            $sql = "UPDATE pessoas SET Pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
+            $param = array($newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -623,7 +623,7 @@
         }
 
         static function verificaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf = ?";
+            $sql = "SELECT * FROM pessoas WHERE Pessoas_cpf_cnpj = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -674,7 +674,7 @@
         }
 
         static function consultaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf";
+            $sql = "SELECT * FROM pessoas WHERE Pessoas_cpf_cnpj LIKE ? AND pessoas_del = ? ORDER BY Pessoas_cpf_cnpj";
             $delete = "N";
             $parame = array($param,$delete);
             try{
