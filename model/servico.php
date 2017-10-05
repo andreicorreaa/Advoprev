@@ -2,6 +2,7 @@
     require "suporte.php"; // requerindo suporte
     require "entidades.php"; // incluindo entidades
     
+    session_start(); //inicia a sessao do login
     class Servico{
 //------------------------- OBJETOS -----------------------------------------------------------
 
@@ -20,7 +21,7 @@
             $pessoa = new Pessoas(); //instanciando
             $pessoa->setPessoas_id($pa["pessoas_id"]);
             $pessoa->setUsuarios_id($pa["usuarios_id"]);
-            $pessoa->setPessoas_cpf($pa["pessoas_cpf"]);
+            $pessoa->setPessoas_cpf_cnpj($pa["pessoas_cpf_cnpj"]);
             $pessoa->setPessoas_rg($pa["pessoas_rg"]);
             $pessoa->setPessoas_nome($pa["pessoas_nome"]);
             $pessoa->setPessoas_datanasc($pa["pessoas_datanasc"]);
@@ -62,10 +63,12 @@
             $processos->setVaras_id($pa["varas_id"]);
             $processos->setProcessos_oficial($pa["processos_oficial"]);
             $processos->setProcessos_juiz($pa["processos_juiz"]);
-            $processos->setProcessos_apencos($pa["processos_apencos"]);
+            $processos->setProcessos_apensos($pa["processos_apensos"]);
             $processos->setProcessos_valor($pa["processos_valor"]);
             $processos->setProcessos_senha($pa["processos_senha"]);
             $processos->setProcessos_data($pa["processos_data"]);
+            $processos->setProcessos_procurador($pa["processos_procurador"]);
+            $processos->setProcessos_desembargador($pa["processos_procurador"]);
             $processos->setProcessos_del($pa["processos_del"]);
 
             return $processos;
@@ -84,7 +87,7 @@
 
         static function objIndicesProcesso($ind){
             $indicesprocesso = new IndicesProcesso();
-            $indicesprocesso->setIndicesProcesso_id($ind["indicesprocesso_id"]);
+            $indicesprocesso->setIndicesProcesso_id($ind["indicesProcesso_id"]);
             $indicesprocesso->setIndices_id($ind["indices_id"]);
             $indicesprocesso->setProcessos_id($ind["processos_id"]);
             $indicesprocesso->setIndice_del($ind["indice_del"]);
@@ -139,13 +142,14 @@
 //------------------------- FUNÇÕES LOGIN -----------------------------------------------------
 
         static function login($loginParam){ // funcao utilizada para fazer login no sistema
+            $message = "Login";
             try{
                 $sql = "SELECT * FROM usuarios WHERE usuarios_nome = ? AND usuarios_senha = ?"; //string SELECT
                 $param = array($loginParam[0],md5($loginParam[1])); // cria os parametros (?, ?) enviados pelo array
                 $query = Database::selecionarParam($sql,$param); // executa a query
                 if($query){ // se encontrou
-                    session_start(); //inicia a sessao do login
                     $_SESSION['login'] = serialize(Servico::objUsuarios($query[0])); // seta na SESSION['login'] o objeto Usuarios
+                    Servico::logs($message);
                     return true; //retorna verdadeiro para conferencia
                 }
                 else{
@@ -158,11 +162,12 @@
         }
 
         static function logout(){ // funcao de logout
+            $message = "Logout";
             try{
-                session_start();
                 if(isset($_SESSION['login'])){
-                session_destroy();
-                return true;
+                    Servico::logs($message);
+                    session_destroy();
+                    return true;
                 }else{
                     return false;
                 }
@@ -173,7 +178,6 @@
         }
 //------------------------- FUNÇÕES DE CADASTRO USUARIO/PESSOA --------------------------------
         static function cadastro($arrayUser){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
-            
             $newUser = Servico::objUsuarios($arrayUser); //instancia um novo objeto do tipo Usuarios
             $senhaMD5 = md5($newUser->getUsuarios_senha()); // transforma a senha para md5
             $newUser->setUsuarios_senha($senhaMD5); // seta a nova senha
@@ -189,7 +193,12 @@
                            $newUser->getUsuarios_del(), //parametros que alimentam os valores da string (?,?,?,?)
                     );
             try{ // tenta Inserir
-                return $a = Database::executarParam($sql, $param); // executa a funcao da classe Database
+                $a = Database::executarParamID($sql, $param); // executa a funcao da classe Database
+                if($a){
+                    $message = "Tabela: Usuarios; CRUD: INSERT; usuarios_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }
 
             catch(Exception $e){
@@ -200,9 +209,9 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
-                           $newPessoa->getPessoas_cpf(),
+                           $newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -214,7 +223,12 @@
                            $newPessoa->getPessoas_del(),
                      );
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: Pessoas; CRUD: INSERT; pessoas_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }
 
             catch(Exception $e){
@@ -224,8 +238,8 @@
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "UPDATE pessoas SET pessoas_cpf = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
-            $param = array($newPessoa->getPessoas_cpf(),
+            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
+            $param = array($newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
                            $newPessoa->getPessoas_datanasc(),
@@ -236,7 +250,12 @@
                            $newPessoa->getPessoas_endereco(),
                            $newPessoa->getPessoas_id());
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Pessoas; CRUD: UPDATE; pessoas_id = ".$newPessoa->getPessoas_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }
 
             catch(Exception $e){
@@ -261,7 +280,12 @@
                            $newIndice->getIndices_del());
             $sql = "INSERT INTO indices (indices_desc, indices_del) VALUES (?,?)";
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: Indices; CRUD: INSERT; indices_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 die("Erro: ". $e->getMessage);
             }
@@ -273,7 +297,12 @@
             $param = array($newPessoa->getIndices_desc(),
                            $newPessoa->getIndices_id());
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Indices; CRUD: UPDATE; indices_id = ".$newPessoa->getIndices_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }
             catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
@@ -323,6 +352,21 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+
+        static function SelecionarAllIndices(){
+            $sql = "SELECT * FROM indices ORDER BY indices_desc";
+            try{
+                $line = Database::selecionar($sql);
+                if($line){
+                    for($i = 0; $i<count($line);$i++){
+                        $indices[$i] = Servico::objIndices($line[$i]);
+                    }
+                    return $indices;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
 // ------------------------ VARAS -------------------------------------------------------------
         static function cadastroVara($vara){
             $newIndice = Servico::objVaras($vara);
@@ -330,7 +374,12 @@
                            $newIndice->getVaras_del());
             $sql = "INSERT INTO varas (varas_nome, varas_del) VALUES (?,?)";
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: Varas; CRUD: INSERT; varas_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 die("Erro: ". $e->getMessage);
             }
@@ -342,7 +391,12 @@
             $param = array($newPessoa->getVaras_nome(),
                            $newPessoa->getVaras_id());
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Varas; CRUD: UPDATE; varas_id = ".$newPessoa->getVaras_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }
             catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
@@ -405,21 +459,28 @@
         static function cadastroProcesso($arrayP){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
             $newProcesso = Servico::objProcessos($arrayP); //instancia um novo objeto do tipo Usuarios
-            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apencos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apensos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_desembargador`, `processos_procurador`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             $param = array($newProcesso->getProcessos_num(),
                            $newProcesso->getProcessos_acao(),
                            $newProcesso->getProcessos_ordem(),
                            $newProcesso->getVaras_id(),
                            $newProcesso->getProcessos_oficial(),
                            $newProcesso->getProcessos_juiz(),
-                           $newProcesso->getProcessos_apencos(),
+                           $newProcesso->getProcessos_apensos(),
                            $newProcesso->getProcessos_valor(),
                            $newProcesso->getProcessos_senha(),
                            $newProcesso->getProcessos_data(),
+                           $newProcesso->getProcessos_desembargador(),
+                           $newProcesso->getProcessos_procurador(),
                            $newProcesso->getProcessos_del(),
                      );
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: Processos; CRUD: INSERT; processos_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }
 
             catch(Exception $e){
@@ -429,7 +490,13 @@
 
         static function alterarProcesso($processo){
             $newProc = Servico::objProcessos($processo);
-            $sql = "UPDATE processos SET processos_num = ?, processos_acao = ?, processos_ordem = ?, varas_id = ?, processos_oficial = ?, processos_juiz = ?, processos_valor = ?, processos_senha = ?, processos_data = ? WHERE processos_id = ?";
+            $sql = "UPDATE processos 
+                    SET processos_num = ?, processos_acao = ?, processos_ordem = ?, 
+                        varas_id = ?, processos_oficial = ?, processos_juiz = ?, 
+                        processos_valor = ?, processos_senha = ?, processos_data = ?, 
+                        processos_desembargador = ?, processos_procurador = ?, processos_apensos = ? 
+                        WHERE processos_id = ?";
+            
             $param = array($newProc->getProcessos_num(),
                            $newProc->getProcessos_acao(),
                            $newProc->getProcessos_ordem(),
@@ -439,9 +506,17 @@
                            $newProc->getProcessos_valor(),
                            $newProc->getProcessos_senha(),
                            $newProc->getProcessos_data(),
+                           $newProc->getProcessos_desembargador(),
+                           $newProc->getProcessos_procurador(),
+                           $newProc->getProcessos_apensos(),
                            $newProc->getProcessos_id());            
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Processos; CRUD: UPDATE; processos_id = ".$newProc->getProcessos_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }
 
             catch(Exception $e){
@@ -472,6 +547,20 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+
+        static function consultaProcessoID($id){
+            $sql = "SELECT * FROM processos WHERE processos_id = ? AND upper(processos_del) = 'N'";
+            try{
+                $line = Database::retornaParam($sql, $id);
+                if($line){
+                    return Servico::objProcessos($line[0]);
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
 //------------------------- PARTES PROCESSO ---------------------------------------------------
         static function cadastroPartes($partes){
             $newPartes = Servico::objPartes($partes);
@@ -481,7 +570,12 @@
                     VALUES (?,(SELECT processos_id FROM processos ORDER BY processos_id DESC LIMIT 1),?,\"N\")";
             
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: Partes; CRUD: INSERT; partes_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 die("Erro: ". $e->getMessage);
             }
@@ -561,9 +655,33 @@
                            $newPartes->getPartes_tipo(),
                            $newPartes->getPartes_id());
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Partes; CRUD: UPDATE; partes_id = ".$newPartes->getPartes_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }
             catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function consultaParteID($id){
+            $sql = "SELECT DISTINCT * FROM partes WHERE processos_id = ? AND partes_del = 'N'";
+            try{
+                $line = Database::retornaParam($sql, $id);
+                if($line){
+                    $i = 0;
+                    foreach($line as $andamento){
+                        $andamentos[$i] = Servico::objPartes($andamento);
+                        $i++;
+                    }
+                    return $andamentos;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
         }
@@ -574,6 +692,28 @@
                 return $query = Database::validarParam($sql, $parte);
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function cadastraPartes($parametros){
+            $sql = "INSERT INTO partes (pessoas_id, processos_id, partes_tipo, partes_del) VALUES (?,?,?,?)";
+            $processo_id    = $parametros['processo'];
+            $pessoas        = $parametros['pessoas'];
+            $partes         = $parametros['partes'];
+            try{
+                for($i=0;$i<count($pessoas);$i++){
+                    $param = array($pessoas[$i], $processo_id, $partes[$i], "N");
+                    $query = Database::executarParamID($sql, $param);
+                }
+                if(!$query){
+                    return false;
+                }else{
+                    $message = "Tabela: Partes; CRUD: INSERT; partes_id = ".$query;
+                    Servico::logs($message);
+                    return true;
+                }
+            }catch(Exception $e){
+                die($e);
             }
         }
 // ------------------------ CONSULTAS PROCESSOS -----------------------------------------------
@@ -594,7 +734,7 @@
                 return die("Erro: ".$e);
             }
         }     
-//------------------------- FUNÇÕES DE CADASTRO INDICES PROCESSO ------------------------------
+//------------------------- FUNÇÕES INDICES PROCESSO ------------------------------------------
         static function cadastroIndicesProcesso($indicesProcesso){
             $newIndicesProcesso = Servico::objIndicesProcesso($indicesProcesso);
             $param = array($newIndicesProcesso->getIndices_id(),
@@ -602,11 +742,78 @@
             $sql = "INSERT INTO indicesprocesso (indices_id, processos_id, indice_del) VALUES (?,(SELECT processos_id FROM processos ORDER BY processos_id DESC LIMIT 1),?)";
             
             try{
-                return Database::executarParam($sql, $param);
+                $a = Database::executarParamID($sql, $param);
+                if($a){
+                    $message = "Tabela: IndicesProcesso; CRUD: INSERT; indicesprocesso_id = ".$a;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 die("Erro: ". $e->getMessage);
             }
 
+        }
+
+        static function consultaIndiceID($id){
+            $sql = "SELECT DISTINCT indices_desc 
+                    FROM indices AS ind 
+                    INNER JOIN indicesprocesso AS i 
+                    ON i.processos_id = ? 
+                    AND i.indices_id = ind.indices_id
+                    WHERE ind.indices_del = 'N'";
+            try{
+                return $line = Database::retornaParam($sql, $id);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function cadastrarIndices($parametros){
+            $sql = "INSERT INTO indicesprocesso (indices_id, processos_id, indice_del) VALUES (?,?,?)";
+            $processo_id    = $parametros['processo'];
+            $indices        = $parametros['indices'];
+            try{
+                for($i=0;$i<count($indices);$i++){
+                    $param = array($indices[$i], $processo_id, "N");
+                    $query = Database::executarParamID($sql, $param);
+                }
+                if(!$query){
+                    return false;
+                }else{
+                    $message = "Tabela: IndicesProcesso; CRUD: INSERT; indicesprocesso_id = ".$query;
+                    Servico::logs($message);
+                    return true;
+                }
+            }catch(Exception $e){
+                die($e);
+            }
+        }
+
+        static function consultaIndicesData($datas){
+            $sql = "SELECT * FROM processos WHERE processos_data BETWEEN ? AND ? AND processos_del = 'N'";
+            try{
+                $processos = Database::selecionarParam($sql,$datas);
+                if($processos){
+                    $sql2 = "SELECT * FROM indicesprocesso WHERE processos_id = ? AND indice_del = 'N'";
+                    $i=0;
+                    foreach($processos as $processo){
+                        $indicesProcesso = Database::retornaParam($sql2, $processo['processos_id']);
+
+                        if($indicesProcesso){
+                            foreach ($indicesProcesso as $indiceProcesso) {
+                                $indices[$i] = Servico::objIndicesProcesso($indiceProcesso);
+                                $i++;
+                            }
+                        }
+                    }
+                    if(count($indices) > 0){
+                       return $indices;
+                    }
+                }
+                return false;
+            }catch(Exception $e){
+                die($e);
+            }
         }
 // ------------------------ VERIFICAÇÃO PARA CADASTRO DE USUARIOS E PESSOAS -------------------
         
@@ -623,7 +830,7 @@
         }
 
         static function verificaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf = ?";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf_cnpj = ?";
 
             try{
                 return $query = Database::validarParam($sql,$param); //retorna se existe ou nao o valor
@@ -674,7 +881,7 @@
         }
 
         static function consultaCPF($param){ //utilizada para validacao de campos
-            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf";
+            $sql = "SELECT * FROM pessoas WHERE pessoas_cpf_cnpj LIKE ? AND pessoas_del = ? ORDER BY pessoas_cpf_cnpj";
             $delete = "N";
             $parame = array($param,$delete);
             try{
@@ -892,8 +1099,10 @@
                 $andamentos->getAndamentos_del()
             );
             try{
-                $query = Database::executarParam($sql,$andamento);
+                $query = Database::executarParamID($sql,$andamento);
                 if($query){
+                    $message = "Tabela: Andamentos; CRUD: INSERT; andamentos_id = ".$query;
+                    Servico::logs($message);
                     return true;
                 }else{
                     echo "erro:".$query;
@@ -913,6 +1122,8 @@
             try{
                 $query = Database::cadastraArquivo($sql, $arquivo);
                 if($query){
+                    $message = "Tabela: Arquivos; CRUD: INSERT; arquivos_id = ".$query;
+                    Servico::logs($message);
                     return true;
                 }else{
                     return false;
@@ -944,7 +1155,12 @@
                                     $andamento->getAndamentos_com(),
                                     $andamento->getAndamentos_data(),
                                     $andamento->getAndamentos_id());
-                return $query = Database::executarParam($sql, $and_param);
+                $a = Database::executarParam($sql, $and_param);
+                if($a){
+                    $message = "Tabela: Andamentos; CRUD: UPDATE; andamentos_id = ".$andamento->getAndamentos_id();
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 echo $e;
             }
@@ -961,6 +1177,8 @@
             try{
                 $query = Database::alterarArquivo($sql, $arquivo);
                 if($query){
+                    $message = "Tabela: Arquivos; CRUD: INSERT; arquivos_id = ".$query;
+                    Servico::logs($message);
                     return true;
                 }else{
                     return false;
@@ -976,17 +1194,42 @@
                 if(isset($ids)){
                     foreach($ids as $id){
                         $sqlDelete .= " AND arquivos_id != ? ";
+                        $message = "Tabela: Arquivos; CRUD: DELETE; arquivos_ids = ".$id;
+                        Servico::logs($message);
                     }
                     array_unshift($ids, $andamentos_id);
-                    return $query = Database::executarParam($sqlDelete, $ids);
+                    $query = Database::executarParam($sqlDelete, $ids);
+                    if($query){
+                        return true;
+                    }
                 }else{
-                    return $query = Database::validarParam($sqlDelete, $andamentos_id);
+                    $query = Database::validarParam($sqlDelete, $andamentos_id);
+                    if($query){
+                        $message = "Tabela: Arquivos; CRUD: DELETE ALL; andamentos_id = ".$andamentos_id;
+                        Servico::logs($message);
+                        return true;
+                    }
                 }
             }catch(Exception $e){
                 echo $e;
             }
         }
-// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------------
+
+        static function consultaAndamentosData($datas){
+            $sql = "SELECT * FROM ANDAMENTOS WHERE andamentos_data BETWEEN ? AND ?";
+            try{
+                $query = Database::selecionarParam($sql, $datas);
+                if($query){
+                    for($i=0;$i<count($query);$i++){
+                        $result[$i] = Servico::objAndamentos($query[$i]);
+                    }
+                    return $result;
+                }
+            }catch(Exception $e){
+                die($e);
+            }
+        }
+// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------
         static function SelecionarTipos_andamento(){
             $sql = "SELECT * FROM tipos_andamento";
             try{
@@ -999,6 +1242,21 @@
                 }
             }catch(Exception $e){
                 die($e);
+            }
+        }
+// ------------------------ FUNÇÕES LOGS ------------------------------------------------------
+
+        static function logs($tipo){
+            if(isset($_SESSION['login'])){
+                try{
+                    $user = unserialize($_SESSION['login']);
+                    $id = $user->getUsuarios_id();
+                    return Database::logs($id, $tipo);
+                }catch(Exception $e){
+                    die($e);
+                }
+            }else{
+                return false;
             }
         }
     }

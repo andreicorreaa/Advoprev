@@ -7,6 +7,12 @@ $(document).ready(function(){
 		validaLogin($("#nome"), $("#senha"));
 	
 	});
+	//Aqui quando clicar a tecla "Enter" a função para validação do login será chamada
+	$("#senha").keypress(function handleEnter(e, func) {
+        if (e.keyCode == 13 || e.which == 13) {
+            validaLogin($("#nome"), $("#senha"));
+        }
+    });
 
 	$("#btn_logout").click(function(){
 	

@@ -44,9 +44,8 @@
         </table>
 	</div>
 	<div id="mostra">
-		<div style="overflow-x:auto;">
 			<table id="tb1" class="fixo">
-				<caption>Varas</caption>
+				<caption>Partes</caption>
 					<thead>
 						<th width="30%">Nº Processo</th>
 						<th width="40%">Nome</th>
@@ -56,6 +55,5 @@
 					<tbody>
 					</tbody>
         	</table>
-        </div>
 	</div>
 </body>

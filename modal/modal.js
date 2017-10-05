@@ -35,8 +35,21 @@ $(document).ready(function(){
 // ------------------------ ALTERAR PESSOAS ----------------------
 function alteraPessoa(value){
     var str = value;
+    if(!$("input:radio[name=tipo-pessoa"+value+"]:checked").val()){
+        alert("Selecione o tipo de pessoa");
+        return;
+    }
+    var cpf_cnpj;
+    var op = $("input:radio[name=tipo-pessoa"+value+"]:checked").val();
+    if(op == "cpf"){
+        cpf_cnpj = $("#cpf"+str).val();
+        var check = verificaCPF(cpf_cnpj);
+    }else{
+        cpf_cnpj = $("#cnpj"+str).val();
+        var check = validarCNPJ(cpf_cnpj);
+    }
     var nome = $("#n"+str).val();
-    var cpf = $("#cpf"+str).val();
+    //var cpf = $("#cpf"+str).val();
     var emails = $("#email"+str).val();
     var rg = $("#rg"+str).val();
     var data = $("#data"+str).val();
@@ -47,17 +60,15 @@ function alteraPessoa(value){
     //console.log(nome, cpf, email, rg, data, tel, sexo, oab, endereco);
     var email = IsEmail(emails);
     //var rg_check = buscarRG(rg);
-    var cpf_check = verificaCPF(cpf);
     //tel_check = buscarTel(tel);
     if(nome == ""){
         $("#n"+str).focus();
         return;
-    }
-    else if(cpf == "" || cpf_check == false){
-        $("#cpf"+str).focus();
-        return;
     }else if(email == false) {
         alert("email inválido");
+        return;
+    }else if(check == false) {
+        alert("CPF/CNPJ inválido");
         return;
     }else if(rg == ""){
         $("#rg"+str).focus();
@@ -72,7 +83,7 @@ function alteraPessoa(value){
         $("#endereco"+str).focus();
         return;
     }else{
-        $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf: cpf, rg: rg,
+        $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf_cnpj: cpf_cnpj, rg: rg,
         nome: nome, data: data, email: emails, telefone: tel, 
         sexo: sexo, oab: oab, endereco: endereco}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control  
@@ -324,15 +335,19 @@ function IsEmail(email){
 }
 // ------------------------ BUSCAR EMAIL REPETIDO ----------------
 function buscarEmail(valor){
-    $.post("control/cadastroControl.php?action=verEmail", {aux: valor}, // envia variaveis por POST para a control cadastroControl
-        function(retorno){ //retorno é o resultado que a control retorna
-            if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
-                //mostra na div alert
-                alert("Email já cadastrado");
+    if(IsEmail(valor)){
+        $.post("control/cadastroControl.php?action=verEmail", {aux: valor}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //retorno é o resultado que a control retorna
+                if(retorno == 1){
+                    setTimeout(window.alert("Email já cadastrado"), 1000);
+                    $("#email").val("");
+                    return false;
+                }else{
+                    return true;
+                }
             }
-
-        }
-    );
+        );
+    }
 }
 // ------------------------ BUSCAR RG REPETIDO -------------------
 function buscarRG(valor){
@@ -341,6 +356,7 @@ function buscarRG(valor){
             if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
                 //mostra na div alert
                 alert("RG já cadastrado");
+                $("#rg").val("");
                 return false;
             }else{
                 return true;
@@ -363,4 +379,105 @@ function buscarTel(valor){
 
         }
     );
+}
+
+function tipoPessoa(value, id){
+    if(value.value == "cpf"){
+        document.getElementById("tipoPessoa"+id).style.display = 'none';
+        document.getElementById("lblcpf"+id).style.display = 'table-cell';
+        document.getElementById("inputcpf"+id).style.display = 'table-cell';
+    }else{
+
+        document.getElementById("tipoPessoa"+id).style.display = 'none';
+        document.getElementById("lblcnpj"+id).style.display = 'table-cell';
+        document.getElementById("inputcnpj"+id).style.display = 'table-cell';
+    }
+}
+
+function buscarCNPJ(valor){
+    var cnpj = valor.length;
+    var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+    var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
+    if(cnpj < 14){
+        $("#verifica1").html(a);
+        return; //retorna nulo
+    }else if(!validarCNPJ(valor)){
+        $("#verifica1").html(a);
+        return; //retorna nulo
+    }else{
+        $.post("control/cadastroControl.php?action=verCPF", {aux: valor}, // envia variaveis por POST para a control cadastroControl
+        function(retorno){ //retorno é o resultado que a control retorna
+            var a = unescape("<img alt=\"CNPJ inválido ou já cadastrado\" src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+            var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
+            if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
+                $("#verifica1").html(a);  //mostra na div alert
+                //alert("CNPJ já cadastrado");
+                return false;
+            }else{
+                var c = validarCNPJ((valor.replace(/[a-z]/gi,''))); // verifica se o cpf é valido
+                if(c == true){
+                    $("#verifica1").html(b);
+                    return true;
+                }else{
+                    alert("CPF com formato inválido");
+                    $("#verifica1").html(a);
+                    return false;
+                }
+            }
+        });
+    }
+}
+
+function validarCNPJ(cnpj) {
+ 
+    cnpj = cnpj.replace(/[^\d]+/g,'');
+ 
+    if(cnpj == '') return false;
+     
+    if (cnpj.length != 14)
+        return false;
+ 
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == "00000000000000" || 
+        cnpj == "11111111111111" || 
+        cnpj == "22222222222222" || 
+        cnpj == "33333333333333" || 
+        cnpj == "44444444444444" || 
+        cnpj == "55555555555555" || 
+        cnpj == "66666666666666" || 
+        cnpj == "77777777777777" || 
+        cnpj == "88888888888888" || 
+        cnpj == "99999999999999")
+        return false;
+         
+    // Valida DVs
+    tamanho = cnpj.length - 2
+    numeros = cnpj.substring(0,tamanho);
+    digitos = cnpj.substring(tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0))
+        return false;
+         
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0,tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2)
+            pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1))
+          return false;
+           
+    return true;
+    
 }

@@ -18,28 +18,30 @@
         $money = str_replace(".", "", $_POST['valor']);
         $money1 = str_replace(",", ".", $money);
 
-        $param = array("processos_id" => null,
-                        "processos_num" => $_POST['numero'],
-                        "processos_acao" => $_POST['acao'],
-                        "processos_ordem" => $_POST['ordem'],
-                        "varas_id" => $_POST['vara'],
-                        "processos_oficial" => $_POST['oficial'],
-                        "processos_juiz" => $_POST['juiz'],
-                        "processos_apencos" => null,
-                        "processos_valor" => $money1,
-                        "processos_senha" => $_POST['senha'],
-                        "processos_data" => $_POST['data'],
-                        "processos_del" => "N");
-        
+        $param = array("processos_id"               => null,
+                        "processos_num"             => $_POST['numero'],
+                        "processos_acao"            => $_POST['acao'],
+                        "processos_ordem"           => $_POST['ordem'],
+                        "varas_id"                  => $_POST['vara'],
+                        "processos_oficial"         => $_POST['oficial'],
+                        "processos_juiz"            => $_POST['juiz'],
+                        "processos_apensos"         => $_POST['apensos'],
+                        "processos_valor"           => $money1,
+                        "processos_senha"           => $_POST['senha'],
+                        "processos_data"            => $_POST['data'],
+                        "processos_procurador"      => $_POST['procurador'],
+                        "processos_desembargador"   => $_POST['desembargador'],
+                        "processos_del"             => "N");
+
         for($i = 0; $i < count($_POST['nome']); $i++){ //pegando partes selecionados na view
-            if($_POST['nome'][$i] != "null" && $_POST['desc'][$i] != "null"){
+            if($_POST['nome'][$i] != "" && $_POST['desc'][$i] != ""){
                 $tipo[$i] = $_POST['desc'][$i];
                 $parte[$i] = $_POST['nome'][$i];
                 $aux1 = true;
             }
         }
         for($i = 0; $i < count($_POST['indices']); $i++){ // pegando indices selecionados na view
-            if($_POST['indices'][$i] != "null"){
+            if($_POST['indices'][$i] != ""){
                 $indice[$i] = $_POST['indices'][$i];
                 $aux2 = true;
             }
@@ -51,11 +53,11 @@
             if($a){ //verifica se o processo foi inserido com sucesso, se sim, continua para inserção de indices e partes
                 if($aux1 == true){ //se existe partes
                     for($i = 0; $i < count($tipo); $i++){
-                        $param1 = array("partes_id"=> null,
-                                        "pessoas_id" => $parte[$i],
-                                        "processos_id" => null,
-                                        "partes_tipo" => $tipo[$i],
-                                        "partes_del" => "N");
+                        $param1 = array("partes_id"     => null,
+                                        "pessoas_id"    => $parte[$i],
+                                        "processos_id"  => null,
+                                        "partes_tipo"   => $tipo[$i],
+                                        "partes_del"    => "N");
                         try{
                             $retorno = Servico::cadastroPartes($param1);
                         }catch(Exception $e){
@@ -65,10 +67,10 @@
                 }
                 if($aux2 == true){ //se existe indices
                     for($i = 0; $i < count($indice); $i++){
-                        $param2 = array("indicesprocesso_id"=>null,
-                                        "indices_id" => $indice[$i],
-                                        "processos_id"=> null,
-                                        "indice_del"=>"N");
+                        $param2 = array("indicesprocesso_id"    =>null,
+                                        "indices_id"            => $indice[$i],
+                                        "processos_id"          => null,
+                                        "indice_del"            =>"N");
                         try{
                             $retorno1 = Servico::cadastroIndicesProcesso($param2);
                         }catch(Exception $e){
@@ -122,7 +124,7 @@
     else if($acao == "cadastro"){
         $loginParam = array("pessoas_id"=>null,
                             "usuarios_id"=>null,
-                            "pessoas_cpf"=>$_POST['cpf'],
+                            "pessoas_cpf_cnpj"=>$_POST['cpf_cnpj'],
                             "pessoas_rg"=>$_POST['rg'],
                             "pessoas_nome"=>$_POST['nome'],
                             "pessoas_datanasc"=>$_POST['data'],
@@ -141,6 +143,17 @@
     }else if($acao == "verNOrdem"){
         $param = $_POST['aux'];
         $a = Servico::verificaOrdem($param);
+        return cadastroView::respostaVerificacao($a);
+    }else if($acao == "cadastrarPartes"){
+        $param = array( "processo"  => $_POST['processo'],
+                        "pessoas"    => $_POST['pessoas'],
+                        "partes"     => $_POST['partes']);
+        $a = Servico::cadastraPartes($param);
+        return cadastroView::respostaVerificacao($a);
+    }else if($acao == "cadastrarIndices"){
+        $param = array( "processo"  => $_POST['processo'],
+                        "indices"   => $_POST['indices']);
+        $a = Servico::cadastrarIndices($param);
         return cadastroView::respostaVerificacao($a);
     }
 ?>
