@@ -336,10 +336,10 @@
             return $this->indices_id;
         }
         public function setProcessos_id($value){
-            $this->Processos_id = $value;
+            $this->processos_id = $value;
         }
         public function getProcessos_id(){
-            return $this->Processos_id;
+            return $this->processos_id;
         }
         public function setIndice_del($value){
             $this->indice_del = $value;

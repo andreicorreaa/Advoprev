@@ -15,7 +15,7 @@
             <div id="selecionar">
                 <button type="button" name="btn_relatorio1" id="btn_relatorio1">Por Processo</button>
                 <button type="button" name="btn_relatorio2" id="btn_relatorio2">Por Andamento</button>
-                <button type="button" name="btn_relatorio3" id="btn_relatorio3">Por Indíce</button>
+                <button type="button" name="btn_relatorio3" id="btn_relatorio3">Por Assunto/índice</button>
             </div>
             <div id="container1">
 
