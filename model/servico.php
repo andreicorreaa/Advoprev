@@ -87,7 +87,7 @@
 
         static function objIndicesProcesso($ind){
             $indicesprocesso = new IndicesProcesso();
-            $indicesprocesso->setIndicesProcesso_id($ind["indicesprocesso_id"]);
+            $indicesprocesso->setIndicesProcesso_id($ind["indicesProcesso_id"]);
             $indicesprocesso->setIndices_id($ind["indices_id"]);
             $indicesprocesso->setProcessos_id($ind["processos_id"]);
             $indicesprocesso->setIndice_del($ind["indice_del"]);
@@ -352,6 +352,21 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
+
+        static function SelecionarAllIndices(){
+            $sql = "SELECT * FROM indices ORDER BY indices_desc";
+            try{
+                $line = Database::selecionar($sql);
+                if($line){
+                    for($i = 0; $i<count($line);$i++){
+                        $indices[$i] = Servico::objIndices($line[$i]);
+                    }
+                    return $indices;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
 // ------------------------ VARAS -------------------------------------------------------------
         static function cadastroVara($vara){
             $newIndice = Servico::objVaras($vara);
@@ -534,9 +549,14 @@
         }
 
         static function consultaProcessoID($id){
-            $sql = "SELECT * FROM processos WHERE processos_id = ? AND processos_del = 'N'";
+            $sql = "SELECT * FROM processos WHERE processos_id = ? AND upper(processos_del) = 'N'";
             try{
-                return $line = Database::retornaParam($sql, $id);
+                $line = Database::retornaParam($sql, $id);
+                if($line){
+                    return Servico::objProcessos($line[0]);
+                }else{
+                    return false;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -648,9 +668,19 @@
         }
 
         static function consultaParteID($id){
-            $sql = "SELECT * FROM partes WHERE processos_id = ? AND partes_del = 'N'";
+            $sql = "SELECT DISTINCT * FROM partes WHERE processos_id = ? AND partes_del = 'N'";
             try{
-                return $line = Database::retornaParam($sql, $id);
+                $line = Database::retornaParam($sql, $id);
+                if($line){
+                    $i = 0;
+                    foreach($line as $andamento){
+                        $andamentos[$i] = Servico::objPartes($andamento);
+                        $i++;
+                    }
+                    return $andamentos;
+                }else{
+                    return false;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -725,7 +755,7 @@
         }
 
         static function consultaIndiceID($id){
-            $sql = "SELECT indices_desc 
+            $sql = "SELECT DISTINCT indices_desc 
                     FROM indices AS ind 
                     INNER JOIN indicesprocesso AS i 
                     ON i.processos_id = ? 
@@ -754,6 +784,33 @@
                     Servico::logs($message);
                     return true;
                 }
+            }catch(Exception $e){
+                die($e);
+            }
+        }
+
+        static function consultaIndicesData($datas){
+            $sql = "SELECT * FROM processos WHERE processos_data BETWEEN ? AND ? AND processos_del = 'N'";
+            try{
+                $processos = Database::selecionarParam($sql,$datas);
+                if($processos){
+                    $sql2 = "SELECT * FROM indicesprocesso WHERE processos_id = ? AND indice_del = 'N'";
+                    $i=0;
+                    foreach($processos as $processo){
+                        $indicesProcesso = Database::retornaParam($sql2, $processo['processos_id']);
+
+                        if($indicesProcesso){
+                            foreach ($indicesProcesso as $indiceProcesso) {
+                                $indices[$i] = Servico::objIndicesProcesso($indiceProcesso);
+                                $i++;
+                            }
+                        }
+                    }
+                    if(count($indices) > 0){
+                       return $indices;
+                    }
+                }
+                return false;
             }catch(Exception $e){
                 die($e);
             }
@@ -1157,6 +1214,21 @@
                 echo $e;
             }
         }
+
+        static function consultaAndamentosData($datas){
+            $sql = "SELECT * FROM ANDAMENTOS WHERE andamentos_data BETWEEN ? AND ?";
+            try{
+                $query = Database::selecionarParam($sql, $datas);
+                if($query){
+                    for($i=0;$i<count($query);$i++){
+                        $result[$i] = Servico::objAndamentos($query[$i]);
+                    }
+                    return $result;
+                }
+            }catch(Exception $e){
+                die($e);
+            }
+        }
 // ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------
         static function SelecionarTipos_andamento(){
             $sql = "SELECT * FROM tipos_andamento";
@@ -1172,7 +1244,6 @@
                 die($e);
             }
         }
-
 
         static function cadastrarTipos($desc){
             $sql = "INSERT INTO tipos_andamento (tipos_andamento_desc, tipos_andamento_del) VALUES (?, 'N')";

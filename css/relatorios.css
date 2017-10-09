@@ -1,10 +1,9 @@
 #buscarP{
-	border: 1px solid black;
 	width: 102%;
 }
 
 #relatorio{
-	border: 1px solid black;
+	border: 1px solid grey;
 	width: 102%;
 	margin-top: 10px;
 	height: 150%;
@@ -25,25 +24,64 @@
 
 table.tab-r{
 	width: 700px;
-	border: 2px solid black;
+	/*border: 2px solid black;*/
 	height: 100%;
 	background-color: black;
 	border-collapse: collapse;
 	padding: 0px;
 	margin: 0px;
+	font-family: 'Arial'; 
 }
 
 .tab-r td.back-forte{
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	background-color: grey !important;
 	margin: 0px;
 	padding: 2px;
-	-webkit-print-color-adjust: exact; 
+	-webkit-print-color-adjust: exact;
+	font-size: 12px;
 }
 
 .tab-r td.back-fraco{
 	padding: 2px;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	background-color: white;
 	margin: 0px;
+	text-align: justify;
+	font-size: 12px;
+}
+
+input[type=date] {
+    width: 20% !important;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+table.tb-a{
+	width: 84%;
+}
+table.tb-a thead{
+	background-color: #2196F3 !important;
+	-webkit-print-color-adjust: exact;
+}
+
+table.tb-a td{
+	text-align: center;
+}
+
+.tb-total{
+	background-color: #2196F3;
+	font-weight: bold;
+	-webkit-print-color-adjust: exact;
+}
+
+.tb-total-oco{
+	background-color: #2196F3;
+	font-weight: bold;
+	-webkit-print-color-adjust: exact;
+	text-align: left !important;
 }

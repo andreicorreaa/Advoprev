@@ -37,6 +37,5 @@
             	</center>
             </div>
         </div>
-        <input type="button" id="btn-imprime" onclick="javascript: Imprimir()" value="Imprimir">
     </body>
 </html>

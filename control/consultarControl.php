@@ -111,12 +111,23 @@
             $a = Servico::consultaProcessoID($param);
             return consultarView::respostaBusca($a);
             break;
+            
+        case 'pesAndamentoR':
+            $param = array($_POST['data_inicio'], $_POST['data_final']);
+            $a = Servico::consultaAndamentosData($param);
+            return relatoriosView::Andamentos($a);
+            break;
+
+        case 'pesIndiceR':
+            $param = array($_POST['data_inicio'], $_POST['data_final']);
+            $a = Servico::consultaIndicesData($param);
+            return relatoriosView::Indices($a);
+            break;
 
         case 'checkTipo':
             $param = $_POST['aux'];
             $a = Servico::consultaTipo($param);
             return consultarView::respostaBusca($a);
-            break;
 
         default:
             # code...
