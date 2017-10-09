@@ -11,6 +11,7 @@
         <meta name="keywords" content="funprev, advocacia, sistema, advoprev">
         <meta name="author" content="Emerson Andrei">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Cache-control" content="no-cache">
         <title>Início - AdvoPREV - FUNPREV BAURU</title>
         
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />

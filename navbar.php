@@ -36,6 +36,7 @@
                     <li onclick="carregar('selecionar.php', 'Pessoas - AdvoPREV - FUNPREV BAURU')"><a href='cadastroPessoas.php'><span>Cadastro de Pessoas</span></a></li>
                     <li onclick="carregar('indices.php', 'Indices - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Índices</span></a></li>
                     <li onclick="carregar('varas.php', 'Varas - AdvoPREV - FUNPREV BAURU')"><a href='varas.php'><span>Varas</span></a></li>
+                    <li onclick="carregar('tipos.php', 'Tipos/Situações - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Tipos/Situações</span></a></li>
                     <li onclick="carregar('processos.php', 'Processos - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Processos</span></a></li>
                     <li onclick="carregar('relatorios.php', 'Relatórios - AdvoPREV - FUNPREV BAURU')"><a href='#'><span>Relatórios</span></a></li>
                 </ul>

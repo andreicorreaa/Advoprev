@@ -112,6 +112,11 @@
             return consultarView::respostaBusca($a);
             break;
 
+        case 'checkTipo':
+            $param = $_POST['aux'];
+            $a = Servico::consultaTipo($param);
+            return consultarView::respostaBusca($a);
+            break;
 
         default:
             # code...

@@ -1172,7 +1172,31 @@
                 die($e);
             }
         }
-// ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------
+
+
+        static function cadastrarTipos($desc){
+            $sql = "INSERT INTO tipos_andamento (tipos_andamento_desc, tipos_andamento_del) VALUES (?, 'N')";
+            try{
+                return $query = Database::validarParam($sql, $desc);
+            }catch(Exception $e){
+                die($e);
+            }
+        }
+
+        static function consultaTipo($desc){
+            $sql = "SELECT * FROM tipos_andamento WHERE tipos_andamento_desc = ? AND tipos_andamento_del = 'N'";
+            try{
+                $query = Database::validarParam($sql, $desc);
+                if($query > 0){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                die($e);
+            }
+        }
+// ------------------------ FUNÇÕES LOGS ------------------------------------------------------
 
         static function logs($tipo){
             if(isset($_SESSION['login'])){

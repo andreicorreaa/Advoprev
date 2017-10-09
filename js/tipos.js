@@ -2,35 +2,35 @@ $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
 
 	$("#btn_pesquisa").click(function(){
-		pesquisaVara($("#campo").val());
+		pesquisaTipos($("#campo"));
 	});
 
 	$("#campo").keypress(function handleEnter(e, func) {
         if (e.keyCode == 13 || e.which == 13) {
-            pesquisaVara($("#campo"));
+            pesquisaTipos($("#campo"));
         }
     });
 
-    $("#btn_cadVara").click(function(){
+    $("#btn_cadTipo").click(function(){
 		var check = document.getElementById('desc').value;
-		if(buscarVara(check) == true){
+		if(buscarTipos(check) == true){
 			//alert("Indice já cadastrado!");
 			$("#desc").val("");
 			$("#desc").focus();
 		}else{
-			cadVara($("#desc"));	
+			cadTipos($("#desc"));	
 		}
 	});
 
 	$("#desc").keypress(function handleEnter(e, func) {
         if (e.keyCode == 13 || e.which == 13) {
             var check = document.getElementById('desc').value;
-			if(buscarVara(check) == true){
+			if(buscarTipos(check) == true){
 				//alert("Indice já cadastrado!");
 				$("#desc").val("");
 				$("#desc").focus();
 			}else{
-				cadVara($("#desc"));	
+				cadTipos($("#desc"));	
 			}
         }
     });
@@ -42,56 +42,52 @@ $(document).ready(function(){
 
 });
 
-function cadVara(campo){
-	if(campo.val() == ""){
-		campo.focus();
-		return;
-	}else{
-		$.post("control/cadastroControl.php?action=cadVara", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
-			function(retorno2){ //resultado da control	
-				//console.log(retorno2); 
-				if(retorno2 == true){
-					campo.val("");
-					alert("Cadastro Efetuado Com Sucesso!");
-				}else{
-					alert("Erro :(");
-				}
-				
-			} //function(retorno)
-		); //$.post()
-	}
+function cadTipos(campo){
+	debugger
+	$.post("control/cadastroControl.php?action=cadTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+		function(retorno2){ //resultado da control
+			console.log(retorno2);
+			/*if(retorno2 == true){
+				campo.val("");
+				alert("Cadastro Efetuado Com Sucesso!");
+			}else{
+				alert("Erro :(");
+				console.log(retorno2);
+			}*/
+		}
+	);
 	return;
 }
 
-function pesquisaVara(campo){
-	if(campo == ""){
+function pesquisaTipos(campo){
+	if(campo.val() == ""){
 		alert("Digite no campo pesquisar");
 		campo.focus();
 		return;
 	}else{
-		$.post("control/consultarControl.php?action=pesVara", {desc: campo}, // envia variaveis por POST para a control cadastroControl
+		$.post("control/consultarControl.php?action=pesTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2){
 					$("#tb1 tbody").html(retorno2);
 				}else{
-					$("#tb1 tbody").html("<td align=\"center\">Vara não encontrada</td>");
+					$("#tb1 tbody").html("<td align=\"center\">Tipo/Situação não encontrado</td>");
 				}
-			} //function(retorno)
-		); //$.post()
+			}
+		);
 		return;
 	}
 }
 
-function buscarVara(valor){
+function buscarTipos(valor){
 	if(valor == ""){
 		alert("Digite algo!");
 		return;
 	}else{
 		var aux = false;
-		$.post("control/consultarControl.php?action=checkVara", {desc: valor}, // envia variaveis por POST para a control cadastroControl
+		$.post("control/consultarControl.php?action=checkTipo", {desc: valor}, // envia variaveis por POST para a control cadastroControl
 			function(retorno){ //retorno é o resultado que a control retorna
 				if(retorno){ // se retornar 1, neste caso o login ja existe no banco
-					alert("Vara já cadastrada!");
+					alert("Indice já cadastrado!");
 					aux = true;
 				}else{
 					aux =  false;

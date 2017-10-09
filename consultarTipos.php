@@ -4,12 +4,11 @@
 <!DOCTYPE html>
 <head>
 	<link href="css/cons.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="js/varas.js"></script>
+	<script type="text/javascript" src="js/tipos.js"></script>
 	<link href="modal/modal.css" rel="stylesheet" type="text/css" />
-	
 </head>
 <body>
-	<h1>Consultar Varas</h1>
+	<h1>Consultar Tipos/Situações</h1>
 	<div id="pesquisa">
 		<table align="center" id="tb2">
 			<tr>
@@ -22,10 +21,10 @@
 	<div id="mostra">
 		<div style="overflow-x:auto;">
 			<table id="tb1">
-				<caption>Varas</caption>
+				<caption>Tipos/Situações</caption>
 					<thead>
 						<th width="80%">Descrição</th>
-						<th width="3%">	</th>
+						<th width="3%"></th>
 					</thead>
 					<tbody>
 					</tbody>
