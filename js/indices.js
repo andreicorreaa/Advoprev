@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
-
+	$(".chosen-select").chosen({width: "100%"});
+	
 	$("#btn_pesquisa").click(function(){
 		pesquisaIndice($("#campo"));
 	});

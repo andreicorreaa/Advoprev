@@ -46,14 +46,13 @@ function cadTipos(campo){
 	debugger
 	$.post("control/cadastroControl.php?action=cadTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
 		function(retorno2){ //resultado da control
-			console.log(retorno2);
-			/*if(retorno2 == true){
+			if(retorno2 == true){
 				campo.val("");
 				alert("Cadastro Efetuado Com Sucesso!");
 			}else{
 				alert("Erro :(");
 				console.log(retorno2);
-			}*/
+			}
 		}
 	);
 	return;
@@ -66,9 +65,9 @@ function pesquisaTipos(campo){
 		return;
 	}else{
 		$.post("control/consultarControl.php?action=pesTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
-			function(retorno2){ //resultado da control	
-				if(retorno2){
-					$("#tb1 tbody").html(retorno2);
+			function(retorno){ //resultado da control	
+				if(retorno){
+					$("#tb1 tbody").html(retorno);
 				}else{
 					$("#tb1 tbody").html("<td align=\"center\">Tipo/Situação não encontrado</td>");
 				}
@@ -79,6 +78,7 @@ function pesquisaTipos(campo){
 }
 
 function buscarTipos(valor){
+	debugger
 	if(valor == ""){
 		alert("Digite algo!");
 		return;
@@ -86,8 +86,8 @@ function buscarTipos(valor){
 		var aux = false;
 		$.post("control/consultarControl.php?action=checkTipo", {desc: valor}, // envia variaveis por POST para a control cadastroControl
 			function(retorno){ //retorno é o resultado que a control retorna
-				if(retorno){ // se retornar 1, neste caso o login ja existe no banco
-					alert("Indice já cadastrado!");
+				if(retorno == true){ // se retornar 1, neste caso o login ja existe no banco
+					alert("Tipo/Situação já cadastrado!");
 					aux = true;
 				}else{
 					aux =  false;

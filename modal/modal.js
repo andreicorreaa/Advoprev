@@ -156,6 +156,33 @@ function alteraVara(value){
         ); //$.post()
     }
 }
+
+// ------------------------ ALTERAR TIPOS/SITUAÇÃO ------------------------
+function alteraTipo(value){
+    var str = value;
+    var nome = $("#n"+str).val();
+    if(nome == ""){
+        $("#n"+str).focus();
+        return;
+    }else{
+        $.post("control/alterarControl.php?action=alteraTipo", {id: str, desc: nome}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //resultado da control
+                if(retorno == 1){
+                    alert("Alterado com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarTipos.php');
+                }else{
+                    //console.log(retorno);
+                    alert("Erro ao efetuar a alteração (verifique se não existe registro com o mesmo nome)");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarTipos.php');
+                }
+            }
+        );
+    }
+}
 // ------------------------ FUNÇÕES DE EXCLUSÃO ------------------
 
 // ------------------------ EXCLUIR PESSOAS ----------------------
@@ -229,6 +256,33 @@ function excluiVara(value){
                     $("#mascara").hide();
                     $(".window").hide();
                     $("#container1").load('consultarIndices.php');
+                }
+            }
+        );
+    }else{
+        return;
+    }
+}
+
+// ------------------------ EXCLUIR INDICES ----------------------
+function excluiTipo(value){
+    var str = value;
+    decisao = confirm("Confirmar exclusão?!");
+    if(decisao){
+        $.post("control/exclusaoControl.php?action=excluiTipo", {id: str},
+            function(retorno){
+                //  debugger
+                if(retorno == 1){
+                    alert("Tipo/Situação excluído com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarTipos.php');
+                }else{
+                    //console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarTipos.php');
                 }
             }
         );

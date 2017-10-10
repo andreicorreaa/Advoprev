@@ -1231,7 +1231,7 @@
         }
 // ------------------------ FUNÇÕES TIPOS_ANDAMENTOS ------------------------------------------
         static function SelecionarTipos_andamento(){
-            $sql = "SELECT * FROM tipos_andamento";
+            $sql = "SELECT * FROM tipos_andamento WHERE tipos_andamento_del = 'N'";
             try{
                 $query = Database::selecionar($sql);
                 if($query){
@@ -1254,7 +1254,7 @@
             }
         }
 
-        static function consultaTipo($desc){
+        static function checkTipo($desc){
             $sql = "SELECT * FROM tipos_andamento WHERE tipos_andamento_desc = ? AND tipos_andamento_del = 'N'";
             try{
                 $query = Database::validarParam($sql, $desc);
@@ -1265,6 +1265,51 @@
                 }
             }catch(Exception $e){
                 die($e);
+            }
+        }
+
+        static function consultaTipo($desc){
+            $sql = "SELECT * FROM tipos_andamento WHERE tipos_andamento_desc LIKE ? AND tipos_andamento_del = 'N'";
+            try{
+                $query = Database::retornaParam($sql, $desc);
+                if($query){
+                    for($i=0;$i<count($query);$i++){
+                        $tipos[$i] = Servico::objTipos_andamentos($query[$i]);
+                    }
+                    return $tipos;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                die($e);
+            }
+
+        }
+
+        static function alterarTipo($tipo){
+            $newTipo = Servico::objTipos_andamentos($tipo);
+            $sql = "UPDATE tipos_andamento SET tipos_andamento_desc = ? WHERE tipos_andamento_id = ?";
+            $param = array($newTipo->getTipos_andamento_desc(),
+                           $newTipo->getTipos_andamento_id());
+            try{
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Tipos_andamento; CRUD: UPDATE; tipos_andamento_id = ".$newTipo->getTipos_andamento_id();
+                    Servico::logs($message);
+                    return true;
+                }
+            }
+            catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function excluiTipo($id){
+            try{
+                $sql = "UPDATE tipos_andamento SET tipos_andamento_del = 'S' WHERE tipos_andamento_id = ?";
+                return $query = Database::validarParam($sql, $id);
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
             }
         }
 // ------------------------ FUNÇÕES LOGS ------------------------------------------------------

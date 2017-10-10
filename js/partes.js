@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$(".chosen-select").chosen({width: "100%"});
 });
 
 function procuraProcesso(value){

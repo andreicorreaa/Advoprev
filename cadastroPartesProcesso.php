@@ -10,13 +10,15 @@
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
         <link href="css/partes.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/partes.js"></script>
+        <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
     </head>
     <body>
         <div id="pessoa">
             <h1>Cadastro de Partes do Processo</h1>
             <div id="buscarP">
                 <span style="width: 10%;">Nº do processo:  </span>
-                <select id="soflow" style="width: 80%" class="comb" name="processo_id" onchange="javascript: procuraProcesso(this.value);">
+                <select id="soflow" style="width: 80%" class="comb chosen-select" name="processo_id" onchange="javascript: procuraProcesso(this.value);">
                     <option selected="true"></option>
 <?php                   if(count($Processos) > 0){
                             foreach($Processos as $processo){ 

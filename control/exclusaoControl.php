@@ -30,6 +30,13 @@
             $a = Servico::excluiParte($param);
             return exclusaoView::respostaExclusao($a);
             break;
+
+        case 'excluiTipo'      :
+            $param = $_POST['id'];
+            $a = Servico::excluiTipo($param);
+            return exclusaoView::respostaExclusao($a);
+            break;
+            
     	default:
     		# code...
     		break;
