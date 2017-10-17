@@ -15,7 +15,7 @@
                 <tr>
                     <td colspan="4" align="center">
                         <button type="button" name="btn_cadVara" id="btn_cadVara">Cadastrar</button>
-                        <button type="reset">Limpar</button>
+                        <button type="reset" id="btn_limpar">Limpar</button>
                     </td>
                 </tr>
             </table>

@@ -1,6 +1,7 @@
 var id_form = 0;
 
 $(document).ready(function(){
+	$(".chosen-select").chosen({width: "100%"});
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
 	$("#formulario").submit(function (event) {
 		event.preventDefault();

@@ -7,6 +7,8 @@
 	<link href="css/cons.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/consultarPartes.js"></script>
 	<link href="modal/modalP.css" rel="stylesheet" type="text/css" />
+    <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
 	
 </head>
 <body>
@@ -27,7 +29,7 @@
 					<input type="text" name="proc_parte" id="proc_parte" onclick="javascript: atualizar();" class="text" placeholder="Digite o número do processo" size="60" required/>
 				</td>
 				<td style="display: none;" id="Usuario">
-                    <select id="soflow" class="comb" name="proc_usuario" onclick="javascript: atualizar();">
+                    <select id="soflow" class="comb chosen-select" name="proc_usuario" onclick="javascript: atualizar();">
                         <option></option>
                 <?php   if(count($pessoas) > 0){
                             foreach($pessoas as $pessoa){ ?>

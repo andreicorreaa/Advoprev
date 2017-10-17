@@ -21,7 +21,7 @@
         <link href="css/login.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <center><h1>AdvoPREV</h1></center>
+        <center><h1 class="navbar">AdvoPREV</h1></center>
 
         <form action="../control/loginControl.php" method="post" name ="formLogin">
             <div id="block">

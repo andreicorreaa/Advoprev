@@ -70,4 +70,14 @@ $(document).ready(function(){
 		$("#container1").html('');
 		$("#container1").load('relatorioIndices.php');
 	});
+
+	$("#btn_tipos1").click(function(){
+		$("#container1").html('');
+		$("#container1").load('consultarTipos.php');
+	});
+
+	$("#btn_tipos2").click(function(){
+		$("#container1").html('');
+		$("#container1").load('cadastrarTipos.php');
+	});
 });

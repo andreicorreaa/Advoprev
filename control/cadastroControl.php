@@ -155,5 +155,9 @@
                         "indices"   => $_POST['indices']);
         $a = Servico::cadastrarIndices($param);
         return cadastroView::respostaVerificacao($a);
+    }else if($acao == "cadTipo"){
+        $param = $_POST['desc'];
+        $a = Servico::cadastrarTipos($param);
+        return cadastroView::respostaVerificacao($a);
     }
 ?>

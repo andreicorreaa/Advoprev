@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
-
 	$("#btn_pesquisa").click(function(){
 		pesquisaIndice($("#campo"));
 	});
@@ -12,29 +11,33 @@ $(document).ready(function(){
     });
 
     $("#btn_cadIndice").click(function(){
-		var check = document.getElementById('desc').value;
+		var check = document.getElementById('campo').value;
 		if(buscarIndice(check) == true){
 			//alert("Indice já cadastrado!");
-			$("#desc").val("");
-			$("#desc").focus();
+			$("#campo").val("");
+			$("#campo").focus();
 		}else{
-			cadIndice($("#desc"));	
+			cadIndice($("#campo"));	
 		}
 	});
 
-	$("#desc").keypress(function handleEnter(e, func) {
+	$("#campo").keypress(function handleEnter(e, func) {
         if (e.keyCode == 13 || e.which == 13) {
-            var check = document.getElementById('desc').value;
+            var check = document.getElementById('campo').value;
 			if(buscarIndice(check) == true){
 				//alert("Indice já cadastrado!");
-				$("#desc").val("");
-				$("#desc").focus();
+				$("#campo").val("");
+				$("#campo").focus();
 			}else{
-				cadIndice($("#desc"));	
+				cadIndice($("#campo"));	
 			}
         }
     });
 
+
+	$("#btn_limpar").click(function(){
+    	$("#campo").val("");
+    });
 });
 
 function cadIndice(campo){

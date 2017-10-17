@@ -480,5 +480,45 @@
 	        	return false;
 	        }
     	}
+
+
+    	static function consultaTipos($tipos){
+    		if($tipos){
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
+				foreach($tipos as $tipo){
+        		?>	
+		            <tr>
+		        		<td width="40%"><?php echo $tipo->getTipos_andamento_desc();?></td>
+		        		<td width="40%"><a href="#janela<?php echo $tipo->getTipos_andamento_id();?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
+		                <td>
+		                    <div class="window" id="janela<?php echo $tipo->getTipos_andamento_id()?>">
+		                        <a href="#" class="fechar">X Fechar</a>
+		                        <form>
+		                            <table>
+		                                <caption>Alteração</caption>
+		                                <tr align="left">
+		                                    <td width="15%"><label>Descrição:</label></td>
+		                                    <td width="40%"><input type="text" value="<?php echo $tipo->getTipos_andamento_desc();?>" id="n<?php echo $tipo->getTipos_andamento_id();?>" size="50"/></td>
+		                                </tr>
+		                                <tr>
+		                                    <td colspan="2" align="center">
+		                                        <button type="button" onclick="alteraTipo(<?php echo $tipo->getTipos_andamento_id();?>)">Alterar Dados</button>
+		                                        <button type="reset" class="gravar">Limpar</button>
+		                                        <button type="button" onclick="excluiTipo(<?php echo $tipo->getTipos_andamento_id();?>)" style="background-color: red; border-color: red">Excluir</button>
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </form>
+		                    </div>
+		                    <div id="mascara"></div>
+		                </td>    	
+		        	</tr>
+<?php 			}
+			}
+			else{
+				echo false;
+				//retorna para o arquivo login.js
+			}
+    	}
     }
 ?>

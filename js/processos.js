@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	$(".chosen-select").chosen({width: "100%"});
+	
 	$("#btn_cadprocesso").click(function(){
 		
 		cadastrarProcesso($("#proc_numero"), $("#proc_acao"), $("#proc_ordem"), $("#proc_vara"),

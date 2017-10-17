@@ -1,6 +1,8 @@
 var comb;
 var status = false;
 $(document).ready(function(){
+	$(".chosen-select").chosen({width: "100%"});
+	
 	$("#btn_pesquisa").click(function(){
 		if(comb == "pesNProcesso"){
 			var campo = document.getElementById('proc_numero').value;

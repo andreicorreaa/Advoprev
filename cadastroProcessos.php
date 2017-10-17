@@ -12,6 +12,8 @@
     <head>
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/processos.js"></script>
+        <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
     </head>
     <body>
         <div id="pessoa">
@@ -30,7 +32,7 @@
                         <td><input type="text" name="proc_ordem" onchange="javascript: procurarNOrdem(this.value)" id="proc_ordem" placeholder="Insira a ordem" maxlength="45"/></td>
                         <td><label>Vara*:</label></td>    
                         <td>
-                            <select id="proc_vara">
+                            <select id="proc_vara" class="chosen-select">
                                 <option selected="true"></option>
                                 <?php if(count($varas) > 0){
                                         foreach($varas as $vara){ ?>
@@ -67,7 +69,7 @@
                         </td>
                         <td><label>Apenso:</label></td>    
                         <td>
-                            <select id="soflow" name="proc_apenso">
+                            <select id="soflow" name="proc_apenso" class="chosen-select">
                                 <option selected="true">Sem apensos</option>
                                 <?php if(count($processos_apenso) > 0){
                                         foreach($processos_apenso as $proc_apenso){ ?>

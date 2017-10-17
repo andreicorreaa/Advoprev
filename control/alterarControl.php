@@ -69,6 +69,14 @@
             return alteraView::respostaAlteracao($a);
             break;
 
+        case 'alteraTipo':
+            $param = array( "tipos_andamento_id"    =>(int)$_POST['id'],
+                            "tipos_andamento_desc"  =>(String)$_POST['desc'],
+                            "tipos_andamento_del"   =>"N");
+            $a = Servico::alterarTipo($param);
+            return alteraView::respostaAlteracao($a);
+            break;
+
     	default:
     		# code...
     		break;

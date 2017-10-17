@@ -35,6 +35,11 @@ $(document).ready(function(){
         }
     });
 
+    $("#btn_limpar").click(function(){
+    	$("#campo").val("");
+    	$("#desc").val("");
+    });
+
 });
 
 function cadVara(campo){

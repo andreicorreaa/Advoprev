@@ -10,13 +10,15 @@
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
         <link href="css/andamentos.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/andamentos.js"></script>
+        <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
     </head>
     <body>
         <div id="pessoa">
             <h1>Andamentos</h1>
             <div id="buscarP">
                 <span style="width: 10%;">Nº do processo:  </span>
-                <select id="soflow" style="width: 80%" class="comb" name="andamento" onchange="javascript: procuraProcesso(this.value);">
+                <select id="soflow" style="width: 80%" class="comb chosen-select" name="andamento" onchange="javascript: procuraProcesso(this.value);">
                     <option selected="true"></option>
 <?php                   if(count($Processos) > 0){
                             foreach($Processos as $processo){ 
@@ -54,7 +56,7 @@
                                 <textarea style="width: 99%;" rows="5" name="and_com" id="and_com" required="true"></textarea>
                             </td>
                         <tr>
-                            <td width="15%"><label>Data do processo*:</label></td>
+                            <td width="15%"><label>Data do andamento*:</label></td>
                             <td><input type="date" name="and_data" id="and_data" min="1900-01-01" max="2050-02-18" required/></td>
                         </tr>
                         <tr id="arq">

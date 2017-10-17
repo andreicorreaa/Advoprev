@@ -124,6 +124,16 @@
             return relatoriosView::Indices($a);
             break;
 
+        case 'checkTipo':
+            $param = $_POST['desc'];
+            $a = Servico::checkTipo($param);
+            return consultarView::respostaBusca($a);
+
+        case 'pesTipo':
+            $param = "%".$_POST['desc']."%";
+            $a = Servico::consultaTipo($param);
+            return consultarView::consultaTipos($a);
+
         default:
             # code...
             break;
