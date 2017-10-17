@@ -116,9 +116,6 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, end
 	}else if(check == false) {
 		alert("CPF/CNPJ inválido");
 		return;
-	}else if(rg.val() == ""){
-		rg.focus();
-		return;
 	}else if(data.val() == ""){
 		data.focus();
 		return;

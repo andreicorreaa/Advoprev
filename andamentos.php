@@ -56,7 +56,7 @@
                                 <textarea style="width: 99%;" rows="5" name="and_com" id="and_com" required="true"></textarea>
                             </td>
                         <tr>
-                            <td width="15%"><label>Data do processo*:</label></td>
+                            <td width="15%"><label>Data do andamento*:</label></td>
                             <td><input type="date" name="and_data" id="and_data" min="1900-01-01" max="2050-02-18" required/></td>
                         </tr>
                         <tr id="arq">

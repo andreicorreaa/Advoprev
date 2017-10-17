@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div id="conteudo">
-            <h1>Índices</h1>
+            <h1>Assuntos/Índices</h1>
 
             <div id="selecionar">
                 <button type="button" name="btn_assuntos1" id="btn_assuntos1">Consultar</button>

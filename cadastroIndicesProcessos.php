@@ -12,6 +12,9 @@
         <script type="text/javascript" src="js/indices.js"></script>
         <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
+        <script type="text/javascript">
+            $(".chosen-select").chosen({width: "100%"});
+        </script>
     </head>
     <body>
         <div id="pessoa">

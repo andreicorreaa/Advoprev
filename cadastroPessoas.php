@@ -26,7 +26,7 @@
                     <tr align="left">
                         <td width="15%"><label>E-mail:</label></td>
                         <td><input type="email" onchange="buscarEmail(this.value)" name="email" id="email" placeholder="Ex: funprev@funprev.com"/></td>
-                        <td><label>RG*:</label></td>    
+                        <td><label>RG:</label></td>    
                         <td><input type="text" name="rg" id="rg" placeholder="RG" size="16" maxlength="16" required onchange="buscarRG(this.value)" /></td>
                     </tr>
                     <tr align="left">

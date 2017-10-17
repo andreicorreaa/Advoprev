@@ -214,3 +214,9 @@ input::-webkit-validation-bubble-arrow {
 	margin-top: 
 
 }
+
+h1.navbar{
+    color: #2196F3;
+    font-family: 'Open Sans';
+    font-size: 76px;
+}
