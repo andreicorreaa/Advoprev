@@ -58,7 +58,7 @@ function alteraPessoa(value){
     var endereco = $("#endereco"+str).val();
 
     if(emails != ""){
-        var email = IsEmail(emails.val());
+        var email = IsEmail(emails);
     }else{
         var email = true;
     }

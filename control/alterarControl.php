@@ -12,9 +12,9 @@
                             "pessoas_rg"            =>Nulo($_POST['rg']),
                             "pessoas_nome"          =>strtoupper($_POST['nome']),
                             "pessoas_datanasc"      =>$_POST['data'],
-                            "pessoas_email"         =>(string)$_POST['email'],
+                            "pessoas_email"         =>Nulo($_POST['email']),
                             "pessoas_tel"           =>Nulo($_POST['telefone']),
-                            "pessoas_sexo"          =>Nulo($_POST['sexo']),
+                            "pessoas_sexo"          =>$_POST['sexo'],
                             "pessoas_oab"           =>Nulo($_POST['oab']),
                             "pessoas_endereco"      =>(string)$_POST['endereco'],
                             "pessoas_del"           => "N");
