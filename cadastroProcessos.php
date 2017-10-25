@@ -11,7 +11,7 @@
 <html>
     <head>
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/processos.js"></script>
+        <script type="text/javascript" src="js/processos.js?<?php echo time(); ?>"></script>
         <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
     </head>
@@ -33,13 +33,13 @@
                         <td><label>Vara*:</label></td>    
                         <td>
                             <select id="proc_vara" class="chosen-select">
-                                <option selected="true"></option>
+                                <option selected="true" value=""></option>
                                 <?php if(count($varas) > 0){
                                         foreach($varas as $vara){ ?>
                                             <option value="<?php echo $vara->getVaras_id();?>"><?php echo $vara->getVaras_nome(); ?></option>
                                         <?php }
                                     }else{ ?>
-                                        <option align="center" selected="true">Nenhuma vara cadastrada</option>
+                                        <option align="center" value="" selected="true">Nenhuma vara cadastrada</option>
                                     <?php } ?>
                             </select>
                         </td>
@@ -75,9 +75,7 @@
                                         foreach($processos_apenso as $proc_apenso){ ?>
                                             <option value="<?php echo $proc_apenso->getProcessos_id();?>"><?php echo $proc_apenso->getProcessos_num(); ?></option>
                                         <?php }
-                                    }else{ ?>
-                                        <option align="center" selected="true">Nenhuma vara cadastrada</option>
-                                    <?php } ?>
+                                    } ?>
                             </select>
                         </td>
                     </tr>
@@ -95,7 +93,7 @@
                                         <option value="<?php echo $indice->getIndices_id();?>"><?php echo $indice->getIndices_desc(); ?></option>
                         <?php       }
                                 }else{ ?>
-                                    <option align="center" selected="true">Nenhum indíce cadastrado</option>
+                                    <option align="center" value="" selected="true">Nenhum indíce cadastrado</option>
                         <?php   } ?>
                             </select>
                         </td>
@@ -109,13 +107,13 @@
                         <td width="15%"><label>Nome:</label></td>
                         <td>
                             <select id="proc_partes_n" name="proc_partes_n">
-                                <option></option>
+                                <option value="" selected></option>
                         <?php   if(count($pessoas) > 0){
                                     foreach($pessoas as $pessoa){ ?>
                                         <option value="<?php echo $pessoa->getPessoas_id();?>"><?php echo $pessoa->getPessoas_nome(); ?></option>
                         <?php       }
                                 }else{ ?>
-                                    <option align="center" selected="true">Nenhuma pessoa cadastrada</option>
+                                    <option align="center" value="">Nenhuma pessoa cadastrada</option>
                         <?php   } ?>
                             </select>
                         </td>

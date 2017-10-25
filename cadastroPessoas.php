@@ -17,10 +17,10 @@
                             <input type="radio" name="tipo-pessoa" value="cnpj" onclick="javascript: tipoPessoa(this);">Pessoa Jurídica
                         </td>
                         <td style="display:none;" id="lblcpf"><label>CPF*:</label></td>
-                        <td style="display:none;" id="inputcpf"><input type="text" name="cpf" id="cpf" onkeyup="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" size="16" required/></td>
+                        <td style="display:none;" id="inputcpf"><input type="text" name="cpf" id="cpf" onchange="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" size="16" required/></td>
                         
                         <td style="display:none;" id="lblcnpj"><label>CNPJ*:</label></td>
-                        <td style="display:none;" id="inputcnpj"><input type="text" name="cnpj" id="cnpj" onkeyup="buscarCNPJ(this.value)" onkeypress='return somenteNum(event)' maxlength="14" placeholder="CNPJ válido(somente numeros)" size="16" required/></td>
+                        <td style="display:none;" id="inputcnpj"><input type="text" name="cnpj" id="cnpj" onchange="buscarCNPJ(this.value)" onkeypress='return somenteNum(event)' maxlength="14" placeholder="CNPJ válido(somente numeros)" size="16" required/></td>
                         <td width="4%"><div id="verifica1"></div></td>
                     </tr> 
                     <tr align="left">
@@ -32,7 +32,7 @@
                     <tr align="left">
                         <td width="15%"><label>Data de Nascimento*:</label></td>
                         <td><input type="date" name="data" id="data" required/></td>
-                        <td><label>Tel.*:</label></td>    
+                        <td><label>Tel.:</label></td>    
                         <td><input type="text" maxlength="11" size="11" onkeypress='return somenteNum(event)' maxlength="11" id="telefone" placeholder="ex: 14996721234" name="telefone"/> </td>
                     </tr>
                     <tr align="left">

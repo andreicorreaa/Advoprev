@@ -98,7 +98,11 @@ function buscarUser(valor) {
 
 function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, endereco){
 	var cpf_cnpj;
-	var email = IsEmail(emails.val());
+	if(emails.val() != ""){
+		var email = IsEmail(emails.val());
+	}else{
+		email == true;
+	}
 	if(tipoPessoa == "cpf"){
 		cpf_cnpj = $("#cpf").val();
 		var check = verificaCPF(cpf_cnpj);
@@ -118,9 +122,6 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, end
 		return;
 	}else if(data.val() == ""){
 		data.focus();
-		return;
-	}else if(tel.val() == ""){
-		tel.focus();
 		return;
 	}else if(endereco.val() == ""){
 		endereco.focus();

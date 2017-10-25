@@ -268,7 +268,12 @@
             try{
                 $sql = "UPDATE pessoas SET pessoas_del = 'S' WHERE pessoas_id = ?";
                 $param = $pessoa;
-                return $query = Database::validarParam($sql, $param);
+                $query = Database::validarParam($sql, $param);
+                if($query){
+                    $message = "Tabela: Pessoas; CRUD: DELETE/LOGIC; pessoas_id = ".$pessoa;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -329,10 +334,15 @@
             }
         }
 
-        static function excluiIndice($indices){
+        static function excluiIndice($indice){
             try{
                 $sql = "UPDATE indices SET indices_del = 'S' WHERE indices_id = ?";
-                return $query = Database::validarParam($sql, $indices);
+                $query = Database::validarParam($sql, $indice);
+                if($query){
+                    $message = "Tabela: Indices; CRUD: DELETE/LOGIC; indices_id = ".$indice;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -450,7 +460,12 @@
         static function excluiVara($vara){
             try{
                 $sql = "UPDATE varas SET varas_del = 'S' WHERE varas_id = ?";
-                return $query = Database::validarParam($sql, $vara);
+                $query = Database::validarParam($sql, $vara);
+                if($query){
+                    $message = "Tabela: varas; CRUD: DELETE/LOGIC; varas_id = ".$vara;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -527,7 +542,12 @@
         static function excluiProcesso($processo){
             try{
                 $sql = "UPDATE processos SET processos_del = 'S' WHERE processos_id = ?";
-                return $query = Database::validarParam($sql, $processo);
+                $query = Database::validarParam($sql, $processo);
+                if($query){
+                    $message = "Tabela: Processos; CRUD: DELETE/LOGIC; processos_id = ".$processo;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -689,7 +709,12 @@
         static function excluiParte($parte){
             try{
                 $sql = "UPDATE partes SET partes_del = 'S' WHERE partes_id = ?";
-                return $query = Database::validarParam($sql, $parte);
+                $query = Database::validarParam($sql, $parte);
+                if($query){
+                    $message = "Tabela: partes; CRUD: DELETE/LOGIC; partes_id = ".$parte;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }
@@ -1020,7 +1045,11 @@
                         $delete1 = "N";
                         $parame1 = array($query[$i]['processos_id'],$delete1);
                         $result = Database::SelecionarParam($sql1, $parame1);
-                        $obj[$i] = Servico::objProcessos($result[0]);
+                        if($result){
+                            $obj[$i] = Servico::objProcessos($result[0]);
+                        }else{
+                            return false;
+                        }
                     }
                     return $obj;
                 }else{
@@ -1216,7 +1245,7 @@
         }
 
         static function consultaAndamentosData($datas){
-            $sql = "SELECT * FROM ANDAMENTOS WHERE andamentos_data BETWEEN ? AND ?";
+            $sql = "SELECT * FROM andamentos WHERE andamentos_data BETWEEN ? AND ?";
             try{
                 $query = Database::selecionarParam($sql, $datas);
                 if($query){
@@ -1307,7 +1336,12 @@
         static function excluiTipo($id){
             try{
                 $sql = "UPDATE tipos_andamento SET tipos_andamento_del = 'S' WHERE tipos_andamento_id = ?";
-                return $query = Database::validarParam($sql, $id);
+                $query = Database::validarParam($sql, $id);
+                if($query){
+                    $message = "Tabela: tipos_andamento; CRUD: DELETE/LOGIC; tipos_andamento_id = ".$id;
+                    Servico::logs($message);
+                    return true;
+                }
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
             }

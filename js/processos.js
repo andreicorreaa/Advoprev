@@ -63,7 +63,6 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
     if(processo_apenso == "Sem apensos"){
 		processo_apenso = null;
 	}
-    
 	if(numero == ""){
 		$("#proc_numero").focus();
 		return;
@@ -81,12 +80,6 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 		return;
 	}else if(juiz == ""){
 		$("#proc_juiz").focus();
-		return;
-	}else if(valor == ""){
-		$("#proc_valor").focus();
-		return;
-	}else if(senha == ""){
-		$("#proc_senha").focus();
 		return;
 	}else{
 		$.post("control/cadastroControl.php?action=cadastroProcesso", {numero: numero, acao: acao, ordem: ordem,

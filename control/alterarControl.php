@@ -9,13 +9,13 @@
 			$loginParam = array("pessoas_id"        =>(int)$_POST['id'],
                             "usuarios_id"           =>null,
                             "pessoas_cpf_cnpj"      =>(string)$_POST['cpf_cnpj'],
-                            "pessoas_rg"            =>(string)$_POST['rg'],
-                            "pessoas_nome"          =>(string)$_POST['nome'],
+                            "pessoas_rg"            =>Nulo($_POST['rg']),
+                            "pessoas_nome"          =>strtoupper($_POST['nome']),
                             "pessoas_datanasc"      =>$_POST['data'],
                             "pessoas_email"         =>(string)$_POST['email'],
-                            "pessoas_tel"           =>(string)$_POST['telefone'],
-                            "pessoas_sexo"          =>$_POST['sexo'],
-                            "pessoas_oab"           =>(string)$_POST['oab'],
+                            "pessoas_tel"           =>Nulo($_POST['telefone']),
+                            "pessoas_sexo"          =>Nulo($_POST['sexo']),
+                            "pessoas_oab"           =>Nulo($_POST['oab']),
                             "pessoas_endereco"      =>(string)$_POST['endereco'],
                             "pessoas_del"           => "N");
 			$a = Servico::alterarPessoa($loginParam);
@@ -80,5 +80,13 @@
     	default:
     		# code...
     		break;
+    }
+
+    function Nulo($value){
+        if($value == ""){
+            return null;
+        }else{
+            return $value;
+        }
     }
 ?>

@@ -25,8 +25,8 @@
                         "varas_id"                  => $_POST['vara'],
                         "processos_oficial"         => $_POST['oficial'],
                         "processos_juiz"            => $_POST['juiz'],
-                        "processos_apensos"         => $_POST['apensos'],
-                        "processos_valor"           => $money1,
+                        "processos_apensos"         => Nulo($_POST['apensos']),
+                        "processos_valor"           => Nulo($money1),
                         "processos_senha"           => $_POST['senha'],
                         "processos_data"            => $_POST['data'],
                         "processos_procurador"      => $_POST['procurador'],
@@ -61,7 +61,7 @@
                         try{
                             $retorno = Servico::cadastroPartes($param1);
                         }catch(Exception $e){
-                            return $e;
+                            die($e);
                         }
                     }
                 }
@@ -74,7 +74,7 @@
                         try{
                             $retorno1 = Servico::cadastroIndicesProcesso($param2);
                         }catch(Exception $e){
-                            return $e;
+                            die($e);
                         }
                     }
                 }
@@ -125,13 +125,13 @@
         $loginParam = array("pessoas_id"=>null,
                             "usuarios_id"=>null,
                             "pessoas_cpf_cnpj"=>$_POST['cpf_cnpj'],
-                            "pessoas_rg"=>$_POST['rg'],
-                            "pessoas_nome"=>$_POST['nome'],
+                            "pessoas_rg"=>Nulo($_POST['rg']),
+                            "pessoas_nome"=>strtoupper($_POST['nome']),
                             "pessoas_datanasc"=>$_POST['data'],
-                            "pessoas_email"=>$_POST['email'],
-                            "pessoas_tel"=>$_POST['telefone'],
+                            "pessoas_email"=>Nulo($_POST['email']),
+                            "pessoas_tel"=>Nulo($_POST['telefone']),
                             "pessoas_sexo"=>$_POST['sexo'],
-                            "pessoas_oab"=>$_POST['oab'],
+                            "pessoas_oab"=>Nulo($_POST['oab']),
                             "pessoas_endereco"=>$_POST['endereco'],
                             "pessoas_del"=> "N");
         $a = Servico::cadastroPessoa($loginParam);
@@ -159,5 +159,13 @@
         $param = $_POST['desc'];
         $a = Servico::cadastrarTipos($param);
         return cadastroView::respostaVerificacao($a);
+    }
+
+    function Nulo($value){
+        if($value == ""){
+            return null;
+        }else{
+            return $value;
+        }
     }
 ?>

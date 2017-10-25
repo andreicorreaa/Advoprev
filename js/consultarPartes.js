@@ -114,7 +114,7 @@ function pesquisaParte(value, opcao){
 					$("#tb1 tbody").html(retorno);
 
 				}else{
-					$("#tb1 tbody").html("<td align=\"center\" colspan=\"4\">Processo não encontrado</td>");
+					$("#tb1 tbody").html("<td align=\"center\" colspan=\"4\">Parte não encontrada</td>");
 				}
 				
 				

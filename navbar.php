@@ -17,7 +17,7 @@
                 <li class="navbar">
                     <a class="active navbar" href="index.php">Pagina Inicial</a>
                 </li>
-                <li class="navbar" onclick="carregar('suporte.php', 'Suporte - AdvoPREV - FUNPREV BAURU')">
+                <li class="navbar" onclick="carregar('suporteFunprev.php', 'Suporte - AdvoPREV - FUNPREV BAURU')">
                     <a class="navbar" href='#'><span>Suporte</span></a>
                 </li>
                 <li class="navbar" style="float: right;">

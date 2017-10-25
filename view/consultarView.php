@@ -154,11 +154,11 @@
 					                        </td>
 					                        <td style="display:none;" id="lblcpf<?php echo $val['pessoas_id'];?>"><label>CPF*:</label></td>
 					                        <td style="display:none;" id="inputcpf<?php echo $val['pessoas_id'];?>">
-					                        	<input type="text" name="cpf" id="cpf<?php echo $val['pessoas_id'];?>" onkeyup="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" value="<?php echo $val['pessoas_cpf_cnpj'];?>" size="16" required/>
+					                        	<input type="text" name="cpf" id="cpf<?php echo $val['pessoas_id'];?>" onchange="buscarCPF(this.value)" onkeypress='return somenteNum(event)' maxlength="11" placeholder="CPF válido(somente numeros)" value="<?php echo $val['pessoas_cpf_cnpj'];?>" size="16" required/>
 					                        </td>
 					                        <td style="display:none;" id="lblcnpj<?php echo $val['pessoas_id'];?>"><label>CNPJ*:</label></td>
 					                        <td style="display:none;" id="inputcnpj<?php echo $val['pessoas_id'];?>">
-					                        	<input type="text" name="cnpj" id="cnpj<?php echo $val['pessoas_id'];?>" onkeyup="buscarCNPJ(this.value)" onkeypress='return somenteNum(event)' maxlength="14" value="<?php echo $val['pessoas_cpf_cnpj'];?>" placeholder="CNPJ válido(somente numeros)" size="16" required/></td>
+					                        	<input type="text" name="cnpj" id="cnpj<?php echo $val['pessoas_id'];?>" onchange="buscarCNPJ(this.value)" onkeypress='return somenteNum(event)' maxlength="14" value="<?php echo $val['pessoas_cpf_cnpj'];?>" placeholder="CNPJ válido(somente numeros)" size="16" required/></td>
 					                        <td width="4%"><div id="verifica1"></div></td>
 		                                </tr> 
 		                                <tr align="left">
@@ -172,7 +172,7 @@
 		                                    <td><input type="date" id="data<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_datanasc'];?>" /></td>
 		                                    <td><label>Tel.:</label></td>    
 		                                    <td>
-		                                        <input type="text" maxlength="11" size="11" onkeypress='return somenteNum(event)' onchange="buscarTel(this.value)" value="<?php echo $val['pessoas_tel'];?>" maxlength="11" id="telefone<?php echo $val['pessoas_id'];?>" placeholder="ex: 14996721234" name="telefone"/>
+		                                        <input type="text" maxlength="11" size="11" onkeypress='return somenteNum(event)' value="<?php echo $val['pessoas_tel'];?>" maxlength="11" id="telefone<?php echo $val['pessoas_id'];?>" placeholder="ex: 14996721234" name="telefone"/>
 		                                    </td>
 		                                </tr>
 		                                <tr align="left">
@@ -385,7 +385,7 @@
 						                        <td><label>Apenso:</label></td>    
 						                        <td>
 						                            <select id="soflow" name="proc_apenso<?php echo $obj[$i]->getProcessos_id();?>">
-						                                <option selected="true">Sem apensos</option>
+						                                <option selected="true" value="0">Sem apensos</option>
 <?php 														if(count($processos_apenso) > 0){
 						                                        foreach($processos_apenso as $proc_apenso){ 
 						                                        	if($proc_apenso->getProcessos_id() == $obj[$i]->getProcessos_apensos()){ ?>

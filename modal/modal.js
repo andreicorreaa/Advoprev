@@ -49,7 +49,6 @@ function alteraPessoa(value){
         var check = validarCNPJ(cpf_cnpj);
     }
     var nome = $("#n"+str).val();
-    //var cpf = $("#cpf"+str).val();
     var emails = $("#email"+str).val();
     var rg = $("#rg"+str).val();
     var data = $("#data"+str).val();
@@ -57,10 +56,13 @@ function alteraPessoa(value){
     var sexo = $("#sexo"+str).val();
     var oab = $("#oab"+str).val();
     var endereco = $("#endereco"+str).val();
-    //console.log(nome, cpf, email, rg, data, tel, sexo, oab, endereco);
-    var email = IsEmail(emails);
-    //var rg_check = buscarRG(rg);
-    //tel_check = buscarTel(tel);
+
+    if(emails != ""){
+        var email = IsEmail(emails.val());
+    }else{
+        var email = true;
+    }
+
     if(nome == ""){
         $("#n"+str).focus();
         return;
@@ -70,14 +72,8 @@ function alteraPessoa(value){
     }else if(check == false) {
         alert("CPF/CNPJ inválido");
         return;
-    }else if(rg == ""){
-        $("#rg"+str).focus();
-        return;
     }else if(data == ""){
         $("#data"+str).focus();
-        return;
-    }else if(tel == ""){
-        $("#telefone"+str).focus();
         return;
     }else if(endereco == ""){
         $("#endereco"+str).focus();
