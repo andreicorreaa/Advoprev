@@ -97,4 +97,4 @@ table#tb1{
 table.fixo {
   width: 100%; 
 }
-table.fixo td { overflow: hidden; text-align: center; font-size: 14px }
+table.fixo td { overflow: hidden; text-align: center; font-size: 14px };

@@ -29,7 +29,8 @@
             $pessoa->setPessoas_tel($pa["pessoas_tel"]);
             $pessoa->setPessoas_sexo($pa["pessoas_sexo"]);
             $pessoa->setPessoas_oab($pa["pessoas_oab"]);
-            $pessoa->setPessoas_endereco($pa["pessoas_endereco"]);
+            $pessoa->setPessoas_cep($pa["pessoas_cep"]);
+            $pessoa->setPessoas_complemento($pa["pessoas_complemento"]);
             $pessoa->setPessoas_del($pa["pessoas_del"]);
             
             return $pessoa;
@@ -209,7 +210,7 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`, `pessoas_endereco`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`,`pessoas_cep`, `pessoas_complemento`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
                            $newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
@@ -219,7 +220,8 @@
                            $newPessoa->getPessoas_tel(),
                            $newPessoa->getPessoas_sexo(),
                            $newPessoa->getPessoas_oab(),
-                           $newPessoa->getPessoas_endereco(),
+                           $newPessoa->getPessoas_cep(),
+                           $newPessoa->getPessoas_complemento(),
                            $newPessoa->getPessoas_del(),
                      );
             try{
@@ -238,7 +240,7 @@
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_endereco = ? WHERE pessoas_id = ?";
+            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_cep = ?, pessoas_complemento = ? WHERE pessoas_id = ?";
             $param = array($newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
@@ -247,7 +249,8 @@
                            $newPessoa->getPessoas_tel(),
                            $newPessoa->getPessoas_sexo(),
                            $newPessoa->getPessoas_oab(),
-                           $newPessoa->getPessoas_endereco(),
+                           $newPessoa->getPessoas_cep(),
+                           $newPessoa->getPessoas_complemento(),
                            $newPessoa->getPessoas_id());
             try{
                 $a = Database::executarParam($sql, $param);

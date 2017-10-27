@@ -131,14 +131,17 @@
 
 		static function respostaConsultaPessoa($resposta){
 			if($resposta){
-				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script>
+													<script type="text/javascript" src="js/mascaras/jquery-1.2.6.pack.js"></script>
+        											<script type="text/javascript" src="js/mascaras/jquery.maskedinput-1.1.4.pack.js"></script></td></tr></div><?php
 				foreach($resposta as $val){
         		?>	
 		            <tr>
 		        		<td width="40%"><?php echo $val['pessoas_nome'];?></td>
 		        		<td width="40%"><?php echo $val['pessoas_cpf_cnpj'];?></td>
 		        		<td width="40%"><?php echo $val['pessoas_rg'];?></td>
-		        		<td width="40%"><a href="#janela<?php echo $val['pessoas_id'];?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
+		        		<td width="40%"><a href="#janela<?php echo $val['pessoas_id'];?>" rel="modal" 
+		        							onclick="buscarAPICorreios('<?php echo $val['pessoas_cep'];?>', <?php echo $val['pessoas_id'];?>)"><img src="assets/change.png" width="20px" height="20px"></a></td>
 		                <td>
 		                    <div class="window" id="janela<?php echo $val['pessoas_id'];?>">
 		                        <a href="#" class="fechar">X Fechar</a>
@@ -185,9 +188,26 @@
 		                                    <td><input type="text" maxlength="7" placeholder="ex: 23E243,23.243,23243" value="<?php echo $val['pessoas_oab'];?>" id="oab<?php echo $val['pessoas_id'];?>" /></td>
 		                                </tr>
 		                                <tr>
-		                                    <td width="15%"><label>Endereço:</label></td>
-		                                    <td><input type="text" id="endereco<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_endereco'];?>" placeholder="R. Margarida 4-23 Vila Hiponic" size="16" maxlength="50"/></td>
+		                                	<td>CEP:</td>
+		                                	<td><input type="text" id="cep<?php echo $val['pessoas_id'];?>" 
+		                                				value="<?php echo $val['pessoas_cep'];?>" 
+				                                		onblur="buscarAPICorreios(this.value, <?php echo $val['pessoas_id'];?>)">
+		                                	</td>
+		                                    <td width="15%"><label>Complemento:</label></td>
+		                                    <td><input type="text" id="complemento<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_complemento'];?>" size="16" maxlength="50"/></td>
 		                                </tr>
+		                                <tr>
+					                        <td><span>Logradouro:</span></td>
+					                        <td><input type="text" id="logradouro<?php echo $val['pessoas_id'];?>" disabled readonly></td>
+					                        <td><span>Bairro:</span></td>
+					                        <td><input type="text" id="bairro<?php echo $val['pessoas_id'];?>" disabled readonly></td>
+					                    </tr>
+					                    <tr>
+					                        <td><span>UF:</span></td>
+					                        <td><input type="text" id="uf<?php echo $val['pessoas_id'];?>" disabled readonly></td>
+					                        <td><span>Cidade:</span></td>
+					                        <td><input type="text" id="cidade<?php echo $val['pessoas_id'];?>" disabled readonly></td>
+					                    </tr>
 		                                <tr>
 		                                    <td colspan="4" align="center">
 		                                        <button type="button" onclick="alteraPessoa(<?php echo $val['pessoas_id'];?>)">Alterar Dados</button>

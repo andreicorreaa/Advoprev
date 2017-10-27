@@ -213,12 +213,36 @@
 										<?php echo $pessoa->getPessoas_tel(); ?>
 									</td>
 								</tr>
+
 								<tr>
 									<td width="15%" class="back-forte">
 										<b><i>Endereço:</i></b>
 									</td>
 									<td width="85%" class="back-fraco">
-										<?php echo $pessoa->getPessoas_endereco(); ?>
+										<?php
+											$ch = curl_init('http://viacep.com.br/ws/'.$pessoa->getPessoas_cep().'/json/');
+											curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+											$result = curl_exec($ch);
+											$endereco = json_decode($result);
+											if(is_object($endereco)){
+												echo $endereco->logradouro . " - ";
+												echo $endereco->bairro . " - ";
+												echo $endereco->localidade . " - ";
+												echo $endereco->uf . " - ";
+												echo $endereco->cep;
+											}else{
+												echo $pessoa->getPessoas_cep();
+											}
+										?>
+									</td>
+								</tr>
+
+								<tr>
+									<td width="15%" class="back-forte">
+										<b><i>Complemento:</i></b>
+									</td>
+									<td width="85%" class="back-fraco">
+										<?php echo $pessoa->getPessoas_complemento(); ?>
 									</td>
 								</tr>
 								<br>
@@ -250,19 +274,15 @@
 							<table class="tab-r" cellpadding="0">
 								<tr>
 									<td width="85%" class="back-fraco">
+										<b><?php echo date('d/m/Y',strtotime($andamentos[$i]->getAndamentos_data())); ?></b>
 <?php
 										foreach ($tipos_andamento as $t_a) {
 											if($t_a->getTipos_andamento_id() == $andamentos[$i]->getTipos_andamento_id()){
-												echo $t_a->getTipos_andamento_desc();
+												echo " - ".$t_a->getTipos_andamento_desc();
 												break;
 											}
 										}
 ?>
-									</td>
-								</tr>
-								<tr>
-									<td width="85%" class="back-fraco">
-										<b><?php echo date('d/m/Y',strtotime($andamentos[$i]->getAndamentos_data())); ?></b>
 									</td>
 								</tr>
 								<tr>

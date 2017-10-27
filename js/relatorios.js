@@ -84,3 +84,28 @@ function ImprimirIndice(){
 		pageTitle: "&nbsp",
 	});
 }
+
+function buscarAPICorreios(value, id){
+	console.log("save");
+    var cep = value.replace(/\D/g, '');
+    if(cep != ""){
+        var validacep = /^[0-9]{8}$/;
+        if(validacep.test(cep)){
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '//viacep.com.br/ws/'+ cep +'/json/?callback=?',
+                async: false,
+                success: function(response){
+                	console.log("save");
+                    if(!("erro" in response)){
+                        $("#endereco"+id).html("TESTE verdade");
+                    }else{
+                        //alert("CEP inexistente");
+                        $("#endereco"+id).html("TESTE FALSO");
+                    }
+                }
+            });
+        }
+    }
+}

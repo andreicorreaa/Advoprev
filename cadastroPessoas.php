@@ -3,6 +3,8 @@
     <head>
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/cadastro.js"></script>
+        <script type="text/javascript" src="js/mascaras/jquery-1.2.6.pack.js"></script>
+        <script type="text/javascript" src="js/mascaras/jquery.maskedinput-1.1.4.pack.js"></script>
     </head>
     <body>
         <div id="pessoa">
@@ -45,8 +47,22 @@
                         <td><input type="text" maxlength="7" placeholder="ex: 23E243,23.243,23243" required="required" id="oab" name="oab"/></td>
                     </tr>
                     <tr>
-                        <td width="15%"><label>Endereço*:</label></td>
-                        <td><input type="text" name="endereco" id="endereco"  placeholder="R. Margarida 4-23 Vila Hiponic" size="16" maxlength="50" required/></td>
+                        <td>CEP:</td>
+                        <td><input type="text" id="cep" onblur="buscarAPICorreios(this.value)"></td>
+                        <td width="15%"><label>Complemento:</label></td>
+                        <td><input type="text" name="complemento" id="complemento"  placeholder="R. Margarida 4-23 Vila Hiponica" size="16" maxlength="50" required/></td>
+                    </tr>
+                    <tr class="endereco">
+                        <td><span><i>Logradouro:</i></span></td>
+                        <td><input type="text" id="logradouro" disabled readonly></td>
+                        <td><span><i>Bairro:</i></span></td>
+                        <td><input type="text" id="bairro" disabled readonly></td>
+                    </tr>
+                    <tr class="endereco">
+                        <td><span><i>UF:</i></span></td>
+                        <td><input type="text" id="uf" disabled readonly></td>
+                        <td><span><i>Cidade:</i></span></td>
+                        <td><input type="text" id="cidade" disabled readonly></td>
                     </tr>
                     <tr>
                         <td colspan="4" align="center"><button type="button" name="btn_cadpessoa" id="btn_cadpessoa">Cadastrar</button>
