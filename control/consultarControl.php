@@ -103,7 +103,9 @@
             $partes     = Servico::consultaParteID($param);
             $indices    = Servico::consultaIndiceID($param);
             $andamentos = Servico::selecionaProcessoAndamento($param);
-            return relatoriosView::Processo($processo, $partes, $indices, $andamentos);
+            $apensos    = Servico::selecionarApensosProcesso($param);
+
+            return relatoriosView::Processo($processo, $partes, $indices, $andamentos, $apensos);
             break;
 
         case 'pesProcessoP':

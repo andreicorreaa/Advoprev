@@ -162,3 +162,14 @@ function mudaCampo(novo){
 		comb = "pesIndicesProcesso";
 	}
 }
+
+function abrir(id){
+
+	var width = 900;
+	var height = 500;
+
+	LeftPosition = (screen.width) ? (screen.width-width)/2 : 0;
+	TopPosition = (screen.height) ? (screen.height-height)/2 : 0;
+ 
+	window.open('resumo.php?id='+id,'Resumo', 'width='+width+', height='+height+', top='+TopPosition+', left='+LeftPosition+', scrollbars=yes, status=no, toolbar=no, location=no, directories=no, menubar=no, resizable=no, fullscreen=no');
+}

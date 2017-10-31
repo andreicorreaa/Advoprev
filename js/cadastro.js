@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
+	$("#cep").mask("99999-999");
 
 	$("#btn_cadastro").click(function(){
 		//Aqui chamamos a função validaLogin(), e passamos a ela o que foi digitado no campo com id='login' e no campo com id='senha'
@@ -12,7 +13,7 @@ $(document).ready(function(){
 			alert("Selecione o tipo de pessoa");
 			return;
 		}
-		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#endereco"));
+		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#cep"), $("#complemento"));
 	});
 });
 /* ---------------------------- CADASTRO DE USUARIOS ------------------------------------ */
@@ -96,8 +97,9 @@ function buscarUser(valor) {
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
 
 
-function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, endereco){
+function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento){
 	var cpf_cnpj;
+	cep.val(cep.val().replace(/-/g, ""));
 	if(emails.val() != ""){
 		var email = IsEmail(emails.val());
 	}else{
@@ -110,6 +112,7 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, end
 		cpf_cnpj = $("#cnpj").val();
 		var check = validarCNPJ(cpf_cnpj);
 	}
+	debugger
 
 	if(nome.val() == ""){
 		nome.focus();
@@ -123,13 +126,13 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, end
 	}else if(data.val() == ""){
 		data.focus();
 		return;
-	}else if(endereco.val() == ""){
-		endereco.focus();
+	}else if(cep.val() == ""){
+		cep.focus();
 		return;
 	}else{
 		$.post("control/cadastroControl.php?action=cadastro", {cpf_cnpj: cpf_cnpj, rg: rg.val(),
 		nome: nome.val(), data: data.val(),	email: emails.val(), telefone: tel.val(), 
-		sexo: sexo.val(), oab: oab.val(), endereco: endereco.val()}, // envia variaveis por POST para a control cadastroControl
+		sexo: sexo.val(), oab: oab.val(), cep: cep.val(), complemento: complemento.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2 == 1){
 					alert("Cadastro efetuado com sucesso");
@@ -385,4 +388,33 @@ function validarCNPJ(cnpj) {
            
     return true;
     
+}
+
+function buscarAPICorreios(value){
+	var cep = value.replace(/\D/g, '');
+	if(cep != ""){
+		var validacep = /^[0-9]{8}$/;
+		if(validacep.test(cep)){
+			$.ajax({
+				type: 'GET',
+	            dataType: 'json',
+	            url: '//viacep.com.br/ws/'+ cep +'/json/?callback=?',
+	            async: true,
+	            success: function(response){
+	            	if(!("erro" in response)){
+	            		$(".endereco").css("display","table-row");
+		            	$("#logradouro").val(response.logradouro);
+		            	$("#bairro").val(response.bairro);
+		            	$("#uf").val(response.uf);
+		            	$("#cidade").val(response.localidade);
+		            }else{
+		            	alert("CEP inexistente");
+		            	$("#cep").val("");
+		            }
+	            }
+			});
+		}else{
+			alert("CEP inválido");
+		}
+	}
 }

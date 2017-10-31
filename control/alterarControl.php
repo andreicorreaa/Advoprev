@@ -16,7 +16,8 @@
                             "pessoas_tel"           =>Nulo($_POST['telefone']),
                             "pessoas_sexo"          =>$_POST['sexo'],
                             "pessoas_oab"           =>Nulo($_POST['oab']),
-                            "pessoas_endereco"      =>(string)$_POST['endereco'],
+                            "pessoas_cep"           =>$_POST['cep'],
+                            "pessoas_complemento"   =>(string)$_POST['complemento'],
                             "pessoas_del"           => "N");
 			$a = Servico::alterarPessoa($loginParam);
     	    return alteraView::respostaAlteracao($a);    	

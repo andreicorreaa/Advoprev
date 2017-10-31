@@ -132,7 +132,8 @@
                             "pessoas_tel"=>Nulo($_POST['telefone']),
                             "pessoas_sexo"=>$_POST['sexo'],
                             "pessoas_oab"=>Nulo($_POST['oab']),
-                            "pessoas_endereco"=>$_POST['endereco'],
+                            "pessoas_cep"=>(String)$_POST['cep'],
+                            "pessoas_complemento"=>$_POST['complemento'],
                             "pessoas_del"=> "N");
         $a = Servico::cadastroPessoa($loginParam);
         return cadastroView::respostaCadastro($a);

@@ -1,5 +1,6 @@
 // ------------------------ FUNÇÕES PARA MODAL -------------------
 $(document).ready(function(){
+    $("#cep").mask("99999-999");
     $("a[rel=modal]").click( function(ev){
         ev.preventDefault();
  
@@ -55,7 +56,8 @@ function alteraPessoa(value){
     var tel = $("#telefone"+str).val();
     var sexo = $("#sexo"+str).val();
     var oab = $("#oab"+str).val();
-    var endereco = $("#endereco"+str).val();
+    var cep = $("#cep"+str).val();
+    var complemento = $("#complemento"+str).val();
 
     if(emails != ""){
         var email = IsEmail(emails);
@@ -75,13 +77,13 @@ function alteraPessoa(value){
     }else if(data == ""){
         $("#data"+str).focus();
         return;
-    }else if(endereco == ""){
-        $("#endereco"+str).focus();
+    }else if(cep == ""){
+        $("#cep"+str).focus();
         return;
     }else{
         $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf_cnpj: cpf_cnpj, rg: rg,
         nome: nome, data: data, email: emails, telefone: tel, 
-        sexo: sexo, oab: oab, endereco: endereco}, // envia variaveis por POST para a control cadastroControl
+        sexo: sexo, oab: oab, cep: cep, complemento: complemento}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control  
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");
@@ -530,4 +532,32 @@ function validarCNPJ(cnpj) {
            
     return true;
     
+}
+
+function buscarAPICorreios(value, id){
+    var cep = value.replace(/\D/g, '');
+    if(cep != ""){
+        var validacep = /^[0-9]{8}$/;
+        if(validacep.test(cep)){
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '//viacep.com.br/ws/'+ cep +'/json/?callback=?',
+                async: true,
+                success: function(response){
+                    if(!("erro" in response)){
+                        $("#logradouro"+id).val(response.logradouro);
+                        $("#bairro"+id).val(response.bairro);
+                        $("#uf"+id).val(response.uf);
+                        $("#cidade"+id).val(response.localidade);
+                    }else{
+                        //alert("CEP inexistente");
+                        $("#cep"+id).val("");
+                    }
+                }
+            });
+        }else{
+            alert("CEP inválido");
+        }
+    }
 }

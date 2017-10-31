@@ -99,7 +99,8 @@
         private $pessoas_tel;
         private $pessoas_sexo;
         private $pessoas_oab;
-        private $pessoas_endereco;
+        private $pessoas_cep;
+        private $pessoas_complemento;
         private $pessoas_del = "N";
 
         public function setPessoas_id($value){
@@ -162,11 +163,17 @@
         public function getPessoas_oab(){
             return $this->pessoas_oab;
         }
-        public function setPessoas_endereco($value){
-            $this->pessoas_endereco = $value;
+        public function setPessoas_cep($value){
+            $this->pessoas_cep = $value;
         }
-        public function getPessoas_endereco(){
-            return $this->pessoas_endereco;
+        public function getPessoas_cep(){
+            return $this->pessoas_cep;
+        }
+        public function setPessoas_complemento($value){
+            $this->pessoas_complemento = $value;
+        }
+        public function getPessoas_complemento(){
+            return $this->pessoas_complemento;
         }        
         public function setPessoas_del($value){
             $this->pessoas_del = $value;
