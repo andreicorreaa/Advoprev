@@ -1,6 +1,6 @@
 <?php
 	class relatoriosView{ //classe View da pagina relatorios
-		function Processo($processo, $partes, $indices, $andamentos){			
+		function Processo($processo, $partes, $indices, $andamentos, $apensos){
 ?>			
         	<input type="button" id="btn-imprime" onclick="javascript: Imprimir()" value="Imprimir">
         	<link href="css/relatorios.css" rel="stylesheet" type="text/css" media="print"/>
@@ -282,6 +282,14 @@
 												break;
 											}
 										}
+										$arquivos = $andamentos[$i]->getArquivos();
+										if($arquivos){
+											foreach($arquivos as $arquivo){ ?>
+											<br>
+												<a class="btnLisAnd" style="text-decoration:none;" target="_blank" href="control/lerArquivos.php?id=<?php echo $arquivo->getArquivos_id(); ?>"><img src="assets/add.png" alt="Adicionar mais arquivos" width="20px" height="20px"><span style="font-size: 10px"><?php echo $arquivo->getArquivos_nome(); ?></span></a>
+
+<?php 										}
+										}
 ?>
 									</td>
 								</tr>
@@ -302,6 +310,35 @@
 <?php
 					}
 ?>
+					<hr>
+					<br>
+					<span class="subtitulo">A P E N S O S</span>
+					<br>
+					<br>
+					<table id="apensos">
+						<thead>
+							<tr>
+								<th width="100px">Data</th>
+								<th width="400px">Nº do Processo</th>
+							</tr>
+						</thead>
+						<tbody>
+<?php
+						if($apensos){
+							for($i = 0; $i < count($apensos); $i++){
+?>
+								<tr>
+									<td align="center"><p><?php echo date('d/m/Y', strtotime($apensos[$i]->getProcessos_data())); ?></p></td>
+									<td align="center"><p><a href="javascript: abrir('<?php echo $apensos[$i]->getProcessos_id();?>')"><?php echo $apensos[$i]->getProcessos_num(); ?></a></p></td>
+								</tr>
+<?php
+							}
+						}else{
+							echo "<tr><td colspan=\"2\" align=\"center\">Não Existem Apensos</td></tr>";
+						}
+?>
+						</tbody>
+					</table>
 				</center>
 			</div>
 <?php	}

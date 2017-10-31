@@ -818,7 +818,7 @@
         }
 
         static function consultaIndicesData($datas){
-            $sql = "SELECT * FROM processos WHERE processos_data BETWEEN ? AND ? AND processos_del = 'N'";
+            $sql = "SELECT * FROM processos WHERE processos_data BETWEEN ? AND ? AND processos_del = 'N' ORDER BY processos_data DESC";
             try{
                 $processos = Database::selecionarParam($sql,$datas);
                 if($processos){
@@ -1116,6 +1116,40 @@
                 return $andamentos;
             }catch(Exception $e){
                 return die("Erro: ". $e->getMessage);
+            }
+
+        }
+
+        static function selecionarApensosProcesso($id){
+            $processo = "";
+            $apensos = false;
+            $sql = "SELECT * FROM processos WHERE processos_id = ? AND processos_del = 'N'";
+            try{
+                $query = Database::retornaParam($sql, $id);
+                if($query){
+                    $processo = Servico::objProcessos($query[0]);
+                    $i = 0;
+                    $processo_id = $processo->getProcessos_apensos();
+                    while(true){
+                        if($processo_id != null && $processo_id != ""){
+                            $result = Database::retornaParam($sql, $processo_id);
+                            if($result){
+                                $apensos[$i] = Servico::objProcessos($result[0]);
+                                $processo_id = $apensos[$i]->getProcessos_apensos();
+                                $i++;
+                            }else{
+                                break;
+                            }
+                        }else{
+                            break;
+                        }
+                    }
+                }else{
+                    return false;
+                }
+                return $apensos;
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
             }
 
         }

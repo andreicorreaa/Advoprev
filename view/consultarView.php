@@ -326,7 +326,7 @@
 				for($i=0;$i<count($obj);$i++){
 					$vara = Servico::selecionaVara($obj[$i]->getVaras_id()); ?>
 					<tr>
-						<td><?php echo $obj[$i]->getProcessos_num(); ?></td>
+						<td><a href="javascript: abrir('<?php echo $obj[$i]->getProcessos_id();?>')"><?php echo $obj[$i]->getProcessos_num(); ?></a></td>
 						<td><?php echo $obj[$i]->getProcessos_ordem(); ?></td>
 						<td><?php echo $obj[$i]->getProcessos_acao(); ?></td>
 						<td><?php echo $vara[0]['varas_nome']; ?></td>
@@ -337,7 +337,7 @@
 <?php						foreach($processos_apenso as $proc){
 								$num = $proc->getProcessos_num();
 								if($proc->getProcessos_id() == $obj[$i]->getProcessos_apensos()){?>
-									<b><?php echo $proc->getProcessos_num(); ?></b>
+									<b><a href="javascript: abrir('<?php echo $proc->getProcessos_id();?>')"><?php echo $proc->getProcessos_num(); ?></a></b>
 									<?php 
 								}
 							}
