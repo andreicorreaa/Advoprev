@@ -90,7 +90,7 @@
         $a = Servico::cadastroVara($param); // chama a funcao para verificação na classe servico
         return cadastroView::respostaCadastro($a);
     }else if($acao == "cad"){
-        $grupo = "2"; //usuario gerente
+        $grupo = $_POST['grupo']; //usuario gerente
         $loginParam = array("usuarios_id"=> null,
         					"usuarios_nome"=>$_POST['nome'],
         					"usuarios_senha"=>$_POST['senha'], 

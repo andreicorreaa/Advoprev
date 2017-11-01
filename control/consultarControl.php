@@ -1,11 +1,19 @@
 <?php
     include_once('../model/servico.php');
     include_once('../view/consultarView.php');
-    include_once('../view/relatoriosView.php');    
+    include_once('../view/relatoriosView.php');
 
     $acao = $_REQUEST["action"];
+    $data = unserialize($_SESSION['login']); // monta o objeto na variavel $data (o serialize é necessário para transformar o objeto)
     
     switch ($acao) {
+        case 'pesUsuario':
+            $param = "%".$_POST['desc']."%"; //INDICE
+            $grupo = $data->getUsuarios_grupo();
+            $a = Servico::consultaUsuarios($param, $grupo);
+            return consultarView::respostaUsuarios($a);
+            break;
+
         case 'pesNome':
             $param = "%".$_POST['nome']."%"; //NOME
             $a = Servico::consultaNome($param);

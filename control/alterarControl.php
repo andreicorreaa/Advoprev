@@ -78,6 +78,16 @@
             return alteraView::respostaAlteracao($a);
             break;
 
+        case 'alteraUsuario':
+            $param = array( "usuarios_id"       =>(int)$_POST['id'],
+                            "usuarios_nome"     =>(String)$_POST['nome'],
+                            "usuarios_senha"    =>md5($_POST['senha']),
+                            "usuarios_grupo"    =>(int)$_POST['grupo'],
+                            "usuarios_del"      =>"N");
+            $a = Servico::alterarUsuario($param);
+            return alteraView::respostaAlteracao($a);
+            break;
+
     	default:
     		# code...
     		break;

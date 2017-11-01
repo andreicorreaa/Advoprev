@@ -1,9 +1,15 @@
 $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
-	$("#btn_mostra1").click(function(){
+	$("#btn_acesso1").click(function(){
 		
 		$("#container1").html('');
 		$("#container1").load('cadastroUsuarios.php');
+	});
+
+	$("#btn_acesso2").click(function(){
+		
+		$("#container1").html('');
+		$("#container1").load('consultarUsuarios.php');
 	});
 
 	$("#btn_mostra2").click(function(){

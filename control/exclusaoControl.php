@@ -36,6 +36,12 @@
             $a = Servico::excluiTipo($param);
             return exclusaoView::respostaExclusao($a);
             break;
+
+        case 'excluiUsuario'   :
+            $param = $_POST['id'];
+            $a = Servico::excluiUsuario($param);
+            return exclusaoView::respostaExclusao($a);
+            break;
             
     	default:
     		# code...

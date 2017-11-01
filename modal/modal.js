@@ -1,6 +1,8 @@
 // ------------------------ FUNÇÕES PARA MODAL -------------------
 $(document).ready(function(){
-    $("#cep").mask("99999-999");
+    if($("#cep").lenght){
+      $("#cep").mask("99999-999");
+    }
     $("a[rel=modal]").click( function(ev){
         ev.preventDefault();
  
@@ -154,7 +156,6 @@ function alteraVara(value){
         ); //$.post()
     }
 }
-
 // ------------------------ ALTERAR TIPOS/SITUAÇÃO ------------------------
 function alteraTipo(value){
     var str = value;
@@ -182,7 +183,6 @@ function alteraTipo(value){
     }
 }
 // ------------------------ FUNÇÕES DE EXCLUSÃO ------------------
-
 // ------------------------ EXCLUIR PESSOAS ----------------------
 function excluiPessoa(value){
     var str = value;
@@ -261,7 +261,6 @@ function excluiVara(value){
         return;
     }
 }
-
 // ------------------------ EXCLUIR INDICES ----------------------
 function excluiTipo(value){
     var str = value;
@@ -289,7 +288,6 @@ function excluiTipo(value){
     }
 }
 // ------------------------ VALIDAÇÕES ---------------------------
-
 // ------------------------ ACEITAR SOMENTE NUMEROS --------------
 function somenteNum(e) {
     var tecla=(window.event)?event.keyCode:e.which;   
@@ -376,7 +374,6 @@ function verificaCPF(strCpf) { // validar CPF
 
     return true;
 }
-
 // ------------------------ VERIFICA EMAIL -----------------------
 function IsEmail(email){
     var exclude=/[^@\-\.\w]|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
@@ -530,8 +527,7 @@ function validarCNPJ(cnpj) {
     if (resultado != digitos.charAt(1))
           return false;
            
-    return true;
-    
+    return true; 
 }
 
 function buscarAPICorreios(value, id){
@@ -560,4 +556,101 @@ function buscarAPICorreios(value, id){
             alert("CEP inválido");
         }
     }
+}
+
+function alteraUsuario(id){
+    debugger
+    var name = $("#nome-usuario"+id).val();
+    var name_l = name.length;
+    var senha = $("#senha-usuario"+id).val();
+    var senha_l = senha.length;
+    var confirma_s = $("#confirma_s-usuario"+id).val();
+    var group = $("#grupo-usuario"+id).val();
+
+    if(name == ""){
+        $("#nome-usuario"+id).focus(); //Adiciona foco ao campo com id='login'
+        return; //retorna nulo
+    }else if(senha == ""){
+        $("#senha-usuario"+id).focus(); //Adiciona foco ao campo com id='senha'
+        return; //retorna nulo
+    }else if(confirma_s == ""){ 
+        $("#confirma_s-usuario"+id).focus(); //Adiciona foco ao campo com id='confima_s'
+        return; //retorna nulo
+    }else if(name_l < 6){
+        $("#nome-usuario"+id).focus(); //Adiciona foco ao campo com id='login'
+        return; //retorna nulo
+    }else if(senha_l < 6){
+        $("#senha-usuario"+id).focus(); //Adiciona foco ao campo com id='login'
+        return; //retorna nulo
+    }else if(confirma_s !=  senha){
+        $("#confirma_s-usuario"+id).focus(); //Adiciona foco ao campo com id='confirma_s'
+        return; //retorna nulo
+    }else if(group == ""){
+        $("#grupo-usuario"+id).focus(); //Adiciona foco ao campo com id='confirma_s'
+        return; //retorna nulo
+    }else{
+        $.post("control/alterarControl.php?action=alteraUsuario", {id: id, nome: name, senha: senha, grupo: group}, // envia variaveis por POST para a control cadastroControl
+            function(retorno){ //resultado da control
+                if(retorno == 1){
+                    alert("Alteracao efetuada com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarUsuarios.php');
+                }else{
+                    console.log(retorno);
+                    alert("Erro ao efetuar a alteção - Contate o CPD");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarUsuarios.php');
+                }
+            } //function(retorno)
+        ); //$.post()
+    }
+}
+
+function excluiUsuario(value){
+    var str = value;
+    decisao = confirm("Confirmar exclusão?!");
+    if(decisao){
+        $.post("control/exclusaoControl.php?action=excluiUsuario", {id: str},
+            function(retorno){
+                //debugger
+                if(retorno == 1){
+                    alert("Usuário excluído com sucesso");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarUsuarios.php');
+                }else{
+                    //console.log(retorno);
+                    alert("Erro ao efetuar a exclusão");
+                    $("#mascara").hide();
+                    $(".window").hide();
+                    $("#container1").load('consultarUsuarios.php');
+                }
+            }
+        );
+    }else{
+        return;
+    }
+}
+
+function buscarUser(valor, id) {
+    var name = valor.length;
+    if(name < 6){
+        var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+        $("#verifica"+id).html(a);
+        return; //retorna nulo
+    }
+    $.post("control/cadastroControl.php?action=ver", {nome: valor}, // envia variaveis por POST para a control cadastroControl
+        function(retorno){ //retorno é o resultado que a control retorna
+            var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
+            if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
+                $("#verifica"+id).html(a);  //mostra na div alert
+            }
+            else{
+                var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
+                $("#verifica"+id).html(b);
+            }
+        }
+    );
 }

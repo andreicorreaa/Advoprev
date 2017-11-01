@@ -15,7 +15,7 @@
     </head>
     <body>
     	<center>
-			<h1> Sistema de advocacia </h1>
+			<h1> SISTEMA - PROCURADORIA GERAL </h1>
             <img src="http://www.funprevbauru.sp.gov.br/funprev_v2/image/logo_funprev1.png" />
     	</center>
     </body>

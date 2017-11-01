@@ -2,11 +2,6 @@ $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
 	$("#cep").mask("99999-999");
 
-	$("#btn_cadastro").click(function(){
-		//Aqui chamamos a função validaLogin(), e passamos a ela o que foi digitado no campo com id='login' e no campo com id='senha'
-		validaCadastro($("#nome"), $("#senha"), $("#confirma_s"));
-	});
-
 	$("#btn_cadpessoa").click(function(){
 		//Aqui chamamos a função validaCadPessoa, e passamos a ela o que foi digitado nos campos de cadastro de pessoa
 		if(!$("input:radio[name=tipo-pessoa]:checked").val()){
@@ -16,87 +11,7 @@ $(document).ready(function(){
 		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#cep"), $("#complemento"));
 	});
 });
-/* ---------------------------- CADASTRO DE USUARIOS ------------------------------------ */
-function validaCadastro(nome, senha, confirma_s){
-	var name = nome.val();
-	var name = name.length;
-	var senha1 = senha.val();
-	var senha1 = senha1.length;
-
-	if(nome.val() == ""){
-		login.focus(); //Adiciona foco ao campo com id='login'
-		return; //retorna nulo
-	}else if(senha.val() == ""){
-		senha.focus(); //Adiciona foco ao campo com id='senha'
-		return; //retorna nulo
-	}else if(confirma_s.val() == ""){ 
-		confirma_s.focus(); //Adiciona foco ao campo com id='confima_s'
-		return; //retorna nulo
-	}else if(name < 6){
-		login.focus(); //Adiciona foco ao campo com id='login'
-		return; //retorna nulo
-	}else if(senha1 < 6){
-		senha.focus(); //Adiciona foco ao campo com id='login'
-		return; //retorna nulo
-	}else if(confirma_s.val() !=  senha.val()){
-		confirma_s.focus(); //Adiciona foco ao campo com id='confirma_s'
-		return; //retorna nulo
-	}
-	else{ // caso todos os campos foram preenchidos corretamente
-		$.post("control/cadastroControl.php?action=cad", {nome: nome.val(), senha: senha.val()}, // envia variaveis por POST para a control cadastroControl
-			function(retorno1){ //resultado da control
-				if(retorno1 == 1){ // neste caso, se for true, o cadastro foi efetuado
-					nome.val(""); 
-					senha.val("");
-					confirma_s.val(""); //reseta os campos
-					var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
-					$("#verifica").html(a);
-					$("#alert1").html("<strong>Cadastro efetuado com sucesso!</strong>"); //exibe mensagem na div alert1
-					$("#alert1").removeClass().addClass("success"); // muda a classe da div
-					document.getElementById("alert1").style.display = "block"; // deixa a div visivel
-					//essa funcao seta um tempo para a div sumir
-					setTimeout(function(){
-						$("#alert1").fadeOut('fast');
-					}, 3000);
-				}else{ // caso de algum erro
-					$("#alert1").html("<strong>Erro ao efetuar o cadastro, verifique o login ou a conexão</strong> ");
-					$("#alert1").removeClass().addClass("alert");
-					document.getElementById("alert1").style.display = "block";
-					setTimeout(function(){
-						$("#alert1").fadeOut('fast');
-					}, 3000);
-				}
-			} //function(retorno)
-		); //$.post()
-	} //else
-}
-
-//função para checar login no cadastro de usuarios
-function buscarUser(valor) {
-	var name = valor.length;
-	if(name < 6){
-		var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
-		$("#verifica").html(a);
-		return; //retorna nulo
-	}
-	$.post("control/cadastroControl.php?action=ver", {nome: valor}, // envia variaveis por POST para a control cadastroControl
-		function(retorno){ //retorno é o resultado que a control retorna
-			var a = unescape("<img src=\"assets/uncheck.png\" width=\"20px\" height=\"20px\">");
-			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
-				$("#verifica").html(a);  //mostra na div alert
-			}
-			else{
-				var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
-				$("#verifica").html(b);
-			}
-		}
-	);
-}
-
-
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
-
-
 function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento){
 	var cpf_cnpj;
 	cep.val(cep.val().replace(/-/g, ""));

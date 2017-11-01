@@ -33,6 +33,13 @@
             <div id='cssmenu'>
                 <ul class="trap">
                     <li onclick="carregar('inicio.php','Início - AdvoPREV - FUNPREV BAURU')" class="active"><a href='inicio.php'><span>Página Inicial</span></a></li>
+<?php
+                    if($data->getUsuarios_grupo() < 3){
+?>
+                    <li onclick="carregar('controle-acesso.php', 'Controle de acesso - AdvoPREV - FUNPREV BAURU')"><a href='controle-acesso.php'><span>Controle de Acesso</span></a></li>
+<?php
+                    }
+?>
                     <li onclick="carregar('selecionar.php', 'Pessoas - AdvoPREV - FUNPREV BAURU')"><a href='cadastroPessoas.php'><span>Pessoas</span></a></li>
                     <li onclick="carregar('indices.php', 'Indices - AdvoPREV - FUNPREV BAURU')"><a href='indices.php'><span>Assuntos/Índices</span></a></li>
                     <li onclick="carregar('varas.php', 'Varas - AdvoPREV - FUNPREV BAURU')"><a href='varas.php'><span>Varas</span></a></li>

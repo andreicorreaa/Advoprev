@@ -540,5 +540,100 @@
 				//retorna para o arquivo login.js
 			}
     	}
+
+    	static function respostaUsuarios($resposta){
+    		$data = unserialize($_SESSION['login']); // monta o objeto na variavel $data (o serialize é necessário para transformar o objeto)
+			if($resposta){
+				?><tr>
+						<td>
+							<div style="display: none">
+								<script type="text/javascript" src="modal/modal.js"></script>
+								<link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
+								<script type="text/javascript" src="assets/Chosen/chosen.jquery.js"></script>
+								<script>
+								    $(".chosen-select").chosen({width: "100%"});
+								</script>
+							</div>
+						</td>
+					</tr>
+<?php
+				foreach($resposta as $val){
+        		?>	
+		            <tr>
+		        		<td><?php echo $val->getUsuarios_nome();?></td>
+		        		<td>
+<?php 
+		        			if($val->getUsuarios_grupo() == "1"){
+		        				echo "Administrador";
+		        			}else if($val->getUsuarios_grupo() == "2"){
+		        				echo "Moderador";
+		        			}else{
+		        				echo "Comum";
+		        			}
+?>						</td>
+		        		<td><a href="#janela<?php echo $val->getUsuarios_id();?>" rel="modal"><img src="assets/change.png" width="20px" height="20px"></a></td>
+		                <td>
+		                    <div class="window" id="janela<?php echo $val->getUsuarios_id();?>">
+		                        <a href="#" class="fechar">X Fechar</a>
+		                        <form>
+		                            <table id="tb-usuario">
+		                                <caption>Alteração</caption>
+		                                <tr align="left">
+						                    <td><label>Login:</label></td>
+						                    <td><input type="text" id="nome-usuario<?php echo $val->getUsuarios_id();?>" onkeyup="buscarUser(this.value, <?php echo $val->getUsuarios_id();?>)" placeholder="Mínimo de 6 caracteres" value="<?php echo $val->getUsuarios_nome();?>" required/></td>
+						                    <td width="4%"><div id="verifica<?php echo $val->getUsuarios_id();?>"></div></td>
+						                </tr>
+						                <tr align="left">
+					                        <td><label>Senha:</label></td>    
+					                        <td><input type="password" id="senha-usuario<?php echo $val->getUsuarios_id();?>" placeholder="Mínimo de 6 caracteres"  required/></td>
+					                    </tr>
+					                    <tr align="left">
+					                        <td><label>Confirmar senha:</label></td>    
+					                        <td><input type="password" id="confirma_s-usuario<?php echo $val->getUsuarios_id();?>" placeholder="Mínimo de 6 caracteres" required/></td>
+					                    </tr>
+					                    <tr align="left">
+						                <td><label>Grupo:</label></td>    
+						                <td>
+						                    <select id="grupo-usuario<?php echo $val->getUsuarios_id();?>" class="chosen-select">
+						                        <option value="" selected="true"></option>
+<?php
+						                        if($data->getUsuarios_grupo() == 2){
+?>
+						                            <option value="2">Moderador</option>
+						                            <option value="3">Comum</option>
+<?php
+
+						                        }else{
+?>
+						                            <option value="1">Administrador</option>
+						                            <option value="2">Moderador</option>
+						                            <option value="3">Comum</option>
+<?php
+						                        }
+?>
+						                    </select>
+
+						                </td>
+						            </tr>
+		                                <tr>
+		                                    <td colspan="2" align="center">
+		                                        <button type="button" onclick="alteraUsuario(<?php echo $val->getUsuarios_id();?>)">Alterar Dados</button>
+		                                        <button type="reset" class="gravar">Limpar</button>
+		                                        <button type="button" onclick="excluiUsuario(<?php echo $val->getUsuarios_id()?>)" style="background-color: red; border-color: red">Excluir</button>
+		                                    </td>
+		                                </tr>
+		                            </table>
+		                        </form>
+		                    </div>
+		                    <div id="mascara"></div>
+		                </td>
+		        	</tr>
+<?php 			}
+			}
+			else{
+				echo false;
+				//retorna para o arquivo login.js
+			}
+		}
     }
 ?>

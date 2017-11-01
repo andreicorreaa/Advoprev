@@ -10,11 +10,11 @@
     </head>
     <body>
         <div id="conteudo">
-            <h1>Pessoas</h1>
+            <h1>Controle de Acesso</h1>
 
             <div id="selecionar">
-                <button type="button" name="btn_mostra2" id="btn_mostra2">Consultar</button>
-                <button type="button" name="btn_mostra3" id="btn_mostra3">Cadastrar</button>
+                <button type="button" name="btn_acesso1" id="btn_acesso1">Cadastrar Usuário</button>
+                <button type="button" name="btn_acesso2" id="btn_acesso2">Consultar Usuário</button>
             </div>
             <div id="container1">
 

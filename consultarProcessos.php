@@ -82,7 +82,7 @@
 						<th width="9%">Nº Ordem</th>
 						<th width="50%">Ação</th>
 						<th width="20%">Vara</th>
-						<th width="9%">Apenco</th>
+						<th width="9%">Apenso</th>
 						<th width="3%"></th>
 					</thead>
 					<tbody>

@@ -177,7 +177,7 @@
                 return die("Erro: ". $e->getMessage);
             }
         }
-//------------------------- FUNÇÕES DE CADASTRO USUARIO/PESSOA --------------------------------
+//------------------------- FUNÇÕES DE CADASTRO USUARIO ---------------------------------------
         static function cadastro($arrayUser){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             $newUser = Servico::objUsuarios($arrayUser); //instancia um novo objeto do tipo Usuarios
             $senhaMD5 = md5($newUser->getUsuarios_senha()); // transforma a senha para md5
@@ -207,6 +207,70 @@
 
             }
         }
+
+        static function consultaUsuarios($param, $grupo){ //utilizada para validacao de campos
+            $obj = null;
+            $sql = "SELECT * FROM usuarios WHERE usuarios_nome LIKE ? AND usuarios_del = ? ";
+            if($grupo == "2"){
+                $sql = $sql." AND usuarios_grupo >= '2'";
+            }else if($grupo == "1"){
+                $sql = $sql." AND usuarios_grupo >= '1'";
+            }
+
+            $sql = $sql." ORDER BY usuarios_nome";
+            $delete = "N";
+            $parame = array($param,$delete);
+            try{
+                $query = Database::SelecionarParam($sql,$parame); //retorna
+                if($query > 0){
+                    for($i=0 ; $i < count($query) ; $i++){
+                        $obj[$i] = Servico::objUsuarios($query[$i]);
+                    }
+                    return $obj;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        static function alterarUsuario($tipo){
+            $newUser = Servico::objUsuarios($tipo);
+            $sql = "UPDATE usuarios SET usuarios_nome = ?, usuarios_senha = ?, usuarios_grupo = ? WHERE usuarios_id = ?";
+            $param = array($newUser->getUsuarios_nome(),
+                           $newUser->getUsuarios_senha(),
+                           $newUser->getUsuarios_grupo(),
+                           $newUser->getUsuarios_id());
+            try{
+                $a = Database::executarParam($sql, $param);
+                if($a){
+                    $message = "Tabela: Usuarios; CRUD: UPDATE; usuarios_id = ".$newUser->getUsuarios_id();
+                    Servico::logs($message);
+                    return true;
+                }
+            }
+            catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+
+        // ---------------- exclusao logica de pessoa ----------------- //
+        static function excluiUsuario($usuario){
+            try{
+                $sql = "UPDATE usuarios SET usuarios_del = 'S' WHERE usuarios_id = ?";
+                $param = $usuario;
+                $query = Database::validarParam($sql, $param);
+                if($query){
+                    $message = "Tabela: Usuarios; CRUD: DELETE/LOGIC; usuarios_id = ".$usuario;
+                    Servico::logs($message);
+                    return true;
+                }
+            }catch(Exception $e){
+                return die("Erro: ". $e->getMessage);
+            }
+        }
+//------------------------- FUNÇÕES DE PESSOA -------------------------------------------------
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
