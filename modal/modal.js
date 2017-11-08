@@ -51,16 +51,26 @@ function alteraPessoa(value){
         cpf_cnpj = $("#cnpj"+str).val();
         var check = validarCNPJ(cpf_cnpj);
     }
+    debugger
     var nome = $("#n"+str).val();
     var emails = $("#email"+str).val();
     var rg = $("#rg"+str).val();
     var data = $("#data"+str).val();
     var tel = $("#telefone"+str).val();
-    var sexo = $("#sexo"+str).val();
     var oab = $("#oab"+str).val();
     var cep = $("#cep"+str).val();
     var complemento = $("#complemento"+str).val();
     var numero = $("#numero"+str).val();
+    var estadocivil = $("#estadocivil"+str).val();
+    var profissao = $("#profissao"+str).val();
+
+    var sexo;
+    var els = document.getElementsByName('sexo'+str);
+    for (var i=0;i<els.length;i++){
+      if ( els[i].checked ) {
+        sexo = els[i].value;
+      }
+    }
 
     if(emails != ""){
         var email = IsEmail(emails);
@@ -86,7 +96,8 @@ function alteraPessoa(value){
     }else{
         $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf_cnpj: cpf_cnpj, rg: rg,
         nome: nome, data: data, email: emails, telefone: tel, 
-        sexo: sexo, oab: oab, cep: cep, complemento: complemento, numero: numero}, // envia variaveis por POST para a control cadastroControl
+        sexo: sexo, oab: oab, cep: cep, complemento: complemento, 
+        numero: numero, estadocivil: estadocivil, profissao: profissao}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control  
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");

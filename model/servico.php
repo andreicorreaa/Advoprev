@@ -32,6 +32,8 @@
             $pessoa->setPessoas_cep($pa["pessoas_cep"]);
             $pessoa->setPessoas_complemento($pa["pessoas_complemento"]);
             $pessoa->setPessoas_numero($pa["pessoas_numero"]);
+            $pessoa->setPessoas_estadocivil($pa["pessoas_estadocivil"]);
+            $pessoa->setPessoas_profissao($pa["pessoas_profissao"]);
             $pessoa->setPessoas_del($pa["pessoas_del"]);
             
             return $pessoa;
@@ -275,7 +277,11 @@
 
         static function cadastroPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "INSERT INTO `juridico`.`pessoas` (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`,`pessoas_cep`, `pessoas_complemento`, `pessoas_numero`, `pessoas_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
+            $sql = "INSERT INTO `juridico`.`pessoas` 
+                    (`usuarios_id`, `pessoas_cpf_cnpj`, `pessoas_rg`, `pessoas_nome`, `pessoas_datanasc`, `pessoas_email`, 
+                    `pessoas_tel`, `pessoas_sexo`, `pessoas_oab`,`pessoas_cep`, `pessoas_complemento`, `pessoas_numero`, 
+                    `pessoas_estadocivil`, `pessoas_profissao`, `pessoas_del`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";        
             $param = array($newPessoa->getUsuarios_id(),
                            $newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
@@ -288,6 +294,8 @@
                            $newPessoa->getPessoas_cep(),
                            $newPessoa->getPessoas_complemento(),
                            $newPessoa->getPessoas_numero(),
+                           $newPessoa->getPessoas_estadocivil(),
+                           $newPessoa->getPessoas_profissao(),
                            $newPessoa->getPessoas_del(),
                      );
             try{
@@ -306,7 +314,10 @@
 
         static function alterarPessoa($pessoa){
             $newPessoa = Servico::objPessoas($pessoa);
-            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, pessoas_oab = ?, pessoas_cep = ?, pessoas_complemento = ?, pessoas_numero = ? WHERE pessoas_id = ?";
+            $sql = "UPDATE pessoas SET pessoas_cpf_cnpj = ?, pessoas_rg = ?, pessoas_nome = ?, 
+            pessoas_datanasc = ?, pessoas_email = ?, pessoas_tel = ?, pessoas_sexo = ?, 
+            pessoas_oab = ?, pessoas_cep = ?, pessoas_complemento = ?, pessoas_numero = ?, 
+            pessoas_estadocivil = ?, pessoas_profissao = ? WHERE pessoas_id = ?";
             $param = array($newPessoa->getPessoas_cpf_cnpj(),
                            $newPessoa->getPessoas_rg(),
                            $newPessoa->getPessoas_nome(),
@@ -318,6 +329,8 @@
                            $newPessoa->getPessoas_cep(),
                            $newPessoa->getPessoas_complemento(),
                            $newPessoa->getPessoas_numero(),
+                           $newPessoa->getPessoas_estadocivil(),
+                           $newPessoa->getPessoas_profissao(),
                            $newPessoa->getPessoas_id());
             try{
                 $a = Database::executarParam($sql, $param);

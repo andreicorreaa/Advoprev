@@ -132,7 +132,7 @@
 		static function respostaConsultaPessoa($resposta){
 			if($resposta){
 				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script>
-													<script type="text/javascript" src="js/mascaras/jquery-1.2.6.pack.js"></script>
+													
         											<script type="text/javascript" src="js/mascaras/jquery.maskedinput-1.1.4.pack.js"></script></td></tr></div><?php
 				foreach($resposta as $val){
         		?>	
@@ -181,12 +181,20 @@
 		                                <tr align="left">
 		                                    <td width="15%"><label>Sexo:</label></td>
 		                                    <td>
-		                                        <input type="radio" name="sexo" value="M" id="sexo<?php echo $val['pessoas_id'];?>" checked="true" />Masculino
-		                                        <input type="radio" name="sexo" value="F" id="sexo<?php echo $val['pessoas_id'];?>"/>Feminino
+		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="M" id="sexo<?php echo $val['pessoas_id'];?>" checked="true" />Masculino
+		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="F" id="sexo<?php echo $val['pessoas_id'];?>"/>Feminino
 		                                    </td>
 		                                    <td><label>Nº OAB:</label></td>    
 		                                    <td><input type="text" maxlength="7" placeholder="ex: 23E243,23.243,23243" value="<?php echo $val['pessoas_oab'];?>" id="oab<?php echo $val['pessoas_id'];?>" /></td>
 		                                </tr>
+		                                <tr align="left">
+					                        <td width="15%"><label>Estado Civil:</label></td>
+					                        <td>
+					                            <input type="text" maxlength="45" placeholder="Ex: Solteiro(a), Casado(a).." value="<?php echo $val['pessoas_estadocivil'];?>" id="estadocivil<?php echo $val['pessoas_id'];?>" name="estadocivil"/>
+					                        </td>
+					                        <td><label>Profissão:</label></td>
+					                        <td><input type="text" maxlength="255" placeholder="Ex: Funcionário Público..." value="<?php echo $val['pessoas_profissao'];?>" id="profissao<?php echo $val['pessoas_id'];?>" name="profissao"/></td>
+					                    </tr>
 		                                <tr>
 		                                	<td>CEP:</td>
 		                                	<td><input type="text" id="cep<?php echo $val['pessoas_id'];?>" 

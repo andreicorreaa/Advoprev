@@ -7,6 +7,7 @@
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
         <link href="css/navbar.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery.js"></script>
+        <link href="assets/Chosen/chosen.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="topo">

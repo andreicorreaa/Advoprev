@@ -13,7 +13,7 @@
                 <table>
                     <tr align="left">
                         <td width="15%"><label>Nome*:</label></td>
-                        <td width="40%"><input type="text" name="nome1" id="nome1" placeholder="Insira o nome completo" size="50"  required/></td>
+                        <td width="40%"><input type="text" name="nome1" id="nome1" placeholder="Insira o nome completo" size="255"  required/></td>
                         <td id="tipoPessoa" colspan="3">
                             <input type="radio" name="tipo-pessoa" value="cpf" onclick="javascript: tipoPessoa(this);">Pessoa física
                             <input type="radio" name="tipo-pessoa" value="cnpj" onclick="javascript: tipoPessoa(this);">Pessoa Jurídica
@@ -43,8 +43,16 @@
                             <input type="radio" name="sexo" value="M" id="sexo" checked="true" required/>Masculino
                             <input type="radio" name="sexo" value="F" id="sexo" required/>Feminino
                         </td>
-                        <td><label>Nº OAB:</label></td>    
-                        <td><input type="text" maxlength="15" placeholder="ex: 23E243,23.243,23243" required="required" id="oab" name="oab"/></td>
+                        <td><label>Nº OAB:</label></td>
+                        <td><input type="text" maxlength="15" placeholder="Ex: SP0000, 000.000.." id="oab" name="oab"/></td>
+                    </tr>
+                    <tr align="left">
+                        <td width="15%"><label>Estado Civil:</label></td>
+                        <td>
+                            <input type="text" maxlength="45" placeholder="Ex: Solteiro(a), Casado(a).." id="estadocivil" name="estadocivil"/>
+                        </td>
+                        <td><label>Profissão:</label></td>
+                        <td><input type="text" maxlength="255" placeholder="Ex: Funcionário Público..." id="profissao" name="profissao"/></td>
                     </tr>
                     <tr>
                         <td>CEP*:</td>

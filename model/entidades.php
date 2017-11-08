@@ -102,6 +102,8 @@
         private $pessoas_cep;
         private $pessoas_complemento;
         private $pessoas_numero;
+        private $pessoas_estadocivil;
+        private $pessoas_profissao;
         private $pessoas_del = "N";
 
         public function setPessoas_id($value){
@@ -181,7 +183,19 @@
         }
         public function getPessoas_numero(){
             return $this->pessoas_numero;
-        } 
+        }
+        public function setPessoas_estadocivil($value){
+            $this->pessoas_estadocivil = $value;
+        }
+        public function getPessoas_estadocivil(){
+            return $this->pessoas_estadocivil;
+        }
+        public function setPessoas_profissao($value){
+            $this->pessoas_profissao = $value;
+        }
+        public function getPessoas_profissao(){
+            return $this->pessoas_profissao;
+        }
         public function setPessoas_del($value){
             $this->pessoas_del = $value;
         }

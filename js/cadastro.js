@@ -8,11 +8,25 @@ $(document).ready(function(){
 			alert("Selecione o tipo de pessoa");
 			return;
 		}
-		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#cep"), $("#complemento"), $("#numero"));
+		validaCadPessoa(
+			$("#nome1"), 
+			$("input:radio[name=tipo-pessoa]:checked").val(), 
+			$("#email"), 
+			$("#rg"), 
+			$("#data"), 
+			$("#telefone"), 
+			$("#sexo"),  
+			$("#oab"), 
+			$("#cep"), 
+			$("#complemento"), 
+			$("#numero"), 
+			$("#estadocivil"), 
+			$("#profissao")
+		);
 	});
 });
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
-function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento, numero){
+function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento, numero, estadocivil, profissao){
 	debugger
 	var cpf_cnpj;
 	cep.val(cep.val().replace(/-/g, ""));
@@ -28,7 +42,13 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep
 		cpf_cnpj = $("#cnpj").val();
 		var check = validarCNPJ(cpf_cnpj);
 	}
-	debugger
+	var sexo;
+	var els = document.getElementsByName('sexo');
+	for (var i=0;i<els.length;i++){
+	  if ( els[i].checked ) {
+	    sexo = els[i].value;
+	  }
+	}
 
 	if(nome.val() == ""){
 		nome.focus();
@@ -48,7 +68,8 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep
 	}else{
 		$.post("control/cadastroControl.php?action=cadastro", {cpf_cnpj: cpf_cnpj, rg: rg.val(),
 		nome: nome.val(), data: data.val(),	email: emails.val(), telefone: tel.val(), 
-		sexo: sexo.val(), oab: oab.val(), cep: cep.val(), complemento: complemento.val(),numero: numero.val()}, // envia variaveis por POST para a control cadastroControl
+		sexo: sexo, oab: oab.val(), cep: cep.val(), complemento: complemento.val(),numero: numero.val(),
+		estadocivil: estadocivil.val(), profissao: profissao.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2 == 1){
 					alert("Cadastro efetuado com sucesso");
@@ -86,6 +107,7 @@ function buscarCPF(valor){
 			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
 				$("#verifica1").html(a);  //mostra na div alert
 				alert("CPF já cadastrado");
+				$("#cpf").val("");
 				return false;
 			}
 			else{
@@ -121,7 +143,8 @@ function buscarCNPJ(valor){
 			var b = unescape("<img src=\"assets/check.png\" width=\"20px\" height=\"20px\">");
 			if(retorno == 1){ // se retornar 1, neste caso o login ja existe no banco
 				$("#verifica1").html(a);  //mostra na div alert
-				//alert("CNPJ já cadastrado");
+				alert("CNPJ já cadastrado");
+				$("#cnpj").val("");
 				return false;
 			}else{
 				var c = validarCNPJ((valor.replace(/[a-z]/gi,''))); // verifica se o cpf é valido
@@ -129,7 +152,7 @@ function buscarCNPJ(valor){
 					$("#verifica1").html(b);
 					return true;
 				}else{
-					alert("CPF com formato inválido");
+					alert("CNPJ com formato inválido");
 					$("#verifica1").html(a);
 					return false;
 				}
@@ -138,49 +161,38 @@ function buscarCNPJ(valor){
 	}
 }
 
-function verificaCPF(strCpf) { // validar CPF
-
-	var soma;
-	var resto;
-	soma = 0;
-	if (strCpf == "00000000000") {
-	    return false;
-	}
-
-	for (i = 1; i <= 9; i++) {
-	    soma = soma + parseInt(strCpf.substring(i - 1, i)) * (11 - i);
-	}
-
-	resto = soma % 11;
-
-	if (resto == 10 || resto == 11 || resto < 2) {
-	    resto = 0;
-	} else {
-	    resto = 11 - resto;
-	}
-
-	if (resto != parseInt(strCpf.substring(9, 10))) {
-	    return false;
-	}
-
-	soma = 0;
-
-	for (i = 1; i <= 10; i++) {
-	    soma = soma + parseInt(strCpf.substring(i - 1, i)) * (12 - i);
-	}
-	resto = soma % 11;
-
-	if (resto == 10 || resto == 11 || resto < 2) {
-	    resto = 0;
-	} else {
-	    resto = 11 - resto;
-	}
-
-	if (resto != parseInt(strCpf.substring(10, 11))) {
-	    return false;
-	}
-
-	return true;
+function verificaCPF(cpf) {
+	var numeros, digitos, soma, i, resultado, digitos_iguais;
+    digitos_iguais = 1;
+    if (cpf.length < 11)
+          return false;
+    for (i = 0; i < cpf.length - 1; i++)
+          if (cpf.charAt(i) != cpf.charAt(i + 1))
+                {
+                digitos_iguais = 0;
+                break;
+                }
+    if (!digitos_iguais)
+          {
+          numeros = cpf.substring(0,9);
+          digitos = cpf.substring(9);
+          soma = 0;
+          for (i = 10; i > 1; i--)
+                soma += numeros.charAt(10 - i) * i;
+          resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+          if (resultado != digitos.charAt(0))
+                return false;
+          numeros = cpf.substring(0,10);
+          soma = 0;
+          for (i = 11; i > 1; i--)
+                soma += numeros.charAt(11 - i) * i;
+          resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+          if (resultado != digitos.charAt(1))
+                return false;
+          return true;
+          }
+    else
+        return false;
 }
 
 //funcao para validar email

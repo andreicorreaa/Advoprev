@@ -19,6 +19,8 @@
                             "pessoas_cep"           =>$_POST['cep'],
                             "pessoas_complemento"   =>Nulo($_POST['complemento']),
                             "pessoas_numero"        =>Nulo($_POST['numero']),
+                            "pessoas_estadocivil"   =>Nulo($_POST['estadocivil']),
+                            "pessoas_profissao"     =>Nulo($_POST['profissao']),
                             "pessoas_del"           => "N");
 			$a = Servico::alterarPessoa($loginParam);
     	    return alteraView::respostaAlteracao($a);    	
@@ -80,11 +82,11 @@
             break;
 
         case 'alteraUsuario':
-            $param = array( "usuarios_id"       =>(int)$_POST['id'],
-                            "usuarios_nome"     =>(String)$_POST['nome'],
-                            "usuarios_senha"    =>md5($_POST['senha']),
-                            "usuarios_grupo"    =>(int)$_POST['grupo'],
-                            "usuarios_del"      =>"N");
+            $param = array( "usuarios_id"           =>(int)$_POST['id'],
+                            "usuarios_nome"         =>(String)$_POST['nome'],
+                            "usuarios_senha"        =>md5($_POST['senha']),
+                            "usuarios_grupo"        =>(int)$_POST['grupo'],
+                            "usuarios_del"          =>"N");
             $a = Servico::alterarUsuario($param);
             return alteraView::respostaAlteracao($a);
             break;
