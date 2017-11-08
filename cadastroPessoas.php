@@ -44,13 +44,17 @@
                             <input type="radio" name="sexo" value="F" id="sexo" required/>Feminino
                         </td>
                         <td><label>Nº OAB:</label></td>    
-                        <td><input type="text" maxlength="7" placeholder="ex: 23E243,23.243,23243" required="required" id="oab" name="oab"/></td>
+                        <td><input type="text" maxlength="15" placeholder="ex: 23E243,23.243,23243" required="required" id="oab" name="oab"/></td>
                     </tr>
                     <tr>
-                        <td>CEP:</td>
+                        <td>CEP*:</td>
                         <td><input type="text" id="cep" onblur="buscarAPICorreios(this.value)"></td>
                         <td width="15%"><label>Complemento:</label></td>
                         <td><input type="text" name="complemento" id="complemento"  placeholder="R. Margarida 4-23 Vila Hiponica" size="16" maxlength="50" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Nº:</td>
+                        <td><input type="text" id="numero"></td>
                     </tr>
                     <tr class="endereco">
                         <td><span><i>Logradouro:</i></span></td>

@@ -8,11 +8,12 @@ $(document).ready(function(){
 			alert("Selecione o tipo de pessoa");
 			return;
 		}
-		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#cep"), $("#complemento"));
+		validaCadPessoa($("#nome1"), $("input:radio[name=tipo-pessoa]:checked").val(), $("#email"), $("#rg"), $("#data"), $("#telefone"), $("#sexo"),  $("#oab"), $("#cep"), $("#complemento"), $("#numero"));
 	});
 });
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
-function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento){
+function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento, numero){
+	debugger
 	var cpf_cnpj;
 	cep.val(cep.val().replace(/-/g, ""));
 	if(emails.val() != ""){
@@ -47,7 +48,7 @@ function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep
 	}else{
 		$.post("control/cadastroControl.php?action=cadastro", {cpf_cnpj: cpf_cnpj, rg: rg.val(),
 		nome: nome.val(), data: data.val(),	email: emails.val(), telefone: tel.val(), 
-		sexo: sexo.val(), oab: oab.val(), cep: cep.val(), complemento: complemento.val()}, // envia variaveis por POST para a control cadastroControl
+		sexo: sexo.val(), oab: oab.val(), cep: cep.val(), complemento: complemento.val(),numero: numero.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	
 				if(retorno2 == 1){
 					alert("Cadastro efetuado com sucesso");
@@ -324,12 +325,23 @@ function buscarAPICorreios(value){
 		            	$("#cidade").val(response.localidade);
 		            }else{
 		            	alert("CEP inexistente");
+		            	$(".endereco").css("display","none");
 		            	$("#cep").val("");
+		            	$("#logradouro").val("");
+		            	$("#bairro").val("");
+		            	$("#uf").val("");
+		            	$("#cidade").val("");
 		            }
 	            }
 			});
 		}else{
 			alert("CEP inválido");
+			$(".endereco").css("display","none");
+        	$("#cep").val("");
+        	$("#logradouro").val("");
+        	$("#bairro").val("");
+        	$("#uf").val("");
+        	$("#cidade").val("");
 		}
 	}
 }

@@ -245,6 +245,14 @@
 										<?php echo $pessoa->getPessoas_complemento(); ?>
 									</td>
 								</tr>
+								<tr>
+									<td width="15%" class="back-forte">
+										<b><i>Número:</i></b>
+									</td>
+									<td width="85%" class="back-fraco">
+										<?php echo $pessoa->getPessoas_numero(); ?>
+									</td>
+								</tr>
 								<br>
 							</table>
 <?php	 				} 

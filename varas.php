@@ -13,8 +13,8 @@
             <h1>Varas</h1>
 
             <div id="selecionar">
-                <button type="button" name="btn_processo1" id="btn_vara1">Consultar</button>
                 <button type="button" name="btn_processo2" id="btn_vara2">Cadastrar</button>
+                <button type="button" name="btn_processo1" id="btn_vara1">Consultar</button>
             </div>
             <div id="container1">
 

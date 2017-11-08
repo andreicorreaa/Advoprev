@@ -60,6 +60,7 @@ function alteraPessoa(value){
     var oab = $("#oab"+str).val();
     var cep = $("#cep"+str).val();
     var complemento = $("#complemento"+str).val();
+    var numero = $("#numero"+str).val();
 
     if(emails != ""){
         var email = IsEmail(emails);
@@ -85,7 +86,7 @@ function alteraPessoa(value){
     }else{
         $.post("control/alterarControl.php?action=alterarPessoa", {id: str, cpf_cnpj: cpf_cnpj, rg: rg,
         nome: nome, data: data, email: emails, telefone: tel, 
-        sexo: sexo, oab: oab, cep: cep, complemento: complemento}, // envia variaveis por POST para a control cadastroControl
+        sexo: sexo, oab: oab, cep: cep, complemento: complemento, numero: numero}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control  
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");

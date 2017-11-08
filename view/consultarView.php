@@ -197,6 +197,10 @@
 		                                    <td><input type="text" id="complemento<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_complemento'];?>" size="16" maxlength="50"/></td>
 		                                </tr>
 		                                <tr>
+					                        <td><span>Numero:</span></td>
+					                        <td><input type="text" id="numero<?php echo $val['pessoas_id'];?>" value="<?php echo $val['pessoas_numero'];?>"></td>
+					                    </tr>
+		                                <tr>
 					                        <td><span>Logradouro:</span></td>
 					                        <td><input type="text" id="logradouro<?php echo $val['pessoas_id'];?>" disabled readonly></td>
 					                        <td><span>Bairro:</span></td>

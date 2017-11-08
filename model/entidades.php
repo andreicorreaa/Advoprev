@@ -101,6 +101,7 @@
         private $pessoas_oab;
         private $pessoas_cep;
         private $pessoas_complemento;
+        private $pessoas_numero;
         private $pessoas_del = "N";
 
         public function setPessoas_id($value){
@@ -174,7 +175,13 @@
         }
         public function getPessoas_complemento(){
             return $this->pessoas_complemento;
-        }        
+        }
+        public function setPessoas_numero($value){
+            $this->pessoas_numero = $value;
+        }
+        public function getPessoas_numero(){
+            return $this->pessoas_numero;
+        } 
         public function setPessoas_del($value){
             $this->pessoas_del = $value;
         }
