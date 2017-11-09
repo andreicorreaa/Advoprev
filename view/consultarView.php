@@ -181,8 +181,8 @@
 		                                <tr align="left">
 		                                    <td width="15%"><label>Sexo:</label></td>
 		                                    <td>
-		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="M" id="sexo<?php echo $val['pessoas_id'];?>" checked="true" />Masculino
-		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="F" id="sexo<?php echo $val['pessoas_id'];?>"/>Feminino
+		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="M" id="sexo<?php echo $val['pessoas_id'];?>" <?php if($val['pessoas_sexo'] == 'M'){echo "checked";} ?> />Masculino
+		                                        <input type="radio" name="sexo<?php echo $val['pessoas_id'];?>" value="F" id="sexo<?php echo $val['pessoas_id'];?>" <?php if($val['pessoas_sexo'] == 'F'){echo "checked";} ?>/>Feminino
 		                                    </td>
 		                                    <td><label>Nº OAB:</label></td>    
 		                                    <td><input type="text" maxlength="7" placeholder="ex: 23E243,23.243,23243" value="<?php echo $val['pessoas_oab'];?>" id="oab<?php echo $val['pessoas_id'];?>" /></td>
@@ -432,6 +432,16 @@
 						                            </select>
 						                        </td>
                     						</tr>
+                    						<tr  style="border-bottom: 1px solid black">
+						                        <td width="15%"><label>Assistência Judiciária:</label></td>
+						                        <td>
+						                            <input type="radio" name="assistencia<?php echo $obj[$i]->getProcessos_id();?>" value="D" id="assistencia" <?php if($obj[$i]->getProcessos_assistencia() == 'D'){echo "checked";} ?> required/>Deferida
+						                            <input type="radio" name="assistencia<?php echo $obj[$i]->getProcessos_id();?>" value="I" id="assistencia" <?php if($obj[$i]->getProcessos_assistencia() == 'I'){echo "checked";} ?> required/>Indeferida
+						                        </td>
+						                        <td><label>Dicas: </label></td>
+						                        <td><span style="font-size: 11px;text-align: justify;color:red;">- Campos com * são obrigatórios.</span><br>
+						                            <span style="font-size: 11px;text-align: justify;color:red;">- Assuntos e partes são opcionais e podem ser incluídos posteriormente.</span></td>
+						                    </tr>
 						                    <tr>
 			                                    <td colspan="4" align="center">
 			                                        <button type="button" onclick="alteraProcesso(<?php echo $obj[$i]->getProcessos_id();?>)">Alterar Dados</button>

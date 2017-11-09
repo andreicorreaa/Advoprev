@@ -21,16 +21,17 @@
         $param = array("processos_id"               => null,
                         "processos_num"             => $_POST['numero'],
                         "processos_acao"            => $_POST['acao'],
-                        "processos_ordem"           => $_POST['ordem'],
+                        "processos_ordem"           => Nulo($_POST['ordem']),
                         "varas_id"                  => $_POST['vara'],
                         "processos_oficial"         => $_POST['oficial'],
                         "processos_juiz"            => $_POST['juiz'],
                         "processos_apensos"         => Nulo($_POST['apensos']),
                         "processos_valor"           => Nulo($money1),
-                        "processos_senha"           => $_POST['senha'],
+                        "processos_senha"           => Nulo($_POST['senha']),
                         "processos_data"            => $_POST['data'],
-                        "processos_procurador"      => $_POST['procurador'],
-                        "processos_desembargador"   => $_POST['desembargador'],
+                        "processos_procurador"      => Nulo($_POST['procurador']),
+                        "processos_desembargador"   => Nulo($_POST['desembargador']),
+                        "processos_assistencia"     => $_POST['assistencia'],
                         "processos_del"             => "N");
 
         for($i = 0; $i < count($_POST['nome']); $i++){ //pegando partes selecionados na view

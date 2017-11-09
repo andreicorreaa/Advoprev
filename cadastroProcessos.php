@@ -79,6 +79,16 @@
                             </select>
                         </td>
                     </tr>
+                    <tr  style="border-bottom: 1px solid black">
+                        <td width="15%"><label>Assistência Judiciária:</label></td>
+                        <td>
+                            <input type="radio" name="assistencia" value="D" id="assistencia" checked="true" required/>Deferida
+                            <input type="radio" name="assistencia" value="I" id="assistencia" required/>Indeferida
+                        </td>
+                        <td><label>Dicas: </label></td>
+                        <td><span style="font-size: 11px;text-align: justify;color:red;">- Campos com * são obrigatórios.</span><br>
+                            <span style="font-size: 11px;text-align: justify;color:red;">- Assuntos e partes são opcionais e podem ser incluídos posteriormente.</span></td>
+                    </tr>
                     <tr>
                         <td><h2>Assuntos</h2></td>
                         <td align="right" colspan="3"><button type="button" id="btn-indice" onclick="javascript: insereIndice();" style="background-color: #FF4500; border-color: #FF4500;" id="btn-adc">Adicionar</button></td>

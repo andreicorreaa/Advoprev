@@ -23,6 +23,14 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 	var senha = senha.val();
 	var desembargador = desemb.val();
 	var procurador = procurador.val();
+	//Assistencia
+	var assistencia = "";
+	var els = document.getElementsByName('assistencia');
+	for (var i=0;i<els.length;i++){
+	  if ( els[i].checked ) {
+	    assistencia = els[i].value;
+	  }
+	}
 	//DADOS DE INDICES
 	var indices = document.getElementsByName('proc_indices');
 	var indi = [null];
@@ -65,26 +73,35 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 	}
 	if(numero == ""){
 		$("#proc_numero").focus();
+		alert("Digite o número do processo");
 		return;
 	}else if(acao == ""){
 		$("#proc_acao").focus();
+		alert("Digite a ação do processo");
 		return;
 	}else if(vara == ""){
 		$("#proc_vara").focus();
+		alert("Selecione a vara do processo");
 		return;
 	}else if(data == ""){
 		$("#proc_data").focus();
+		alert("Selecione a data do processo");
 		return;
 	}else if(oficial == ""){
+		alert("Digite o oficial de justiça do processo");
 		$("#proc_oficial").focus();
 		return;
 	}else if(juiz == ""){
 		$("#proc_juiz").focus();
+		alert("Digite o juiz do processo");
 		return;
-	}else{
+	}else if(assistencia == ""){
+        alert("Selecione o deferimento da assistencia judiciária");
+        return;
+    }else{
 		$.post("control/cadastroControl.php?action=cadastroProcesso", {numero: numero, acao: acao, ordem: ordem,
 		vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha, nome: e, desc: p, 
-		indices: indi, desembargador: desembargador, procurador: procurador, apensos: processo_apenso},
+		indices: indi, desembargador: desembargador, procurador: procurador, apensos: processo_apenso, assistencia: assistencia},
 			function(retorno){
 				if(retorno){
 					alert("Processo cadastrado com sucesso!");

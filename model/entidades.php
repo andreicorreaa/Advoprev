@@ -218,6 +218,7 @@
         private $processos_data;
         private $processos_procurador;
         private $processos_desembargador;
+        private $processos_assistencia;
         private $processos_del = "N";
 
         public function setProcessos_id($value){
@@ -297,6 +298,12 @@
         }
         public function getProcessos_desembargador(){
             return $this->processos_desembargador;
+        }
+        public function setProcessos_assistencia($value){
+            $this->processos_assistencia = $value;
+        }
+        public function getProcessos_assistencia(){
+            return $this->processos_assistencia;
         }
         public function setProcessos_del($value){
             $this->processos_del = $value;

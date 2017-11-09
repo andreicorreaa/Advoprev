@@ -7,18 +7,6 @@
 			<div id="relatorioProcesso" style="background-color: white">
 				<center>
 					<h1>FUNPREV</h1>
-					<!--
-					<span class="subtitulo">F I C H A  &nbsp; P R O C E S S U A L</span>
-					<br>
-					<br>
-					<span class="subtitulo" style="text-decoration: none;">ATIVO</span>
-					<br>
-					<span class="subtitulo" style="text-decoration: none; font-weight: normal;">TRIBUNAL</span>
-					<br>
-					<span class="subtitulo" style="text-decoration: none; font-weight: normal;">ARQUIVO</span>
-					<br>
-					<br>
-					-->
 					<span class="subtitulo">D A D O S  &nbsp;  D O &nbsp; P R O C E S S O</span>
 					<br>
 					<br>
@@ -44,7 +32,7 @@
 								<b><i>Data do processo:</i></b>
 							</td>
 							<td width="85%" class="back-fraco">
-								<?php echo $processo->getProcessos_data(); ?>
+								<?php echo date('d/m/Y',strtotime($processo->getProcessos_data())); ?>
 							</td>
 						</tr>
 						<tr>
@@ -118,6 +106,14 @@
 						</tr>
 						<tr>
 							<td width="15%" class="back-forte">
+								<b><i>Assistência judiciária:</i></b>
+							</td>
+							<td width="85%" class="back-fraco">
+								<?php if($processo->getProcessos_assistencia() == "I"){ echo "Indeferida"; }else if($processo->getProcessos_assistencia() == "D"){ echo "Deferida"; } ?>
+							</td>
+						</tr>
+						<tr>
+							<td width="15%" class="back-forte">
 								<b><i>Indíces:</i></b>
 							</td>
 							<td width="85%" class="back-fraco">
@@ -176,7 +172,7 @@
 										<b><i>Data Nasc:</i></b>
 									</td>
 									<td width="85%" class="back-fraco">
-										<?php echo $pessoa->getPessoas_datanasc(); ?>
+										<?php echo date('d/m/Y',strtotime($pessoa->getPessoas_datanasc())); ?>
 									</td>
 								</tr>
 								<tr>

@@ -72,7 +72,8 @@
             $processos->setProcessos_senha($pa["processos_senha"]);
             $processos->setProcessos_data($pa["processos_data"]);
             $processos->setProcessos_procurador($pa["processos_procurador"]);
-            $processos->setProcessos_desembargador($pa["processos_procurador"]);
+            $processos->setProcessos_desembargador($pa["processos_desembargador"]);
+            $processos->setProcessos_assistencia($pa["processos_assistencia"]);
             $processos->setProcessos_del($pa["processos_del"]);
 
             return $processos;
@@ -557,7 +558,11 @@
         static function cadastroProcesso($arrayP){ // nesta funcao é passada um array com os dados para alimentar o objeto Usuarios
             
             $newProcesso = Servico::objProcessos($arrayP); //instancia um novo objeto do tipo Usuarios
-            $sql = "INSERT INTO `juridico`.`processos` (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, `processos_apensos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_desembargador`, `processos_procurador`, `processos_del`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $sql = "INSERT INTO `juridico`.`processos` 
+                    (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, 
+                    `processos_apensos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_desembargador`, 
+                    `processos_procurador`, `processos_assistencia`, `processos_del`) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             $param = array($newProcesso->getProcessos_num(),
                            $newProcesso->getProcessos_acao(),
                            $newProcesso->getProcessos_ordem(),
@@ -570,6 +575,7 @@
                            $newProcesso->getProcessos_data(),
                            $newProcesso->getProcessos_desembargador(),
                            $newProcesso->getProcessos_procurador(),
+                           $newProcesso->getProcessos_assistencia(),
                            $newProcesso->getProcessos_del(),
                      );
             try{
@@ -592,7 +598,8 @@
                     SET processos_num = ?, processos_acao = ?, processos_ordem = ?, 
                         varas_id = ?, processos_oficial = ?, processos_juiz = ?, 
                         processos_valor = ?, processos_senha = ?, processos_data = ?, 
-                        processos_desembargador = ?, processos_procurador = ?, processos_apensos = ? 
+                        processos_desembargador = ?, processos_procurador = ?, 
+                        processos_apensos = ?, processos_assistencia = ?
                         WHERE processos_id = ?";
             
             $param = array($newProc->getProcessos_num(),
@@ -607,6 +614,7 @@
                            $newProc->getProcessos_desembargador(),
                            $newProc->getProcessos_procurador(),
                            $newProc->getProcessos_apensos(),
+                           $newProc->getProcessos_assistencia(),
                            $newProc->getProcessos_id());            
             try{
                 $a = Database::executarParam($sql, $param);

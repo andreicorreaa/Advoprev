@@ -120,6 +120,14 @@ function alteraProcesso(value){
     var desembargador = $("#proc_desemb"+str).val();
     var procurador = $("#proc_procurador"+str).val();
     var processo_apenso = $("select[name='proc_apenso"+str+"'] option:selected").val();
+    //Assistencia
+    var assistencia = "";
+    var els = document.getElementsByName('assistencia'+str);
+    for (var i=0;i<els.length;i++){
+      if ( els[i].checked ) {
+        assistencia = els[i].value;
+      }
+    }
     
     if(numero == ""){
         $("#proc_numero"+str).focus();
@@ -143,10 +151,13 @@ function alteraProcesso(value){
     }else if(juiz == ""){
         $("#proc_juiz"+str).focus();
         return;
+    }else if(assistencia == ""){
+        alert("Selecione o deferimento da assistencia judiciária");
+        return;
     }else{
         $.post("control/alterarControl.php?action=alteraProcesso", {id: str, numero: numero, acao: acao,
         ordem: ordem, vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha,
-        desembargador: desembargador, procurador: procurador, apensos: processo_apenso}, // envia variaveis por POST para a control cadastroControl
+        desembargador: desembargador, procurador: procurador, apensos: processo_apenso, assistencia: assistencia}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control 
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");
