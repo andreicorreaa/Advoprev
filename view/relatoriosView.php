@@ -327,6 +327,23 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr><td colspan="2" align="center" bgcolor="#2196F3">Processo(s) acima/Pai(s)</tr>
+<?php
+								$apensos_pai = Servico::selecionarApensosAcima($processo->getProcessos_id());
+								if($apensos_pai){
+									foreach ($apensos_pai as $apenso) {
+?>
+										<tr>
+											<td align="center"><p><?php echo date('d/m/Y', strtotime($apenso->getProcessos_data())); ?></p></td>
+											<td align="center"><p><a href="javascript: abrir('<?php echo $apenso->getProcessos_id();?>')"><?php echo $apenso->getProcessos_num(); ?></a></p></td>
+										</tr>
+<?php
+									}
+								}else{
+									echo "<tr><td colspan=\"2\" align=\"center\">Não Existem</td></tr>";
+								}
+?>
+							<tr><td colspan="2" align="center" bgcolor="#2196F3">Processo(s) abaixo/Filho(s)</tr>
 <?php
 						if($apensos){
 							for($i = 0; $i < count($apensos); $i++){

@@ -342,7 +342,7 @@
 						<td><?php echo $obj[$i]->getProcessos_ordem(); ?></td>
 						<td><?php echo $obj[$i]->getProcessos_acao(); ?></td>
 						<td><?php echo $vara[0]['varas_nome']; ?></td>
-<?php 					if($obj[$i]->getProcessos_apensos() == '0'){ ?>
+<?php 					if($obj[$i]->getProcessos_apensos() == ""){ ?>
 							<td>Sem apenso</td>
 <?php 					}else{ ?>
 						<td>

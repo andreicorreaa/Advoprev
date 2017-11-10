@@ -1241,6 +1241,24 @@
             }
 
         }
+
+        static function selecionarApensosAcima($id){
+            $sql = "SELECT * FROM processos WHERE processos_apensos = ? AND processos_del = 'N'";
+            try{
+                $query = Database::retornaParam($sql, $id);
+                if($query){
+                    for($a = 0; $a < count($query); $a++){
+                        $processo[$a] = Servico::objProcessos($query[$a]);
+                    }
+                    return $processo;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                die("Erro: ". $e->getMessage);
+            }
+            return false;
+        }
 // ------------------------ FUNÇÕES ANDAMENTOS ------------------------------------------------
         static function cadastrarAndamentos($param){
             $sql = "INSERT INTO `andamentos` (`processos_id`, `tipos_andamento_id`, `andamentos_com`, `andamentos_data`, `andamentos_del`) VALUES (?, ?, ?, ?, ?)";
