@@ -30,7 +30,7 @@ function validaCadastro(nome, senha, confirma_s, grupo){
 	var group = grupo.val();
 
 	if(nome.val() == ""){
-		login.focus(); //Adiciona foco ao campo com id='login'
+		nome.focus(); //Adiciona foco ao campo com id='login'
 		return; //retorna nulo
 	}else if(senha.val() == ""){
 		senha.focus(); //Adiciona foco ao campo com id='senha'
@@ -39,7 +39,7 @@ function validaCadastro(nome, senha, confirma_s, grupo){
 		confirma_s.focus(); //Adiciona foco ao campo com id='confima_s'
 		return; //retorna nulo
 	}else if(name < 6){
-		login.focus(); //Adiciona foco ao campo com id='login'
+		nome.focus(); //Adiciona foco ao campo com id='login'
 		return; //retorna nulo
 	}else if(senha1 < 6){
 		senha.focus(); //Adiciona foco ao campo com id='login'
@@ -48,6 +48,7 @@ function validaCadastro(nome, senha, confirma_s, grupo){
 		confirma_s.focus(); //Adiciona foco ao campo com id='confirma_s'
 		return; //retorna nulo
 	}else if(group == ""){
+		alert("Selecione o grupo");
 		grupo.focus(); //Adiciona foco ao campo com id='confirma_s'
 		return; //retorna nulo
 	}

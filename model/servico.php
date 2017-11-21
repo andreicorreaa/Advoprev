@@ -694,6 +694,7 @@
         }
 
         static function consultaParteNumero($idProc){
+            $retorno = false;
             $sql = "SELECT processos_id 
                     FROM processos 
                     WHERE processos_num 
