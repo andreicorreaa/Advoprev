@@ -65,8 +65,16 @@ function cadVara(campo){
 
 function pesquisaVara(campo){
 	if(campo == ""){
-		alert("Digite no campo pesquisar");
-		campo.focus();
+		campo = "%";
+		$.post("control/consultarControl.php?action=pesVara", {desc: campo}, // envia variaveis por POST para a control cadastroControl
+			function(retorno2){ //resultado da control	
+				if(retorno2){
+					$("#tb1 tbody").html(retorno2);
+				}else{
+					$("#tb1 tbody").html("<td align=\"center\">Vara não encontrada</td>");
+				}
+			} //function(retorno)
+		); //$.post()
 		return;
 	}else{
 		$.post("control/consultarControl.php?action=pesVara", {desc: campo}, // envia variaveis por POST para a control cadastroControl
@@ -84,7 +92,8 @@ function pesquisaVara(campo){
 
 function buscarVara(valor){
 	if(valor == ""){
-		alert("Digite algo!");
+		var aux = false;
+		alert("Digite Algo!");
 		return;
 	}else{
 		var aux = false;

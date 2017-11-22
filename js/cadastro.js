@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//abaixo usamos o seletor da jQuery para acessar o botão, e em seguida atribuir à ele um evento de click
-	$("#cep").mask("99999-999");
+	$("#cep").mask("99999-999", {placeholder: "_____-___"});
 
 	$("#btn_cadpessoa").click(function(){
 		//Aqui chamamos a função validaCadPessoa, e passamos a ela o que foi digitado nos campos de cadastro de pessoa
@@ -27,7 +27,6 @@ $(document).ready(function(){
 });
 /* ------------------------- CADASTRO DE PESSOAS --------------------------*/
 function validaCadPessoa(nome, tipoPessoa, emails, rg, data, tel, sexo, oab, cep, complemento, numero, estadocivil, profissao){
-	debugger
 	var cpf_cnpj;
 	cep.val(cep.val().replace(/-/g, ""));
 	if(emails.val() != ""){

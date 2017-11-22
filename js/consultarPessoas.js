@@ -21,9 +21,18 @@ $(document).ready(function(){
 
 function pesquisaPessoa(tipo, campo){
 	if(campo.val() == ""){
-		alert("Digite no campo pesquisar");
-		campo.focus();
-		return;
+		campo.val("%");
+		$.post("control/consultarControl.php?action=pesNome", {nome: campo.val()}, // envia variaveis por POST para a control cadastroControl
+			function(retorno2){ //resultado da control	
+				
+				if(retorno2){
+					$("#tb1 tbody").html(retorno2); 
+
+				}else{
+					$("#tb1 tbody").html("<td align=\"center\" colspan=\"4\">Usuário não encontrado</td>");
+				}
+			} //function(retorno)
+		); //$.post()
 	}else if(tipo.val() == "pesNome"){
 		$.post("control/consultarControl.php?action=pesNome", {nome: campo.val()}, // envia variaveis por POST para a control cadastroControl
 			function(retorno2){ //resultado da control	

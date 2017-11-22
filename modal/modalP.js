@@ -106,7 +106,6 @@ function number_format( number, decimals, dec_point, thousands_sep ) {
 };
 
 function alteraProcesso(value){
-    debugger
     var str = value;
     var numero = $("#proc_numero"+str).val();
     var acao = $("#proc_acao"+str).val();
@@ -182,7 +181,6 @@ function excluiProcesso(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiProcesso", {id: str},
             function(retorno){
-                //debugger
                 if(retorno == 1){
                     alert("Processo excluído com sucesso");
                     $("#mascara").hide();
@@ -237,7 +235,6 @@ function excluiParte(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiParte", {id: str},
             function(retorno){
-                //debugger
                 if(retorno == 1){
                     alert("Parte excluído com sucesso");
                     $("#mascara").hide();

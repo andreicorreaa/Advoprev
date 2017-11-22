@@ -3,8 +3,7 @@
     <head>
         <link href="css/cadastro.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/cadastro.js"></script>
-        <script type="text/javascript" src="js/mascaras/jquery-1.2.6.pack.js"></script>
-        <script type="text/javascript" src="js/mascaras/jquery.maskedinput-1.1.4.pack.js"></script>
+        <script type="text/javascript" src="js/mascaras/jquery.mask.js"></script>
     </head>
     <body>
         <div id="pessoa">

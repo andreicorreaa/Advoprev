@@ -124,16 +124,10 @@
 				return false;
 			}
 		}
-
-
-
-
-
+		
 		static function respostaConsultaPessoa($resposta){
 			if($resposta){
-				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script>
-													
-        											<script type="text/javascript" src="js/mascaras/jquery.maskedinput-1.1.4.pack.js"></script></td></tr></div><?php
+				?><tr><td><div style="display: none"><script type="text/javascript" src="modal/modal.js"></script></td></tr></div><?php
 				foreach($resposta as $val){
         		?>	
 		            <tr>
@@ -198,7 +192,7 @@
 		                                <tr>
 		                                	<td>CEP:</td>
 		                                	<td><input type="text" id="cep<?php echo $val['pessoas_id'];?>" 
-		                                				value="<?php echo $val['pessoas_cep'];?>" 
+		                                				value="<?php echo $val['pessoas_cep'];?>" class="cep"
 				                                		onblur="buscarAPICorreios(this.value, <?php echo $val['pessoas_id'];?>)">
 		                                	</td>
 		                                    <td width="15%"><label>Complemento:</label></td>

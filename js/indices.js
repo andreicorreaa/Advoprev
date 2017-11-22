@@ -57,8 +57,16 @@ function cadIndice(campo){
 
 function pesquisaIndice(campo){
 	if(campo.val() == ""){
-		alert("Digite no campo pesquisar");
-		campo.focus();
+		campo.val("%");
+		$.post("control/consultarControl.php?action=pesIndice", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+			function(retorno2){ //resultado da control	
+				if(retorno2){
+					$("#tb1 tbody").html(retorno2);
+				}else{
+					$("#tb1 tbody").html("<td align=\"center\">Indice não encontrado</td>");
+				}
+			} //function(retorno)
+		); //$.post()
 		return;
 	}else{
 		$.post("control/consultarControl.php?action=pesIndice", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
@@ -77,7 +85,7 @@ function pesquisaIndice(campo){
 function buscarIndice(valor){
 	if(valor == ""){
 		alert("Digite algo!");
-		return;
+		return true;
 	}else{
 		var aux = false;
 		$.post("control/consultarControl.php?action=checkIndice", {desc: valor}, // envia variaveis por POST para a control cadastroControl
@@ -148,7 +156,6 @@ function cadastrarIndices(){
         	b++; // se tudo deu certo, soma 1 no indice do vetor indi
         }
     }
-    debugger
     if(!(indi[0] == null)){
     	continua = true;
     }else{

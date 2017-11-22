@@ -43,7 +43,6 @@ $(document).ready(function(){
 });
 
 function cadTipos(campo){
-	debugger
 	$.post("control/cadastroControl.php?action=cadTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
 		function(retorno2){ //resultado da control
 			if(retorno2 == true){
@@ -60,8 +59,16 @@ function cadTipos(campo){
 
 function pesquisaTipos(campo){
 	if(campo.val() == ""){
-		alert("Digite no campo pesquisar");
-		campo.focus();
+		campo.val("%");
+		$.post("control/consultarControl.php?action=pesTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+			function(retorno){ //resultado da control	
+				if(retorno){
+					$("#tb1 tbody").html(retorno);
+				}else{
+					$("#tb1 tbody").html("<td align=\"center\">Tipo/Situação não encontrado</td>");
+				}
+			}
+		);
 		return;
 	}else{
 		$.post("control/consultarControl.php?action=pesTipo", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
@@ -78,7 +85,6 @@ function pesquisaTipos(campo){
 }
 
 function buscarTipos(valor){
-	debugger
 	if(valor == ""){
 		alert("Digite algo!");
 		return;

@@ -1,8 +1,7 @@
 // ------------------------ FUNÇÕES PARA MODAL -------------------
 $(document).ready(function(){
-    if($("#cep").lenght){
-      $("#cep").mask("99999-999");
-    }
+      $(".cep").mask("99999-999", {placeholder: "_____-___"});
+
     $("a[rel=modal]").click( function(ev){
         ev.preventDefault();
  
@@ -51,7 +50,6 @@ function alteraPessoa(value){
         cpf_cnpj = $("#cnpj"+str).val();
         var check = validarCNPJ(cpf_cnpj);
     }
-    debugger
     var nome = $("#n"+str).val();
     var emails = $("#email"+str).val();
     var rg = $("#rg"+str).val();
@@ -202,7 +200,6 @@ function excluiPessoa(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiPessoa", {id: str},
             function(retorno){
-                //debugger
                 if(retorno == 1){
                     alert("Usuário excluído com sucesso");
                     $("#mascara").hide();
@@ -228,7 +225,6 @@ function excluiIndice(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiIndice", {id: str},
             function(retorno){
-                //  debugger
                 if(retorno == 1){
                     alert("Indice excluído com sucesso");
                     $("#mascara").hide();
@@ -254,7 +250,6 @@ function excluiVara(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiVara", {id: str},
             function(retorno){
-                //debugger
                 if(retorno == 1){
                     alert("Vara excluída com sucesso");
                     $("#mascara").hide();
@@ -280,14 +275,13 @@ function excluiTipo(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiTipo", {id: str},
             function(retorno){
-                //  debugger
                 if(retorno == 1){
                     alert("Tipo/Situação excluído com sucesso");
                     $("#mascara").hide();
                     $(".window").hide();
                     $("#container1").load('consultarTipos.php');
                 }else{
-                    //console.log(retorno);
+                    console.log(retorno);
                     alert("Erro ao efetuar a exclusão");
                     $("#mascara").hide();
                     $(".window").hide();
@@ -571,7 +565,6 @@ function buscarAPICorreios(value, id){
 }
 
 function alteraUsuario(id){
-    debugger
     var name = $("#nome-usuario"+id).val();
     var name_l = name.length;
     var senha = $("#senha-usuario"+id).val();
@@ -626,14 +619,13 @@ function excluiUsuario(value){
     if(decisao){
         $.post("control/exclusaoControl.php?action=excluiUsuario", {id: str},
             function(retorno){
-                //debugger
                 if(retorno == 1){
                     alert("Usuário excluído com sucesso");
                     $("#mascara").hide();
                     $(".window").hide();
                     $("#container1").load('consultarUsuarios.php');
                 }else{
-                    //console.log(retorno);
+                    console.log(retorno);
                     alert("Erro ao efetuar a exclusão");
                     $("#mascara").hide();
                     $(".window").hide();

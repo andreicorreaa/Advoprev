@@ -104,8 +104,16 @@ function buscarUser(valor) {
 
 function pesquisaUsuario(campo){
 	if(campo.val() == ""){
-		alert("Digite no campo pesquisar");
-		campo.focus();
+		campo.val("%");
+		$.post("control/consultarControl.php?action=pesUsuario", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl
+			function(retorno2){ //resultado da control	
+				if(retorno2){
+					$("#tb1 tbody").html(retorno2);
+				}else{
+					$("#tb1 tbody").html("<td colspan=\"3\" align=\"center\">Usuário não encontrado</td>");
+				}
+			} //function(retorno)
+		); //$.post()
 		return;
 	}else{
 		$.post("control/consultarControl.php?action=pesUsuario", {desc: campo.val()}, // envia variaveis por POST para a control cadastroControl

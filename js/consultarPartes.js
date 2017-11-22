@@ -57,7 +57,6 @@ $(document).ready(function(){
     });
 
     $("#btn_limpar").click(function(){
-    	debugger
     	$("#proc_numero").val("");
     	$("#proc_parte").val("");
     	var vara = document.getElementsByName('proc_usuario');
@@ -103,7 +102,24 @@ function atualizar(){
 
 function pesquisaParte(value, opcao){
 	if(value == ""){
-		alert("Selecione ou escreva algum argumento para a pesquisa!");
+		status = true;
+		value="%";
+		opcao="1";
+		$.post("control/consultarControl.php?action=pesParte", {campo: value, tipo: opcao},
+			function(retorno){ //resultado da control
+				//console.log(retorno);
+				
+				if(retorno){
+					$("#tb1 tbody").html(retorno);
+
+				}else{
+					$("#tb1 tbody").html("<td align=\"center\" colspan=\"4\">Parte não encontrada</td>");
+				}
+				
+				
+			} //function(retorno)
+		); //$.post()
+		return;
 	}else{
 		status = true;
 		$.post("control/consultarControl.php?action=pesParte", {campo: value, tipo: opcao},
