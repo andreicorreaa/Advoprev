@@ -13,7 +13,7 @@
                 <table>
                     <tr align="left">
                         <td width="15%"><label>Nome*:</label></td>
-                        <td width="40%"><input type="text" name="nome1" id="nome1" placeholder="Insira o nome completo" size="255"  required/></td>
+                        <td width="40%"><input type="text" name="nome1" id="nome1" placeholder="Insira o nome completo" size="255" maxlength="255" required/></td>
                         <td id="tipoPessoa" colspan="3">
                             <input type="radio" name="tipo-pessoa" value="cpf" onclick="javascript: tipoPessoa(this);">Pessoa física
                             <input type="radio" name="tipo-pessoa" value="cnpj" onclick="javascript: tipoPessoa(this);">Pessoa Jurídica
@@ -27,7 +27,7 @@
                     </tr> 
                     <tr align="left">
                         <td width="15%"><label>E-mail:</label></td>
-                        <td><input type="email" onchange="buscarEmail(this.value)" name="email" id="email" placeholder="Ex: funprev@funprev.com"/></td>
+                        <td><input type="email" onchange="buscarEmail(this.value)" name="email" id="email" maxlength="50" placeholder="Ex: funprev@funprev.com"/></td>
                         <td><label>RG:</label></td>    
                         <td><input type="text" name="rg" id="rg" placeholder="RG" size="16" maxlength="16" required onchange="buscarRG(this.value)" /></td>
                     </tr>
@@ -35,7 +35,7 @@
                         <td width="15%"><label>Data de Nascimento*:</label></td>
                         <td><input type="date" name="data" id="data" required/></td>
                         <td><label>Tel.:</label></td>    
-                        <td><input type="text" maxlength="11" size="11" onkeypress='return somenteNum(event)' maxlength="11" id="telefone" placeholder="ex: 14996721234" name="telefone"/> </td>
+                        <td><input type="text" maxlength="20" size="11" onkeypress='return somenteNum(event)' id="telefone" placeholder="ex: 14996721234" name="telefone"/> </td>
                     </tr>
                     <tr align="left">
                         <td width="15%"><label>Sexo*:</label></td>
@@ -44,7 +44,7 @@
                             <input type="radio" name="sexo" value="F" id="sexo" required/>Feminino
                         </td>
                         <td><label>Nº OAB:</label></td>
-                        <td><input type="text" maxlength="15" placeholder="Ex: SP0000, 000.000.." id="oab" name="oab"/></td>
+                        <td><input type="text" maxlength="45" placeholder="Ex: SP0000, 000.000.." id="oab" name="oab"/></td>
                     </tr>
                     <tr align="left">
                         <td width="15%"><label>Estado Civil:</label></td>
@@ -58,11 +58,11 @@
                         <td>CEP*:</td>
                         <td><input type="text" id="cep" onblur="buscarAPICorreios(this.value)"></td>
                         <td width="15%"><label>Complemento:</label></td>
-                        <td><input type="text" name="complemento" id="complemento"  placeholder="R. Margarida 4-23 Vila Hiponica" size="16" maxlength="50" required/></td>
+                        <td><input type="text" name="complemento" id="complemento"  placeholder="R. Margarida 4-23 Vila Hiponica" size="16" maxlength="20" required/></td>
                     </tr>
                     <tr>
                         <td>Nº:</td>
-                        <td><input type="text" id="numero"></td>
+                        <td><input type="text" id="numero" maxlength="45" placeholder="4-45, 445..."></td>
                     </tr>
                     <tr class="endereco">
                         <td><span><i>Logradouro:</i></span></td>

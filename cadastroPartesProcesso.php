@@ -54,7 +54,7 @@
                         </td>
                         <td><label>Parte: </label></td>    
                         <td>
-                            <input type="text" maxlength="10" style="width: 90%;" id="proc_partes_p" placeholder="Advogado, réu,  etc" name="proc_partes_p"/>
+                            <input type="text" maxlength="50" style="width: 90%;" id="proc_partes_p" placeholder="Advogado, réu,  etc" name="proc_partes_p"/>
                             <a onclick="deleteRow(this.parentNode.parentNode.rowIndex)" href="#a"><img src="assets/remove.png" width="20px" height="20px"></a>
                         </td>
                     </tr>

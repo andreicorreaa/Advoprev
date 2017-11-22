@@ -15,16 +15,16 @@
                 <table>
                     <tr align="left">
                         <td><label>Login:</label></td>
-                        <td><input type="text" name="nome" id="nome" onkeyup="buscarUser(this.value)" placeholder="Mínimo de 6 caracteres" required/></td>
+                        <td><input type="text" name="nome" id="nome" onkeyup="buscarUser(this.value)" maxlength="20" placeholder="Mínimo de 6 caracteres" required/></td>
                         <td width="4%"><div id="verifica"></div></td>
                     </tr> 
                     <tr align="left">
                         <td><label>Senha:</label></td>    
-                        <td><input type="password" name="senha" id="senha" placeholder="Mínimo de 6 caracteres"  required/></td>
+                        <td><input type="password" name="senha" id="senha" placeholder="Mínimo de 6 caracteres" maxlength="32" required/></td>
                     </tr>
                     <tr align="left">
                         <td><label>Confirmar senha:</label></td>    
-                        <td><input type="password" name="confirma_senha" id="confirma_s" placeholder="Mínimo de 6 caracteres" required/></td>
+                        <td><input type="password" name="confirma_senha" id="confirma_s" placeholder="Mínimo de 6 caracteres" maxlength="32" required/></td>
                     </tr>
                     <tr align="left">
                         <td><label>Grupo:</label></td>    

@@ -10,7 +10,7 @@
             <table>
                 <tr align="left">
                     <td width="15%"><label>Descrição:*:</label></td>
-                    <td width="40%"><input type="text" name="campo" id="campo" placeholder="Insira o índice" size="50"  required/></td>
+                    <td width="40%"><input type="text" name="campo" id="campo" placeholder="Insira o índice" size="50" maxlength="100" required/></td>
                 </tr> 
                 <tr>
                     <td colspan="4" align="center">
