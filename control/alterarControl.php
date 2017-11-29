@@ -58,6 +58,7 @@
                         "processos_desembargador"   =>Nulo($_POST['desembargador']),
                         "processos_procurador"      =>NUlo($_POST['procurador']),
                         "processos_assistencia"     =>$_POST['assistencia'],
+                        "processos_observacoes"     =>Nulo($_POST['observacoes']),
                         "processos_del"             =>null,
                         );
             $a = Servico::alterarProcesso($param);

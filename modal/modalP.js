@@ -127,6 +127,7 @@ function alteraProcesso(value){
         assistencia = els[i].value;
       }
     }
+    var obervacoes = $("#proc_obs"+str).val();
     
     if(numero == ""){
         $("#proc_numero"+str).focus();
@@ -156,7 +157,7 @@ function alteraProcesso(value){
     }else{
         $.post("control/alterarControl.php?action=alteraProcesso", {id: str, numero: numero, acao: acao,
         ordem: ordem, vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha,
-        desembargador: desembargador, procurador: procurador, apensos: processo_apenso, assistencia: assistencia}, // envia variaveis por POST para a control cadastroControl
+        desembargador: desembargador, procurador: procurador, apensos: processo_apenso, assistencia: assistencia, observacoes: obervacoes}, // envia variaveis por POST para a control cadastroControl
             function(retorno){ //resultado da control 
                 if(retorno == 1){
                     alert("Alteracao efetuada com sucesso");

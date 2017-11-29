@@ -48,6 +48,23 @@ $(document).ready(function(){
     });
 });
 
+function resumo(input, value){
+	var div = document.getElementById('mostraAndamento'+value+"_clone");
+	if($(input).is(":checked")){
+		div.querySelector('#text_resumo_'+value).style.display = 'block';
+	}else{
+		div.querySelector('#text_resumo_'+value).style.display = 'none';
+	}
+}
+
+function cadResumo(event){
+	if($(event).is(":checked")){
+		$("#and_text_resumo").css("display", "block");
+	}else{
+		$("#and_text_resumo").css("display", "none");
+	}
+}
+
 function procuraProcesso(value){
 	if(value == ""){
 		document.getElementById('cadAndamento').style.display = 'none';
@@ -59,6 +76,8 @@ function procuraProcesso(value){
 		function(retorno){
 			if(retorno){
 				$("#consultaAndamento").remove();
+				var divBotao = document.getElementsByClassName("div-btn-andamento");
+				divBotao[0].style.display = "block";
 				document.getElementById('cadAndamento').style.display = 'none';
 				document.getElementById('andamento').style.display = 'none';
 				$("#pessoa").append(retorno);
@@ -68,6 +87,8 @@ function procuraProcesso(value){
 				$("#and_tipo").val("");
 				$("#and_com").val('');
 				$("#and_data").val("");
+				var divBotao = document.getElementsByClassName("div-btn-andamento");
+				divBotao[0].style.display = "none";
 				document.getElementById('andamento').style.display = 'none';
 				document.getElementById('cadAndamento').style.display = 'block';
 				$("#consultaAndamento").remove();
@@ -124,6 +145,8 @@ function alterarAnd(value){
 
 function abrirCadastro(){
 	$("#consultaAndamento").remove();
+	var divBotao = document.getElementsByClassName("div-btn-andamento");
+	divBotao[0].style.display = "none";
 	document.getElementById('cadAndamento').style.display = 'none';
 	document.getElementById('andamento').style.display = 'block';
 }
@@ -164,8 +187,9 @@ function alteraAndamento(value){
 	div.querySelector('#tipo_and_'+value).disabled = false;
 	div.querySelector('#data_and_'+value).disabled = false;
 	div.querySelector('#com_and_'+value).disabled = false;
-	div.querySelector('#btn_abrirAndamento').style.display = 'none';	
 	div.querySelector('#btn_alterarAndamento').style.display = 'inline';
+	div.querySelector('#resumo_' + value).disabled = false;
+	div.querySelector('#text_resumo_' + value).disabled = false;
 	if(div.querySelector('.removeline')){
 		var remove = div.querySelectorAll('.removeline');
 		for(i=0;i<remove.length;i++){

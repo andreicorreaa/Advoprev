@@ -32,6 +32,7 @@
                         "processos_procurador"      => Nulo($_POST['procurador']),
                         "processos_desembargador"   => Nulo($_POST['desembargador']),
                         "processos_assistencia"     => $_POST['assistencia'],
+                        "processos_observacoes"     => $_POST['observacoes'],
                         "processos_del"             => "N");
 
         for($i = 0; $i < count($_POST['nome']); $i++){ //pegando partes selecionados na view

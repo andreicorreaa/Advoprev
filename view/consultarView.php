@@ -59,6 +59,18 @@
                             			</td>
 										<td><input type="date" id="data_and_<?php echo $andamentos[$i]->getAndamentos_id();?>" name="and_data" value="<?php echo $andamentos[$i]->getAndamentos_data();?>" min="1900-01-01" max="2050-02-18" disabled required/></td>
 									</tr>
+									<tr height="5px">
+										<td colspan="2">
+											<input type="checkbox" name="and_check_resumo" id="resumo_<?php echo $andamentos[$i]->getAndamentos_id();?>" onchange="resumo(this,<?php echo $andamentos[$i]->getAndamentos_id();?>)" <?php if($andamentos[$i]->getAndamentos_check() == true) echo "checked"; ?> disabled>Resumo/Súmula
+											<input type="text"
+												   <?php if($andamentos[$i]->getAndamentos_check() == false) echo "style=\"display: none\""; ?>
+												   name="and_text_resumo" 
+												   id="text_resumo_<?php echo $andamentos[$i]->getAndamentos_id();?>" 
+												   value="<?php echo $andamentos[$i]->getAndamentos_resumo() ?>"
+												   disabled
+											>
+										</td>
+									</tr>
 									<tr>
 										<td width="70%"><p style="color: black;font-size: 16px;margim:0px;">Comentários*:</p></td>
 										<td width="30%"><p style="color: black;font-size: 16px;margim:0px;">Arquivos*:</p></td>
@@ -106,7 +118,6 @@
 								</table>
 							
 								<center>
-									<button type="button" style="margin-top: 5px" name="btn_abrirAndamento" id="btn_abrirAndamento" onclick="javascript: abrirCadastro();">Cadastrar Andamento</button>
 									<button type="button" onclick="javascript: alterarAnd(<?php echo $andamentos[$i]->getAndamentos_id();?>)" style="margin-top: 5px;display: none;" name="btn_alterarAndamento" id="btn_alterarAndamento">Salvar Andamento</button>
 								</center>
 							</form>
@@ -435,6 +446,10 @@
 						                        <td><label>Dicas: </label></td>
 						                        <td><span style="font-size: 11px;text-align: justify;color:red;">- Campos com * são obrigatórios.</span><br>
 						                            <span style="font-size: 11px;text-align: justify;color:red;">- Assuntos e partes são opcionais e podem ser incluídos posteriormente.</span></td>
+						                    </tr>
+						                    <tr>
+						                    	<td><label>Observações: </label></td>
+						                    	<td colspan="3"><textarea style="width: 99%;" rows="5" name="proc_obs" id="proc_obs<?php echo $obj[$i]->getProcessos_id();?>" required="true"><?php echo $obj[$i]->getProcessos_observacoes();?></textarea></td>
 						                    </tr>
 						                    <tr>
 			                                    <td colspan="4" align="center">

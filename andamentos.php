@@ -32,29 +32,42 @@
 ?>
                 </select>
             </div>
-                <div id="andamento" style="display: none;">
-                    <center><h1>Registro de andamento</h1></center>
-                    <form method="post" enctype="multipart/form-data" id="formulario">
+            <div class="div-btn-andamento">
+                <button type="button" name="btn_abrirAndamento" id="btn_abrirAndamento" onclick="javascript: abrirCadastro();">Cadastrar Andamento!</button>
+            </div>
+            <div id="andamento" style="display: none;">
+                <center><h1>Registro de andamento</h1></center>
+                <form method="post" enctype="multipart/form-data" id="formulario">
                     <input type="hidden" id="processos_id" name="processos_id"/>
                     <table border="0px" width="100%" id="tb-andamento">
                         <tr>
-                            <td width="15%"><span>Situação/Tipo do andamento*:</span></td>
+                            <td width="20%"><span>Situação/Tipo do andamento*:</span></td>
                             <td>
                                 <select id="and_tipo" name="and_tipo">
                                     <option value="" selected="true"> </option>
-<?php                                   foreach ($tipos_andamento as $tipo_andamento){
-?>                                          <option value="<?php echo $tipo_andamento->getTipos_andamento_id(); ?>">
-                                                <?php echo $tipo_andamento->getTipos_andamento_desc(); ?>
-                                            </option>
-<?php                                   }
+<?php                                      foreach ($tipos_andamento as $tipo_andamento){
+?>                                             <option value="<?php echo $tipo_andamento->getTipos_andamento_id(); ?>">
+                                                   <?php echo $tipo_andamento->getTipos_andamento_desc(); ?>
+                                               </option>
+<?php                                       }
 ?>
                                 </select>
                             </td>
                         </tr>
+                        <tr>
                             <td><span>Comentários*:</span></td>
                             <td>
                                 <textarea style="width: 99%;" rows="5" name="and_com" id="and_com" required="true"></textarea>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="and_check_resumo" name="and_check_resumo" onchange="cadResumo(this)">&nbsp Resumo/Súmula:
+                            </td>
+                            <td>
+                                <input type="text" id="and_text_resumo" name="and_text_resumo" style="display: none">
+                            </td>
+                        </tr>
                         <tr>
                             <td width="15%"><label>Data do andamento*:</label></td>
                             <td><input type="date" name="and_data" id="and_data" min="1900-01-01" max="2050-02-18" required/></td>
@@ -81,15 +94,14 @@
                             <td colspan="4"><span style="color: grey;font-size: 12px;"><i>obs: Arquivos suportados: doc|docx|pdf|png|jpg|jpeg|xls|odt|xlsx|ods </i></span></td>
                         </tr>
                     </table>
-                    </form>
-                </div>
-                <div id="cadAndamento" style="display: none;">
+                </form>
+            </div>
+            <div id="cadAndamento" style="display: none;">
                 <center>
                     <h2>Processo não contém um andamento cadastrado!</h2>
                     <button type="button" name="btn_abrirAndamento" id="btn_abrirAndamento" onclick="javascript: abrirCadastro();">Cadastrar Andamento!</button>
                 </center>
-                </div>
-                
+            </div>
         </div>
     </body>
 </html>

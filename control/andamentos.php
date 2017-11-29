@@ -47,6 +47,14 @@
 		$andamentos_id = $_POST['andamentos_id'];
 	}
 
+	if(isset($_POST['and_check_resumo'])){
+		$and_check = true;
+		$and_resumo = $_POST['and_text_resumo'];
+	}else{
+		$and_check = false;
+		$and_resumo = null;
+	}
+
 	try{
 		switch ($acao) {
 			case 'alterar':
@@ -56,6 +64,8 @@
 					"tipos_andamento_id"	=> $and_tipo,
 					"andamentos_com"		=> $and_com,
 					"andamentos_data"		=> $and_data,
+					"andamentos_check"		=> $and_check,
+					"andamentos_resumo"		=> Nulo($and_resumo),
 					"andamentos_del" 		=> 'N'
 				);
 
@@ -110,6 +120,8 @@
 					"tipos_andamento_id"	=> $and_tipo,
 					"andamentos_com"		=> $and_com,
 					"andamentos_data"		=> $and_data,
+					"andamentos_check"		=> $and_check,
+					"andamentos_resumo"		=> Nulo($and_resumo),
 					"andamentos_del" 		=> 'N'
 				);
 				$a = Servico::cadastrarAndamentos($param);
@@ -166,4 +178,12 @@
 	    }
 	    return $file_ary;
 	}
+
+	function Nulo($value){
+        if($value == ""){
+            return null;
+        }else{
+            return $value;
+        }
+    }
 ?>

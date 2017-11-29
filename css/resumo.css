@@ -101,3 +101,21 @@ table.tb-a td{
     background-color: #2196F3;
     color: white;
 }
+.linkAndamento{
+	font-weight: bold;
+	font-size: 18px;
+	font-family: 'arial';
+	text-decoration: none; 
+	color: #333333;
+}
+
+.btn-imprime{
+	border: solid 2px #176600; /* Remove borders */
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    font-family: 'Open Sans';
+    background-color: #176600;
+    font-family: 'Open Sans', Tahoma, Arial, sans-serif;
+   	float:right;
+}

@@ -219,6 +219,7 @@
         private $processos_procurador;
         private $processos_desembargador;
         private $processos_assistencia;
+        private $processos_observacoes;
         private $processos_del = "N";
 
         public function setProcessos_id($value){
@@ -304,6 +305,12 @@
         }
         public function getProcessos_assistencia(){
             return $this->processos_assistencia;
+        }
+        public function setProcessos_observacoes($value){
+            $this->processos_observacoes = $value;
+        }
+        public function getProcessos_observacoes(){
+            return $this->processos_observacoes;
         }
         public function setProcessos_del($value){
             $this->processos_del = $value;
@@ -391,6 +398,8 @@
         private $andamentos_com;
         private $andamentos_data;
         private $andamentos_del;
+        private $andamentos_check;
+        private $andamentos_resumo;
         private $arquivos = null;
 
         public function setAndamentos_id($value){
@@ -422,6 +431,18 @@
         }
         public function getAndamentos_data(){
             return $this->andamentos_data;
+        }
+        public function setAndamentos_check($value){
+            $this->andamentos_check = $value;
+        }
+        public function getAndamentos_check(){
+            return $this->andamentos_check;
+        }
+        public function setAndamentos_resumo($value){
+            $this->andamentos_resumo = $value;
+        }
+        public function getAndamentos_resumo(){
+            return $this->andamentos_resumo;
         }
         public function setAndamentos_del($value){
             $this->andamentos_del = $value;

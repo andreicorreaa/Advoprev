@@ -2,7 +2,6 @@
 	class relatoriosView{ //classe View da pagina relatorios
 		function Processo($processo, $partes, $indices, $andamentos, $apensos){
 ?>			
-        	<input type="button" id="btn-imprime" onclick="javascript: Imprimir()" value="Imprimir">
         	<link href="css/relatorios.css" rel="stylesheet" type="text/css" media="print"/>
 			<div id="relatorioProcesso" style="background-color: white">
 				<center>
@@ -262,6 +261,51 @@
 					}	
 ?>
 					<br>
+					<br>
+					<span class="subtitulo">O B J E T O</span>
+					<br>
+					<table class="tab-r" cellpadding="0">
+						<tr>
+							<td class="back-fraco"><?php echo $processo->getProcessos_observacoes(); ?></td>
+						</tr>
+<?php
+						if($andamentos){
+							$tipos_andamento = Servico::SelecionarTipos_andamento();
+							for($i=0;$i<count($andamentos);$i++){
+								if($andamentos[$i]->getAndamentos_check() == true){
+?>
+									<tr>
+										<td class="back-fraco">
+											<a href="#andamento_<?php echo $andamentos[$i]->getAndamentos_id();?>" class="linkAndamento">
+<?php
+												foreach ($tipos_andamento as $t_a) {
+													if($t_a->getTipos_andamento_id() == $andamentos[$i]->getTipos_andamento_id()){
+														echo $t_a->getTipos_andamento_desc();
+														break;
+													}
+												}
+?>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="back-fraco"><b><?php echo $andamentos[$i]->getAndamentos_resumo(); ?></b></td>
+									</tr>
+<?php
+								}
+?>
+								<tr>
+									<td class="back-fraco"></td>
+								</tr>
+<?php
+							}
+						}
+?>
+					</table>
+					<br>
+					<br>
+
+
 <?php 				
 					if($andamentos){
 ?>						<span class="subtitulo">A N D A M E N T O S</span>
@@ -277,8 +321,9 @@
 ?>
 							<table class="tab-r" cellpadding="0">
 								<tr>
-									<td width="85%" class="back-fraco">
+									<td width="85%" class="back-fraco" id="andamento_<?php echo $andamentos[$i]->getAndamentos_id();?>">
 										<b><?php echo date('d/m/Y',strtotime($andamentos[$i]->getAndamentos_data())); ?></b>
+										<span style="font-size: 14px; font-weight: bolder;">
 <?php
 										foreach ($tipos_andamento as $t_a) {
 											if($t_a->getTipos_andamento_id() == $andamentos[$i]->getTipos_andamento_id()){
@@ -295,6 +340,7 @@
 <?php 										}
 										}
 ?>
+										</span>
 									</td>
 								</tr>
 								<tr>

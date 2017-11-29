@@ -74,6 +74,7 @@
             $processos->setProcessos_procurador($pa["processos_procurador"]);
             $processos->setProcessos_desembargador($pa["processos_desembargador"]);
             $processos->setProcessos_assistencia($pa["processos_assistencia"]);
+            $processos->setProcessos_observacoes($pa["processos_observacoes"]);
             $processos->setProcessos_del($pa["processos_del"]);
 
             return $processos;
@@ -108,6 +109,8 @@
             $andamento->setTipos_andamento_id($and["tipos_andamento_id"]);
             $andamento->setAndamentos_com($and["andamentos_com"]);
             $andamento->setAndamentos_data($and["andamentos_data"]);
+            $andamento->setAndamentos_check($and["andamentos_check"]);
+            $andamento->setAndamentos_resumo($and["andamentos_resumo"]);
             $andamento->setAndamentos_del($and["andamentos_del"]);
 
             $sql2 = "SELECT * FROM arquivos WHERE andamentos_id = ? ";
@@ -561,8 +564,8 @@
             $sql = "INSERT INTO `juridico`.`processos` 
                     (`processos_num`, `processos_acao`, `processos_ordem`, `varas_id`, `processos_oficial`, `processos_juiz`, 
                     `processos_apensos`, `processos_valor`, `processos_senha`, `processos_data`, `processos_desembargador`, 
-                    `processos_procurador`, `processos_assistencia`, `processos_del`) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    `processos_procurador`, `processos_assistencia`, `processos_observacoes`, `processos_del`) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             $param = array($newProcesso->getProcessos_num(),
                            $newProcesso->getProcessos_acao(),
                            $newProcesso->getProcessos_ordem(),
@@ -576,6 +579,7 @@
                            $newProcesso->getProcessos_desembargador(),
                            $newProcesso->getProcessos_procurador(),
                            $newProcesso->getProcessos_assistencia(),
+                           $newProcesso->getProcessos_observacoes(),
                            $newProcesso->getProcessos_del(),
                      );
             try{
@@ -599,7 +603,8 @@
                         varas_id = ?, processos_oficial = ?, processos_juiz = ?, 
                         processos_valor = ?, processos_senha = ?, processos_data = ?, 
                         processos_desembargador = ?, processos_procurador = ?, 
-                        processos_apensos = ?, processos_assistencia = ?
+                        processos_apensos = ?, processos_assistencia = ?, 
+                        processos_observacoes = ?
                         WHERE processos_id = ?";
             
             $param = array($newProc->getProcessos_num(),
@@ -615,6 +620,7 @@
                            $newProc->getProcessos_procurador(),
                            $newProc->getProcessos_apensos(),
                            $newProc->getProcessos_assistencia(),
+                           $newProc->getProcessos_observacoes(),
                            $newProc->getProcessos_id());            
             try{
                 $a = Database::executarParam($sql, $param);
@@ -1262,13 +1268,16 @@
         }
 // ------------------------ FUNÇÕES ANDAMENTOS ------------------------------------------------
         static function cadastrarAndamentos($param){
-            $sql = "INSERT INTO `andamentos` (`processos_id`, `tipos_andamento_id`, `andamentos_com`, `andamentos_data`, `andamentos_del`) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `andamentos` (`processos_id`, `tipos_andamento_id`, `andamentos_com`, `andamentos_data`, 
+            `andamentos_check`, `andamentos_resumo`, `andamentos_del`) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $andamentos = Servico::objAndamentos($param);
             $andamento = array(
                 $andamentos->getProcessos_id(),
                 $andamentos->getTipos_andamento_id(),
                 $andamentos->getAndamentos_com(),
                 $andamentos->getAndamentos_data(),
+                $andamentos->getAndamentos_check(),
+                $andamentos->getAndamentos_resumo(),
                 $andamentos->getAndamentos_del()
             );
             try{
@@ -1321,12 +1330,14 @@
         }
 
         static function alterarAndamentos($param){
-            $sql = "UPDATE andamentos SET tipos_andamento_id = ?, andamentos_com = ?, andamentos_data = ? WHERE andamentos_id = ?;";
+            $sql = "UPDATE andamentos SET tipos_andamento_id = ?, andamentos_com = ?, andamentos_data = ?, andamentos_check = ?, andamentos_resumo = ? WHERE andamentos_id = ?;";
             try{
                 $andamento = Servico::objAndamentos($param);
                 $and_param = array($andamento->getTipos_andamento_id(),
                                     $andamento->getAndamentos_com(),
                                     $andamento->getAndamentos_data(),
+                                    $andamento->getAndamentos_check(),
+                                    $andamento->getAndamentos_resumo(),
                                     $andamento->getAndamentos_id());
                 $a = Database::executarParam($sql, $and_param);
                 if($a){

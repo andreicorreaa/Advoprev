@@ -90,6 +90,10 @@
                             <span style="font-size: 11px;text-align: justify;color:red;">- Assuntos e partes são opcionais e podem ser incluídos posteriormente.</span></td>
                     </tr>
                     <tr>
+                        <td><label>Observações: </label></td>
+                        <td colspan="3"><textarea style="width: 99%;" rows="5" name="proc_obs" id="proc_obs" required="true"></textarea></td>
+                    </tr>
+                    <tr>
                         <td><h2>Assuntos</h2></td>
                         <td align="right" colspan="3"><button type="button" id="btn-indice" onclick="javascript: insereIndice();" style="background-color: #FF4500; border-color: #FF4500;" id="btn-adc">Adicionar</button></td>
                     </tr>

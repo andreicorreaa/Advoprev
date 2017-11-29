@@ -17,7 +17,7 @@
     </head>
     <body>
         <div id="pessoa">
-            <h1>Relatório de Processo</h1>
+            <h1>Relatório de Processo <input type="button" id="btn-imprime" class="btn-imprime" onclick="javascript: Imprimir()" value="Imprimir"></h1>
             <div id="buscarP">
                 <span style="width: 10%;">Nº do processo:  </span>
                 <select id="soflow" style="width: 87%" class="comb chosen-select" name="andamento" onchange="javascript: procuraProcesso(this.value);">

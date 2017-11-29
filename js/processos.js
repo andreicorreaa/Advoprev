@@ -4,13 +4,14 @@ $(document).ready(function(){
 	$("#btn_cadprocesso").click(function(){
 		
 		cadastrarProcesso($("#proc_numero"), $("#proc_acao"), $("#proc_ordem"), $("#proc_vara"),
-		$("#proc_data"), $("#proc_oficial"), $("#proc_juiz"),$("#proc_valor"), $("#proc_senha"), $("#proc_desemb"), $("#proc_procurador"));
+		$("#proc_data"), $("#proc_oficial"), $("#proc_juiz"),$("#proc_valor"), $("#proc_senha"), 
+		$("#proc_desemb"), $("#proc_procurador"), $("#proc_obs"));
 		
 		//teste();
 	});
 });
 
-function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor, senha, desemb, procurador){
+function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor, senha, desemb, procurador, observacoes){
 	var processo_apenso = $("select[name='proc_apenso'] option:selected").val();
 	var numero = numero.val();
 	var acao = acao.val();
@@ -23,6 +24,7 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
 	var senha = senha.val();
 	var desembargador = desemb.val();
 	var procurador = procurador.val();
+	var observacoes = observacoes.val();
 	//Assistencia
 	var assistencia = "";
 	var els = document.getElementsByName('assistencia');
@@ -101,7 +103,8 @@ function cadastrarProcesso(numero, acao, ordem, vara, data, oficial, juiz, valor
     }else{
 		$.post("control/cadastroControl.php?action=cadastroProcesso", {numero: numero, acao: acao, ordem: ordem,
 		vara: vara, data: data, oficial: oficial, juiz: juiz, valor: valor, senha: senha, nome: e, desc: p, 
-		indices: indi, desembargador: desembargador, procurador: procurador, apensos: processo_apenso, assistencia: assistencia},
+		indices: indi, desembargador: desembargador, procurador: procurador, apensos: processo_apenso, 
+		assistencia: assistencia, observacoes: observacoes},
 			function(retorno){
 				if(retorno){
 					alert("Processo cadastrado com sucesso!");
